@@ -13,8 +13,8 @@ Next recommended task: `03-production-static-serving.md`.
 - [x] 01. Scaffold monorepo shell
 - [x] 02. Add health endpoint and placeholder UI
 - [x] 03. Configure production static serving
-- [ ] 04. Deploy thin shell
-- [ ] 05. Define domain types and repository interfaces
+- [x] 04. Deploy thin shell
+- [x] 05. Define domain types and repository interfaces
 - [ ] 06. Implement in-memory repositories
 - [ ] 07. Implement parsing utilities
 - [ ] 08. Build job normalizer
