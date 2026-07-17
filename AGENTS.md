@@ -2,13 +2,13 @@
 
 ## Current Status
 
-This repository is in the planning/documentation phase. No application scaffold has been created yet.
+This repository has a thin npm workspace scaffold for the backend and frontend. Domain implementation has not started.
 
-Current phase: build plan complete, implementation not started.
+Current phase: Task 01 complete, ready for the first backend/frontend vertical slice.
 
-Last completed task: none.
+Last completed task: `docs/build-plan/tasks/01-scaffold-monorepo-shell.md`.
 
-Next recommended task: `docs/build-plan/tasks/01-scaffold-monorepo-shell.md`.
+Next recommended task: `docs/build-plan/tasks/02-health-endpoint-placeholder-ui.md`.
 
 ## Project Intent
 
@@ -27,6 +27,7 @@ The system should ingest messy job posting JSON from multiple formats, normalize
 ## How To Use The Build Plan
 
 - Start with `docs/build-plan/README.md` for the project overview.
+- Use `docs/build-plan/original-task.md` as the preserved source prompt when checking scope and reviewing completed behavior.
 - Use `docs/build-plan/status.md` to see progress and the next task.
 - Execute task files in `docs/build-plan/tasks/` in numeric order unless there is a clear reason to branch.
 - Each task file is intended to be independently actionable.
@@ -40,4 +41,5 @@ The system should ingest messy job posting JSON from multiple formats, normalize
 - Prefer repository interfaces over direct persistence coupling.
 - Keep deployment working after the thin shell is deployed.
 - Mark any intentional simplification clearly in the README or related design docs.
+- Before final handoff, compare the implementation against `docs/build-plan/original-task.md`.
 - Always use Conventional Commits for commit messages, for example `docs: add build plan` or `feat: add ingestion endpoint`.

@@ -40,6 +40,23 @@ The build should:
 - compile the backend TypeScript
 - build the React/Vite frontend
 
+## CI Gate
+
+Before deploying, the repository should have a CI workflow that runs on pull requests and pushes to `main`.
+
+Expected CI commands:
+
+```bash
+npm ci
+npm run format:check
+npm run lint
+npm run typecheck
+npm test
+npm run build
+```
+
+Deploy only after CI passes.
+
 ## Production Start
 
 Expected start command:

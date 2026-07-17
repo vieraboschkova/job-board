@@ -8,6 +8,7 @@ Verify the completed MVP works in production.
 
 ## Implementation Details
 
+- Review `docs/build-plan/original-task.md` and confirm the MVP satisfies the original assignment requirements.
 - Deploy the latest main branch to Render.
 - Confirm build succeeds.
 - Confirm the frontend loads.
@@ -25,6 +26,7 @@ Verify the completed MVP works in production.
 
 ## Acceptance Criteria
 
+- Original assignment requirements are verified or any intentional simplifications are documented.
 - Live app loads successfully.
 - Live health endpoint returns ok.
 - Search UI works against live API.
