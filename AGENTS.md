@@ -40,3 +40,4 @@ The system should ingest messy job posting JSON from multiple formats, normalize
 - Prefer repository interfaces over direct persistence coupling.
 - Keep deployment working after the thin shell is deployed.
 - Mark any intentional simplification clearly in the README or related design docs.
+- Always use Conventional Commits for commit messages, for example `docs: add build plan` or `feat: add ingestion endpoint`.
