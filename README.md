@@ -88,17 +88,17 @@ The search service receives a normalized search query, applies defaults or valid
 ## Flow
 
 Raw job / Ingestion
-   |
-   v
+|
+v
 Normalization
-   |
-   v
+|
+v
 Review
-   |
-   +----------------+
-   |                |
-   v                v
-PublishedJob     RejectedJob
-   |                |
-   v                v
-PublishedRepo   RejectedRepo
+|
++----------------+
+| |
+v v
+PublishedJob RejectedJob
+| |
+v v
+PublishedRepo RejectedRepo
