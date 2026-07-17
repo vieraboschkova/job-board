@@ -26,3 +26,13 @@ export enum JobSort {
   PostedAtAscending = "postedAt_asc",
   PostedAtDescending = "postedAt_desc",
 }
+
+export enum Language {
+  English = "english",
+  French = "french",
+  German = "german",
+  Polish = "polish",
+  Spanish = "spanish",
+  Italian = "italian",
+  Unknown = "unknown",
+}

@@ -15,8 +15,8 @@ Next recommended task: `03-production-static-serving.md`.
 - [x] 03. Configure production static serving
 - [x] 04. Deploy thin shell
 - [x] 05. Define domain types and repository interfaces
-- [ ] 06. Implement in-memory repositories
-- [ ] 07. Implement parsing utilities
+- [x] 06. Implement in-memory repositories
+- [x] 07. Implement parsing utilities
 - [ ] 08. Build job normalizer
 - [ ] 09. Implement review rule engine
 - [ ] 10. Implement ingestion service

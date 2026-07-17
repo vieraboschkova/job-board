@@ -1,5 +1,11 @@
 import { RejectionDetail } from "../review/review.types";
-import { CountryCode, EmploymentType, SalaryUnit, JobSort } from "./job.enums";
+import {
+  CountryCode,
+  EmploymentType,
+  SalaryUnit,
+  JobSort,
+  Language,
+} from "./job.enums";
 
 export interface Salary {
   min?: number;
@@ -24,7 +30,7 @@ export interface Job {
   title: string;
   company: string;
   description: string;
-
+  language: Language;
   location: Location;
 
   salary?: Salary;
