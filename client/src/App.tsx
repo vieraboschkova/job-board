@@ -26,7 +26,8 @@ export function App() {
       })
       .catch((error: unknown) => {
         if (!cancelled) {
-          const message = error instanceof Error ? error.message : "Health check failed";
+          const message =
+            error instanceof Error ? error.message : "Health check failed";
           setHealth({ status: "error", message });
         }
       });
@@ -37,7 +38,10 @@ export function App() {
   }, []);
 
   return (
-    <Box component="main" sx={{ minHeight: "100vh", bgcolor: "background.default", py: 4 }}>
+    <Box
+      component="main"
+      sx={{ minHeight: "100vh", bgcolor: "background.default", py: 4 }}
+    >
       <Container maxWidth="lg">
         <Stack spacing={2}>
           <Typography component="h1" variant="h4">
@@ -50,7 +54,9 @@ export function App() {
           {health.status === "success" && (
             <Alert severity="success">Backend status: {health.value}</Alert>
           )}
-          {health.status === "error" && <Alert severity="error">{health.message}</Alert>}
+          {health.status === "error" && (
+            <Alert severity="error">{health.message}</Alert>
+          )}
         </Stack>
       </Container>
     </Box>

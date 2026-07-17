@@ -43,7 +43,10 @@ The ingestion service should expose:
 
 ```ts
 interface JobIngestionService {
-  ingest(rawJobs: RawJobPosting[], sourceName: string): Promise<IngestionResult>;
+  ingest(
+    rawJobs: RawJobPosting[],
+    sourceName: string,
+  ): Promise<IngestionResult>;
 }
 ```
 

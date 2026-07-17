@@ -12,32 +12,32 @@ You are tasked with designing a system that first ingesting job postings from va
 ### **Requirements**
 
 1. **Data Modeling**
-    - Create data structures to represent job postings, ensuring all essential fields are included.
-    - Use appropriate data types and structures to represent fields such as employment type, location, salary, etc.
+   - Create data structures to represent job postings, ensuring all essential fields are included.
+   - Use appropriate data types and structures to represent fields such as employment type, location, salary, etc.
 2. **Ingestion**
-    - Implement a component that reads job postings from a JSON files and converts them into the internal representation.
-    - Ensure the ingestion process can handle multiple job postings and is robust against invalid data.
+   - Implement a component that reads job postings from a JSON files and converts them into the internal representation.
+   - Ensure the ingestion process can handle multiple job postings and is robust against invalid data.
 3. **Approval Criteria**
-    - **Title** must not be null or empty
-    - **Geographical Location:** Job must be either remote (anywhere) or in-person located within the United States or Canada.
-    - **Employment Type:** Job must be a full-time position.
-    - **Salary Requirement:** Annual salary must be over $100,000 (US Dollars) or above $45/hour (when billed per hour).
-    - **Company Type:** Job must not be from a staffing firm.
-    - **Language Requirement:** Job description must be in English (or French if the job is in Canada).
+   - **Title** must not be null or empty
+   - **Geographical Location:** Job must be either remote (anywhere) or in-person located within the United States or Canada.
+   - **Employment Type:** Job must be a full-time position.
+   - **Salary Requirement:** Annual salary must be over $100,000 (US Dollars) or above $45/hour (when billed per hour).
+   - **Company Type:** Job must not be from a staffing firm.
+   - **Language Requirement:** Job description must be in English (or French if the job is in Canada).
 4. **Approval Process**
-    - Implement a component that applies the approval criteria to each job posting.
-    - Jobs that meet all criteria should be marked as approved; others should be marked as rejected with reasons.
+   - Implement a component that applies the approval criteria to each job posting.
+   - Jobs that meet all criteria should be marked as approved; others should be marked as rejected with reasons.
 5. **Storage and Logging**
-    - Approved jobs should be stored in a way that they can be retrieved for search (e.g., in-memory list, mocked database, or local file).
-    - Rejected jobs should be logged along with the reasons for rejection.
+   - Approved jobs should be stored in a way that they can be retrieved for search (e.g., in-memory list, mocked database, or local file).
+   - Rejected jobs should be logged along with the reasons for rejection.
 6. **UX**
-    - User should be able to see all the jobs in a list
-    - User can search jobs by title
-    - User can filter jobs by country
-    - User can sort jobs by salary and posting date
+   - User should be able to see all the jobs in a list
+   - User can search jobs by title
+   - User can filter jobs by country
+   - User can sort jobs by salary and posting date
 7. **Code Organization**
-    - Organize your code into logical modules or packages (e.g., `models`, `ingestion`, `approval`, `storage`).
-    - Use clear and descriptive naming conventions for variables, functions, classes, and modules.
+   - Organize your code into logical modules or packages (e.g., `models`, `ingestion`, `approval`, `storage`).
+   - Use clear and descriptive naming conventions for variables, functions, classes, and modules.
 
 ---
 
