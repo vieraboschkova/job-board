@@ -11,8 +11,8 @@ Required areas:
 - employment type parser
 - date parser
 - language heuristic
-- approval rules
-- approval engine
+- review rules
+- review engine
 - job normalizer
 - in-memory repositories
 
@@ -66,7 +66,7 @@ Cover these cases in fixtures:
 - unknown language
 - malformed posted date
 
-## Approval Rule Scenarios
+## Review Rule Scenarios
 
 At minimum, test:
 

@@ -5,7 +5,7 @@ You are tasked with designing a system that first ingesting job postings from va
 ### **Overview**
 
 - **Ingestion Process:** The system should parse job postings in various JSON formats and transform them into a common internal representation.
-- **Approval Process:** After ingestion, each job posting should be evaluated against specific criteria to decide whether it should be approved or rejected.
+- **Review Process:** After ingestion, each job posting should be evaluated against specific criteria to decide whether it should be approved or rejected.
 - **Storage:** Approved job postings will be stored for publication, while rejected ones should be logged for review.
 - **UX**: Provide a simple UI for users to search, filter, and sort approved jobs
 
@@ -17,15 +17,15 @@ You are tasked with designing a system that first ingesting job postings from va
 2. **Ingestion**
    - Implement a component that reads job postings from a JSON files and converts them into the internal representation.
    - Ensure the ingestion process can handle multiple job postings and is robust against invalid data.
-3. **Approval Criteria**
+3. **Review Criteria**
    - **Title** must not be null or empty
    - **Geographical Location:** Job must be either remote (anywhere) or in-person located within the United States or Canada.
    - **Employment Type:** Job must be a full-time position.
    - **Salary Requirement:** Annual salary must be over $100,000 (US Dollars) or above $45/hour (when billed per hour).
    - **Company Type:** Job must not be from a staffing firm.
    - **Language Requirement:** Job description must be in English (or French if the job is in Canada).
-4. **Approval Process**
-   - Implement a component that applies the approval criteria to each job posting.
+4. **Review Process**
+   - Implement a component that applies the review criteria to each job posting.
    - Jobs that meet all criteria should be marked as approved; others should be marked as rejected with reasons.
 5. **Storage and Logging**
    - Approved jobs should be stored in a way that they can be retrieved for search (e.g., in-memory list, mocked database, or local file).
@@ -36,7 +36,7 @@ You are tasked with designing a system that first ingesting job postings from va
    - User can filter jobs by country
    - User can sort jobs by salary and posting date
 7. **Code Organization**
-   - Organize your code into logical modules or packages (e.g., `models`, `ingestion`, `approval`, `storage`).
+   - Organize your code into logical modules or packages (e.g., `models`, `ingestion`, `review`, `storage`).
    - Use clear and descriptive naming conventions for variables, functions, classes, and modules.
 
 ---

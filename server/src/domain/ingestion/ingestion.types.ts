@@ -1,8 +1,6 @@
 export interface IngestionResult {
   receivedCount: number;
 
-  normalizedCount: number;
-
   approvedCount: number;
 
   rejectedCount: number;

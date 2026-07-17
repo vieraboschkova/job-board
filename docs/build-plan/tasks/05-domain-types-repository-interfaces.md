@@ -4,7 +4,7 @@ Status: MVP
 
 ## Purpose
 
-Create stable backend domain contracts before implementing ingestion and approval logic.
+Create stable backend domain contracts before implementing ingestion and review logic.
 
 ## Implementation Details
 
@@ -20,7 +20,7 @@ Create stable backend domain contracts before implementing ingestion and approva
 
 - `server/src/domain/job/`
 - `server/src/domain/ingestion/`
-- `server/src/domain/approval/`
+- `server/src/domain/review/`
 
 ## Acceptance Criteria
 

@@ -4,7 +4,7 @@ Status: MVP
 
 ## Purpose
 
-Wire normalization, approval, approved storage, and rejection logging into one application service.
+Wire normalization, review, approved storage, and rejection logging into one application service.
 
 ## Implementation Details
 

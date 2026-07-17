@@ -1,17 +1,17 @@
-# Task 09: Implement Approval Rule Engine
+# Task 09: Implement Review Rule Engine
 
 Status: MVP
 
 ## Purpose
 
-Create a testable, extensible approval system for deciding which jobs can be published.
+Create a testable, extensible review system for deciding which jobs can be published.
 
 ## Implementation Details
 
-- Define `ApprovalRule`.
-- Define `ApprovalResult`.
-- Define `ApprovalDecision`.
-- Implement `ApprovalEngine`.
+- Define `ReviewRule`.
+- Define `ReviewResult`.
+- Define `ReviewDecision`.
+- Implement `ReviewEngine`.
 - Implement required rules:
   - title required
   - allowed location
@@ -23,8 +23,8 @@ Create a testable, extensible approval system for deciding which jobs can be pub
 
 ## Files And Modules Touched
 
-- `server/src/domain/approval/`
-- `server/src/domain/approval/rules/`
+- `server/src/domain/review/`
+- `server/src/domain/review/rules/`
 - backend tests
 
 ## Acceptance Criteria
@@ -49,4 +49,4 @@ npm run typecheck -w server
 
 ## Handoff Notes
 
-After this task, run Task 10 to connect normalization, approval, and repositories through the ingestion service.
+After this task, run Task 10 to connect normalization, review, and repositories through the ingestion service.

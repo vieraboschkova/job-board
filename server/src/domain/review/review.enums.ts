@@ -10,4 +10,6 @@ export enum RejectionReason {
   InvalidCompanyType = "invalid_company_type",
 
   InvalidLanguage = "invalid_language",
+
+  Other = "other",
 }
