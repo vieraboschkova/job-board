@@ -7,7 +7,6 @@ import {
   SalaryUnit,
 } from "./job.enums";
 
-
 export interface NormalizedSalary {
   min?: number;
 
@@ -18,7 +17,6 @@ export interface NormalizedSalary {
   unit: SalaryUnit;
 }
 
-
 export interface NormalizedLocation {
   country: CountryCode;
 
@@ -26,7 +24,6 @@ export interface NormalizedLocation {
 
   remote: boolean;
 }
-
 
 export interface NormalizedJobPosting {
   id: string;
@@ -54,7 +51,6 @@ export interface NormalizedJobPosting {
   status: JobStatus;
 }
 
-
 export interface RejectedJob extends NormalizedJobPosting {
   status: JobStatus.Rejected;
 
@@ -62,7 +58,6 @@ export interface RejectedJob extends NormalizedJobPosting {
 
   rejectionReasons: RejectionDetail[];
 }
-
 
 export interface JobSearchQuery {
   search?: string;

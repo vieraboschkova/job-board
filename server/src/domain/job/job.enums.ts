@@ -6,14 +6,12 @@ export enum EmploymentType {
   Unknown = "unknown",
 }
 
-
 export enum CountryCode {
   US = "US",
   CA = "CA",
   UK = "UK",
   Other = "OTHER",
 }
-
 
 export enum SalaryUnit {
   Annual = "annual",
@@ -22,13 +20,11 @@ export enum SalaryUnit {
   Unknown = "unknown",
 }
 
-
 export enum JobStatus {
   Approved = "approved",
   Rejected = "rejected",
   Pending = "pending",
 }
-
 
 export enum JobSort {
   SalaryAscending = "salary_asc",

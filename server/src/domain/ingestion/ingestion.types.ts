@@ -10,7 +10,6 @@ export interface IngestionResult {
   errors: IngestionError[];
 }
 
-
 export interface IngestionError {
   index: number;
 

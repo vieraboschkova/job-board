@@ -1,9 +1,4 @@
-import {
-  NormalizedJobPosting,
-  JobSearchQuery,
-  RejectedJob,
-} from "./job.types";
-
+import { NormalizedJobPosting, JobSearchQuery, RejectedJob } from "./job.types";
 
 export interface JobRepository {
   save(job: NormalizedJobPosting): Promise<NormalizedJobPosting>;
@@ -14,7 +9,6 @@ export interface JobRepository {
 
   findById(id: string): Promise<NormalizedJobPosting | null>;
 }
-
 
 export interface RejectedJobRepository {
   save(job: RejectedJob): Promise<RejectedJob>;
