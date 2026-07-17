@@ -1,0 +1,22 @@
+{
+  "name": "job-board",
+  "version": "0.1.0",
+  "private": true,
+  "engines": {
+    "node": ">=22 <25"
+  },
+  "workspaces": [
+    "server",
+    "client"
+  ],
+  "scripts": {
+    "dev": "concurrently \"npm run dev -w server\" \"npm run dev -w client\"",
+    "build": "npm run build -w server && npm run build -w client",
+    "start": "npm start -w server",
+    "test": "npm test --workspaces",
+    "typecheck": "npm run typecheck --workspaces"
+  },
+  "devDependencies": {
+    "concurrently": "^9.1.2"
+  }
+}
