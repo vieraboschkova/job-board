@@ -1,5 +1,4 @@
 import path from "path";
-import fs from "fs";
 import cors from "cors";
 import express from "express";
 import { healthRoutes } from "./api/routes/healthRoutes";
