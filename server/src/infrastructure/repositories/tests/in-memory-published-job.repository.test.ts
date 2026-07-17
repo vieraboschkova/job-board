@@ -6,6 +6,7 @@ import {
   CountryCode,
   EmploymentType,
   JobSort,
+  Language,
   SalaryUnit,
 } from "../../../domain/job/job.enums";
 
@@ -20,6 +21,7 @@ const createPublishedJob = (
     title: "Frontend Developer",
     company: "Acme",
     description: "React job",
+    language: Language.English,
     location: {
       country: CountryCode.US,
       city: "New York",
