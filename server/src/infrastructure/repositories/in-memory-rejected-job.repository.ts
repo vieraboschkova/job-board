@@ -19,4 +19,8 @@ export class InMemoryRejectedJobRepository implements RejectedJobRepository {
       this.rejectedJobs.find((rejectedJob) => rejectedJob.job.id === id) ?? null
     );
   }
+
+  async getCount(): Promise<number> {
+    return this.rejectedJobs.length;
+  }
 }

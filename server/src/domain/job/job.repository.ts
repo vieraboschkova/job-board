@@ -12,4 +12,6 @@ export interface PublishedJobRepository extends Repository<PublishedJob> {
   search(query: JobSearchQuery): Promise<PublishedJob[]>;
 }
 
-export interface RejectedJobRepository extends Repository<RejectedJob> {}
+export interface RejectedJobRepository extends Repository<RejectedJob> {
+  getCount(): Promise<number>;
+}
