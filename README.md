@@ -2,6 +2,8 @@
 
 Job ingestion, approval, and search system.
 
+https://job-board-46zj.onrender.com/
+
 ## Quickstart
 
 Use Node 22 or newer:
