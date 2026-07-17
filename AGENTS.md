@@ -24,6 +24,14 @@ The system should ingest messy job posting JSON from multiple formats, normalize
 - The simplest deployment target is a single Node service that serves both API routes and the built React frontend.
 - Deploy a thin working shell early, before implementing the full product.
 
+## Folder Structure
+
+- `docs/build-plan/`: Design docs and detailed task breakdown.
+- `client/`: React frontend (Vite, TypeScript, Material UI).
+- `server/`: Node.js Express backend (TypeScript).
+- `AGENTS.md`: Current project status, intent, and rules (this file).
+- `CLAUDE.md`: Local development guide and common commands.
+
 ## How To Use The Build Plan
 
 - Start with `docs/build-plan/README.md` for the project overview.

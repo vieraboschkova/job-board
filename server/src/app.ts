@@ -1,3 +1,5 @@
+import path from "path";
+import fs from "fs";
 import cors from "cors";
 import express from "express";
 import { healthRoutes } from "./api/routes/healthRoutes";
@@ -11,6 +13,15 @@ export function createApp() {
 
   app.use(express.json());
   app.use("/api", healthRoutes);
+
+  if (process.env.NODE_ENV === "production") {
+    const distPath = path.join(__dirname, "..", "..", "client", "dist");
+    app.use(express.static(distPath));
+
+    app.get("*", (req, res) => {
+      res.sendFile(path.join(distPath, "index.html"));
+    });
+  }
 
   return app;
 }
