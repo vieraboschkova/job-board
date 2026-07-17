@@ -1,7 +1,23 @@
 import { RejectionReason } from "./approval.enums";
+import { NormalizedJobPosting } from "../job/job.types";
 
-export interface ApprovalDecision {
+
+export interface RejectionDetail {
+  reason: RejectionReason;
+
+  details?: string;
+}
+
+
+export interface ApprovalResult {
   approved: boolean;
 
-  rejectionReasons: RejectionReason[];
+  rejectionReasons: RejectionDetail[];
+}
+
+
+export interface ApprovalRule {
+  name: string;
+
+  evaluate(job: NormalizedJobPosting): ApprovalResult;
 }

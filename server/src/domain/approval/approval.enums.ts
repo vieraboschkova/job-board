@@ -1,7 +1,13 @@
 export enum RejectionReason {
   MissingTitle = "missing_title",
-  MissingCompany = "missing_company",
-  MissingDescription = "missing_description",
+
   InvalidLocation = "invalid_location",
-  SalaryTooLow = "salary_too_low",
+
+  InvalidEmploymentType = "invalid_employment_type",
+
+  InvalidSalary = "invalid_salary",
+
+  InvalidCompanyType = "invalid_company_type",
+
+  InvalidLanguage = "invalid_language",
 }

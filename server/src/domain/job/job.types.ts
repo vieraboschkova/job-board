@@ -1,8 +1,34 @@
-import { EmploymentType, JobSort, JobStatus, SalaryPeriod } from "./job.enums";
+import { RejectionDetail } from "../approval/approval.types";
+import {
+  CountryCode,
+  EmploymentType,
+  JobSort,
+  JobStatus,
+  SalaryUnit,
+} from "./job.enums";
 
-import { RejectionReason } from "../approval/approval.enums";
 
-export interface Job {
+export interface NormalizedSalary {
+  min?: number;
+
+  max?: number;
+
+  currency: string;
+
+  unit: SalaryUnit;
+}
+
+
+export interface NormalizedLocation {
+  country: CountryCode;
+
+  city?: string;
+
+  remote: boolean;
+}
+
+
+export interface NormalizedJobPosting {
   id: string;
 
   title: string;
@@ -11,46 +37,37 @@ export interface Job {
 
   description: string;
 
-  country?: string;
+  location: NormalizedLocation;
 
-  location?: string;
+  salary?: NormalizedSalary;
 
-  salary?: {
-    min?: number;
-    max?: number;
-    currency?: string;
-    period?: SalaryPeriod;
-  };
+  employmentType: EmploymentType;
 
-  technologies: string[];
+  sourceName: string;
 
-  employmentType?: EmploymentType;
+  rawData: Record<string, unknown>;
 
-  url?: string;
-
-  postedAt: Date;
+  postedAt?: Date;
 
   createdAt: Date;
+
+  status: JobStatus;
 }
 
-export interface ApprovedJob extends Job {
-  status: JobStatus.Approved;
 
-  approvedAt: Date;
-}
-
-export interface RejectedJob extends Job {
+export interface RejectedJob extends NormalizedJobPosting {
   status: JobStatus.Rejected;
 
   rejectedAt: Date;
 
-  rejectionReasons: RejectionReason[];
+  rejectionReasons: RejectionDetail[];
 }
 
-export interface JobSearchQuery {
-  title?: string;
 
-  country?: string;
+export interface JobSearchQuery {
+  search?: string;
+
+  country?: CountryCode;
 
   sort?: JobSort;
 
