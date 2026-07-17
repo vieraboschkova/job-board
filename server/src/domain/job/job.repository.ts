@@ -1,11 +1,17 @@
-import { Job, JobSearchQuery } from "./job.types";
+import { PublishedJob, RejectedJob, JobSearchQuery } from "./job.types";
 
-export interface JobRepository {
-  save(job: Job): Promise<Job>;
+interface Repository<T> {
+  save(entity: T): Promise<T>;
 
-  search(query: JobSearchQuery): Promise<Job[]>;
+  getAll(): Promise<T[]>;
 
-  findAll(): Promise<Job[]>;
+  getById(id: string): Promise<T | null>;
+}
 
-  findById(id: string): Promise<Job | null>;
+export interface PublishedJobRepository extends Repository<PublishedJob> {
+  search(query: JobSearchQuery): Promise<PublishedJob[]>;
+}
+
+export interface RejectedJobRepository extends Repository<RejectedJob> {
+  getCount(): Promise<number>;
 }

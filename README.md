@@ -84,3 +84,21 @@ GET /api/jobs?search=engineer&country=US&sort=salary_desc
 ```
 
 The search service receives a normalized search query, applies defaults or validation, retrieves approved jobs through the repository interface, and returns jobs filtered by title, filtered by country, and sorted by salary or posting date.
+
+## Flow
+
+Raw job / Ingestion
+|
+v
+Normalization
+|
+v
+Review
+|
++----------------+
+| |
+v v
+PublishedJob RejectedJob
+| |
+v v
+PublishedRepo RejectedRepo
