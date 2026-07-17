@@ -5,6 +5,7 @@
   "engines": {
     "node": ">=22 <25"
   },
+  "type": "module",
   "workspaces": [
     "server",
     "client"
@@ -21,7 +22,8 @@
   },
   "devDependencies": {
     "concurrently": "^9.1.2",
+    "eslint": "^9.0.0",
     "prettier": "^3.0.0",
-    "eslint": "^9.0.0"
+    "typescript-eslint": "^8.64.0"
   }
 }

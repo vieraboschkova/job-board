@@ -6,8 +6,9 @@ export default [
   ...tseslint.configs.recommended,
   {
     ignores: [
-      "node_modules",
-      "dist"
+      "**/node_modules/**",
+      "**/dist/**",
+      "**/coverage/**",
     ]
-  }
+  },
 ];
