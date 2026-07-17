@@ -27,7 +27,7 @@ The backend is built with a lightweight layered structure:
 server/src/
   api/              Express routes and controllers
   application/      ingest and search use cases
-  domain/           job models, approval rules, repository interfaces
+  domain/           job models, review rules, repository interfaces
   infrastructure/   parsing helpers and concrete storage implementations
   config/           environment/configuration helpers
 ```
@@ -39,7 +39,7 @@ api -> application -> domain
 infrastructure -> domain
 ```
 
-The `domain` layer contains the business concepts: job models, approval results, approval rules, and repository interfaces. The approval engine belongs there because it answers the core business question: whether a job should be approved for publication.
+The `domain` layer contains the business concepts: job models, review results, review rules, and repository interfaces. The review engine belongs there because it answers the core business question: whether a job should be approved for publication.
 
 The `application` layer coordinates use cases, such as ingesting a batch of raw jobs or searching approved jobs. It should not know about Express request/response objects.
 

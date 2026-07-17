@@ -107,7 +107,7 @@ Deploy early after the thin shell exists:
 3. production static serving
 4. Render deployment
 
-Then continue with ingestion, approval, storage, and UI features.
+Then continue with ingestion, review, storage, and UI features.
 
 ## Optional Fly.io Path
 

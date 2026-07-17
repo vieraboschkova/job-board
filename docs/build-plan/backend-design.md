@@ -75,14 +75,14 @@ raw job
 
 Normalization should never fail the whole batch for one malformed record. Preserve the original raw job inside the normalized model.
 
-## Approval Rules
+## Review Rules
 
-Approval should use composable rule objects:
+Review should use composable rule objects:
 
 ```ts
-interface ApprovalRule {
+interface ReviewRule {
   name: string;
-  evaluate(job: NormalizedJobPosting): ApprovalResult;
+  evaluate(job: NormalizedJobPosting): ReviewResult;
 }
 ```
 
@@ -125,7 +125,7 @@ Required:
 Optional polish:
 
 - `GET /api/rejections`
-- `GET /api/reports/approval-decisions.csv`
+- `GET /api/reports/review-decisions.csv`
 
 `GET /api/jobs` should support:
 

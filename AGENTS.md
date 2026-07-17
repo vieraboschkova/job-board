@@ -12,7 +12,7 @@ Next recommended task: `docs/build-plan/tasks/03-production-static-serving.md`.
 
 ## Project Intent
 
-Build a take-home job ingestion, approval, and search system using Node.js, TypeScript, React, and Material UI.
+Build a take-home job ingestion, review, and search system using Node.js, TypeScript, React, and Material UI.
 
 The system should ingest messy job posting JSON from multiple formats, normalize each posting into a common model, approve or reject jobs using explicit business rules, store approved jobs for search, log rejected jobs with reasons, and provide a simple UI for searching, filtering, and sorting approved jobs.
 

@@ -43,4 +43,4 @@ npm run typecheck -w server
 
 ## Handoff Notes
 
-After this task, run Task 09 to implement approval rules against the normalized model.
+After this task, run Task 09 to implement review rules against the normalized model.

@@ -20,12 +20,6 @@ export enum SalaryUnit {
   Unknown = "unknown",
 }
 
-export enum JobStatus {
-  Approved = "approved",
-  Rejected = "rejected",
-  Pending = "pending",
-}
-
 export enum JobSort {
   SalaryAscending = "salary_asc",
   SalaryDescending = "salary_desc",

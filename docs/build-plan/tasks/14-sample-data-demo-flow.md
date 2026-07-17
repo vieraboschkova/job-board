@@ -13,7 +13,7 @@ Make the app easy for a reviewer to populate and evaluate.
 - Cover multiple source formats.
 - Document a curl command for ingesting the sample data.
 - Follow the demo contract in `docs/build-plan/sample-ingestion-demo.md`.
-- Include enough records to show every approval rule passing or failing.
+- Include enough records to show every review rule passing or failing.
 - Add a secondary `/demo-ingestion` page for submitting sample or custom ingestion payloads from the UI.
 - Keep the approved jobs search page as the primary product page.
 - Keep production behavior simple and avoid hidden automatic data mutation unless clearly documented.
@@ -29,9 +29,9 @@ Make the app easy for a reviewer to populate and evaluate.
 ## Acceptance Criteria
 
 - Reviewer can ingest sample jobs with one documented command.
-- Sample data includes jobs that pass and fail approval.
+- Sample data includes jobs that pass and fail review.
 - Sample data covers messy salary, location, language, and employment type cases.
-- Sample data includes at least 10 jobs and covers all required approval rules.
+- Sample data includes at least 10 jobs and covers all required review rules.
 - At least three jobs use different raw field shapes.
 - `/demo-ingestion` lets the user choose a sample payload, edit JSON, submit ingestion, and see summary counts.
 - The frontend shows approved sample jobs after ingestion.

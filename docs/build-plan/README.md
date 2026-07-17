@@ -2,7 +2,7 @@
 
 ## Summary
 
-This folder contains the implementation plan for a take-home job ingestion, approval, and search system.
+This folder contains the implementation plan for a take-home job ingestion, review, and search system.
 
 The original assignment prompt is preserved in `docs/build-plan/original-task.md`. Use it as the source reference when checking whether implementation tasks still satisfy the requested scope.
 
@@ -25,9 +25,9 @@ The service should:
 - expose REST API routes under `/api`
 - run the ingestion module in-process
 - serve the built React frontend in production
-- keep ingestion, approval, storage, and API layers separated
+- keep ingestion, review, storage, and API layers separated
 
-The ingestion module should be designed so it can later be moved into a worker, queue consumer, or standalone service without rewriting the core normalization and approval logic.
+The ingestion module should be designed so it can later be moved into a worker, queue consumer, or standalone service without rewriting the core normalization and review logic.
 
 ## MVP Definition
 
@@ -38,7 +38,7 @@ The MVP is complete when:
 - `/api/health` works locally and in production
 - messy job JSON can be ingested
 - jobs are normalized into a common model
-- all required approval rules are enforced
+- all required review rules are enforced
 - approved jobs are searchable
 - rejected jobs are logged with reasons
 - the React/MUI UI lists, searches, filters, and sorts approved jobs
@@ -72,7 +72,7 @@ Each task file includes:
 
 Tasks are sized for roughly 30-90 minutes each.
 
-When reviewing a completed task, compare behavior against `original-task.md` if the task touches ingestion, approval rules, storage, rejected-job logging, or the search/filter/sort UX.
+When reviewing a completed task, compare behavior against `original-task.md` if the task touches ingestion, review rules, storage, rejected-job logging, or the search/filter/sort UX.
 
 ## Interview Demo Flow
 
@@ -86,7 +86,7 @@ The intended interview flow is:
 4. ingest `sample-data/jobs.json` or a custom JSON payload
 5. show the ingestion summary
 6. search, filter, and sort approved jobs in the UI
-7. explain the code path from API route to ingestion service, normalizer, approval engine, and repositories
+7. explain the code path from API route to ingestion service, normalizer, review engine, and repositories
 
 ## Important Tradeoffs
 
@@ -94,4 +94,4 @@ The intended interview flow is:
 - Use simple parsing for locations and salary.
 - Use a lightweight language heuristic instead of a heavyweight external dependency.
 - Prefer a single deployable Node service over separate frontend/backend hosting.
-- Treat approval report export as optional polish: CSV is enough for Excel compatibility, true `.xlsx` can be added later.
+- Treat review report export as optional polish: CSV is enough for Excel compatibility, true `.xlsx` can be added later.

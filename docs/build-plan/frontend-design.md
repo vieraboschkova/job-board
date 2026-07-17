@@ -120,6 +120,6 @@ The UI should feel like a polished internal recruiting/search tool:
 - empty and error states are clear
 - layout remains usable on narrow screens
 - demo ingestion page can submit sample or custom payloads
-- demo ingestion page displays approval/rejection counts after submit
+- demo ingestion page displays review/rejection counts after submit
 
 Use mui attributes for styling, if custom styles needed, create separate component.styles.ts file to use as styling wrapper.

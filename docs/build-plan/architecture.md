@@ -11,7 +11,7 @@ React UI
   -> API client
   -> Express routes
   -> application services
-  -> ingestion / approval / repository interfaces
+  -> ingestion / review / repository interfaces
   -> in-memory repositories for MVP
 ```
 
@@ -19,7 +19,7 @@ React UI
 
 Keep the backend organized around four major layers:
 
-- Domain: job models, approval concepts, repository interfaces.
+- Domain: job models, review concepts, repository interfaces.
 - Application: use cases such as ingesting jobs and searching jobs.
 - Infrastructure: in-memory repositories, parsing helpers, language detection.
 - API: Express routes and controllers.
@@ -35,7 +35,7 @@ For the take-home version, ingestion runs in-process when `POST /api/ingest` is 
 The module should depend on interfaces:
 
 - `JobNormalizer`
-- `ApprovalEngine`
+- `ReviewEngine`
 - `JobRepository`
 - `RejectedJobRepository`
 

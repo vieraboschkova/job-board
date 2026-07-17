@@ -1,4 +1,4 @@
-# Task 19: Add Approval Report Export
+# Task 19: Add Review Report Export
 
 Status: Optional polish
 
@@ -6,7 +6,7 @@ Status: Optional polish
 
 Create a downloadable report that shows every ingested job and whether it was approved or rejected.
 
-This is useful for interview demos because it makes the approval pipeline auditable.
+This is useful for interview demos because it makes the review pipeline auditable.
 
 ## Implementation Details
 
@@ -20,13 +20,13 @@ This is useful for interview demos because it makes the approval pipeline audita
 Recommended endpoint:
 
 ```txt
-GET /api/reports/approval-decisions.csv
+GET /api/reports/review-decisions.csv
 ```
 
 Optional endpoint:
 
 ```txt
-GET /api/reports/approval-decisions.xlsx
+GET /api/reports/review-decisions.xlsx
 ```
 
 Recommended report columns:
@@ -67,7 +67,7 @@ Recommended report columns:
 ## Verification Steps
 
 ```bash
-curl -o approval-decisions.csv http://localhost:3000/api/reports/approval-decisions.csv
+curl -o review-decisions.csv http://localhost:3000/api/reports/review-decisions.csv
 ```
 
 Open the CSV in Excel, Numbers, or Google Sheets and confirm rows and columns are readable.

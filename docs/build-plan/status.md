@@ -18,7 +18,7 @@ Next recommended task: `03-production-static-serving.md`.
 - [ ] 06. Implement in-memory repositories
 - [ ] 07. Implement parsing utilities
 - [ ] 08. Build job normalizer
-- [ ] 09. Implement approval rule engine
+- [ ] 09. Implement review rule engine
 - [ ] 10. Implement ingestion service
 - [ ] 11. Add ingestion API
 - [ ] 12. Add jobs search API
@@ -28,7 +28,7 @@ Next recommended task: `03-production-static-serving.md`.
 - [ ] 16. Add deduplication
 - [ ] 17. Update README architecture notes
 - [ ] 18. Final deployment smoke test
-- [ ] 19. Add approval report export
+- [ ] 19. Add review report export
 
 ## Status Update Rule
 

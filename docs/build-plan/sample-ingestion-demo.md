@@ -101,7 +101,7 @@ Recommended controls:
 Recommended sample scenarios:
 
 - `Mixed sample`: approved and rejected jobs together
-- `All approval rules`: one example per rule
+- `All review rules`: one example per rule
 - `Custom JSON`: user-edited payload
 
 The editable JSON should use the same payload shape as `POST /api/ingest`:
@@ -135,7 +135,7 @@ Do not make this the primary app page. The primary page should remain the approv
 7. Search for a title keyword.
 8. Filter by country.
 9. Sort by salary and posting date.
-10. Briefly show the code path: API route, ingestion service, normalizer, approval engine, repositories.
+10. Briefly show the code path: API route, ingestion service, normalizer, review engine, repositories.
 
 ## Production Note
 
