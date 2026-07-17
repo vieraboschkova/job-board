@@ -1,14 +1,16 @@
 ---
+
 name: CLAUDE.md
 description: This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
 metadata:
-  type: project
+type: project
 
 # CLAUDE.md
 
 This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
 
 ## Common Commands
+
 - `nvm use`: Use Node 22 or newer.
 - `npm install`: Install dependencies.
 - `npm run dev`: Start the development server.
@@ -18,7 +20,9 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 - `npm start`: Start the application.
 
 ## Code Architecture
+
 The backend is built with a lightweight layered structure:
+
 ```
 server/src/
   api/              Express routes and controllers
@@ -29,6 +33,7 @@ server/src/
 ```
 
 The main dependency direction is:
+
 ```
 api -> application -> domain
 infrastructure -> domain
@@ -41,6 +46,7 @@ The `application` layer coordinates use cases, such as ingesting a batch of raw 
 The `infrastructure` layer handles messy outside-world details, such as parsing salary/location fields from source JSON and storing jobs in an in-memory repository.
 
 The `api` layer is HTTP glue. It receives requests, calls application services, and returns responses.
+
 ```
 
 ## Useful Root Scripts
@@ -55,3 +61,4 @@ The `api` layer is HTTP glue. It receives requests, calls application services, 
 - Setup instructions: Use Node 22 or newer, install dependencies with `npm install`, and start the server with `npm run dev`.
 - Architecture description: Layered structure with clear boundaries between layers.
 - Additional information: Any other relevant details can be added here.
+```

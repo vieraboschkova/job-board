@@ -12,7 +12,10 @@ async function request<T>(path: string, init?: RequestInit): Promise<T> {
   const response = await fetch(path, init);
 
   if (!response.ok) {
-    throw new ApiError(`Request failed with status ${response.status}`, response.status);
+    throw new ApiError(
+      `Request failed with status ${response.status}`,
+      response.status,
+    );
   }
 
   return response.json() as Promise<T>;
