@@ -2,7 +2,11 @@ import { beforeEach, describe, expect, it } from "vitest";
 
 import { InMemoryRejectedJobRepository } from "../in-memory-rejected-job.repository";
 
-import { CountryCode, EmploymentType } from "../../../domain/job/job.enums";
+import {
+  CountryCode,
+  EmploymentType,
+  Language,
+} from "../../../domain/job/job.enums";
 
 import { RejectedJob } from "../../../domain/job/job.types";
 
@@ -14,6 +18,7 @@ const createRejectedJob = (id = "1"): RejectedJob => ({
     title: "Backend Developer",
     company: "Test Company",
     description: "Node job",
+    language: Language.English,
     location: {
       country: CountryCode.US,
       remote: true,
