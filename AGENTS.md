@@ -2,13 +2,13 @@
 
 ## Current Status
 
-This repository has a thin npm workspace scaffold for the backend and frontend. Domain implementation has not started.
+This repository has a thin npm workspace with backend health endpoint and frontend placeholder UI. Domain implementation has not started.
 
-Current phase: Task 01 complete, ready for the first backend/frontend vertical slice.
+Current phase: Task 02 complete, ready for production static serving.
 
-Last completed task: `docs/build-plan/tasks/01-scaffold-monorepo-shell.md`.
+Last completed task: `docs/build-plan/tasks/02-health-endpoint-placeholder-ui.md`.
 
-Next recommended task: `docs/build-plan/tasks/02-health-endpoint-placeholder-ui.md`.
+Next recommended task: `docs/build-plan/tasks/03-production-static-serving.md`.
 
 ## Project Intent
 
