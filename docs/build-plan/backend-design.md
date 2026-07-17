@@ -24,9 +24,9 @@ Use permissive raw input and strict normalized internal models.
 Key types:
 
 - `RawJobPosting = Record<string, unknown>`
-- `NormalizedJobPosting`
-- `NormalizedSalary`
-- `NormalizedLocation`
+- `Job`
+- `Salary`
+- `Location`
 - `Job`
 - `RejectedJob`
 - `RejectionReason`
@@ -82,7 +82,7 @@ Review should use composable rule objects:
 ```ts
 interface ReviewRule {
   name: string;
-  evaluate(job: NormalizedJobPosting): ReviewResult;
+  evaluate(job: Job): ReviewResult;
 }
 ```
 
