@@ -8,6 +8,7 @@ Make the project easy for a reviewer to understand, run, test, and deploy.
 
 ## Implementation Details
 
+- Review `docs/build-plan/original-task.md` before writing final README notes.
 - Update root `README.md`.
 - Include project summary.
 - Include architecture overview.
@@ -17,6 +18,7 @@ Make the project easy for a reviewer to understand, run, test, and deploy.
 - Include deployment notes and live URL if available.
 - Include sample ingestion command.
 - Document intentional simplifications.
+- Call out how the implementation satisfies the original assignment scope.
 
 ## Files And Modules Touched
 
@@ -28,6 +30,7 @@ Make the project easy for a reviewer to understand, run, test, and deploy.
 
 - A reviewer can run the app locally from README instructions.
 - A reviewer can ingest sample data from README instructions.
+- README clearly maps the delivered system to the original task requirements.
 - Architecture tradeoffs are clear.
 - Deployment approach is documented.
 - Current live URL is included if one exists.

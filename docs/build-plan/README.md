@@ -4,6 +4,8 @@
 
 This folder contains the implementation plan for a take-home job ingestion, approval, and search system.
 
+The original assignment prompt is preserved in `docs/build-plan/original-task.md`. Use it as the source reference when checking whether implementation tasks still satisfy the requested scope.
+
 The app will use:
 
 - Node.js backend
@@ -69,6 +71,8 @@ Each task file includes:
 - handoff notes
 
 Tasks are sized for roughly 30-90 minutes each.
+
+When reviewing a completed task, compare behavior against `original-task.md` if the task touches ingestion, approval rules, storage, rejected-job logging, or the search/filter/sort UX.
 
 ## Interview Demo Flow
 
