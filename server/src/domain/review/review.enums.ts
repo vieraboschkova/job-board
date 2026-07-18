@@ -1,6 +1,8 @@
 export enum RejectionReason {
   MissingTitle = "missing_title",
 
+  MissingSourceData = "missing_source_data",
+
   InvalidLocation = "invalid_location",
 
   InvalidEmploymentType = "invalid_employment_type",

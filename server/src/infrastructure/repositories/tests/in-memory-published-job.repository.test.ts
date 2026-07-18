@@ -77,6 +77,25 @@ describe("InMemoryPublishedJobRepository", () => {
     expect(result).toBeNull();
   });
 
+  it("finds published job by sourceName and sourceId", async () => {
+    await repository.save(
+      createPublishedJob("1", { sourceName: "feed-a", sourceId: "ext-1" }),
+    );
+
+    const result = await repository.findBySource("feed-a", "ext-1");
+
+    expect(result?.job.id).toBe("1");
+  });
+
+  it("returns null when source identity does not match", async () => {
+    await repository.save(
+      createPublishedJob("1", { sourceName: "feed-a", sourceId: "ext-1" }),
+    );
+
+    expect(await repository.findBySource("feed-a", "other")).toBeNull();
+    expect(await repository.findBySource("other", "ext-1")).toBeNull();
+  });
+
   it("searches jobs by title case-insensitively", async () => {
     await repository.save(
       createPublishedJob("1", {

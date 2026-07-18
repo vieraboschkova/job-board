@@ -170,6 +170,8 @@ describe("POST /api/ingest", () => {
       normalizedCount: 0,
       approvedCount: 0,
       rejectedCount: 0,
+      duplicatesCount: 0,
+      duplicates: [],
       errors: [],
     });
   });
@@ -193,11 +195,49 @@ describe("POST /api/ingest", () => {
       normalizedCount: 2,
       approvedCount: 1,
       rejectedCount: 1,
+      duplicatesCount: 0,
+      duplicates: [],
       errors: [],
     });
 
     expect(await publishedJobRepository.getAll()).toHaveLength(1);
     expect(await rejectedJobRepository.getAll()).toHaveLength(1);
+  });
+
+  it("skips re-ingested duplicates and returns them on the result", async () => {
+    const jobs = [exampleJobs[0] as RawJobPosting];
+    const body = {
+      [IngestRequestField.SourceName]: "dedupe-feed",
+      [IngestRequestField.Jobs]: jobs,
+    };
+
+    const first = await request(createApp(deps)).post(INGEST_URL).send(body);
+    const second = await request(createApp(deps)).post(INGEST_URL).send(body);
+
+    expect(first.status).toBe(HttpStatusCode.Ok);
+    expect(first.body.approvedCount).toBe(1);
+    expect(first.body.duplicatesCount).toBe(0);
+
+    const published = await publishedJobRepository.getAll();
+    expect(published).toHaveLength(1);
+
+    expect(second.status).toBe(HttpStatusCode.Ok);
+    expect(second.body).toEqual({
+      receivedCount: 1,
+      normalizedCount: 1,
+      approvedCount: 0,
+      rejectedCount: 0,
+      duplicatesCount: 1,
+      duplicates: [
+        {
+          sourceName: "dedupe-feed",
+          id: published[0].job.id,
+          sourceId: "example-001",
+        },
+      ],
+      errors: [],
+    });
+    expect(await publishedJobRepository.getAll()).toHaveLength(1);
   });
 
   it("returns 500 when the ingestion service throws", async () => {

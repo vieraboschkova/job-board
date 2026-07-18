@@ -21,14 +21,21 @@ import { JobIngestionService } from "../job-ingestion-service";
 
 const GENERIC_INGESTION_ERROR = "Failed to process record";
 
+const emptyDuplicates = {
+  duplicatesCount: 0,
+  duplicates: [],
+};
+
 describe("JobIngestionService", () => {
   let publishedJobRepository: InMemoryPublishedJobRepository;
   let rejectedJobRepository: InMemoryRejectedJobRepository;
   let service: JobIngestionService;
   let logError: ReturnType<typeof vi.spyOn>;
+  let logInfo: ReturnType<typeof vi.spyOn>;
 
   beforeEach(() => {
     logError = vi.spyOn(logger, "error").mockImplementation(() => {});
+    logInfo = vi.spyOn(logger, "info").mockImplementation(() => {});
     publishedJobRepository = new InMemoryPublishedJobRepository();
     rejectedJobRepository = new InMemoryRejectedJobRepository();
     service = new JobIngestionService(
@@ -41,6 +48,7 @@ describe("JobIngestionService", () => {
 
   afterEach(() => {
     logError.mockRestore();
+    logInfo.mockRestore();
   });
 
   it("returns zero counts for an empty batch", async () => {
@@ -51,10 +59,15 @@ describe("JobIngestionService", () => {
       normalizedCount: 0,
       approvedCount: 0,
       rejectedCount: 0,
+      ...emptyDuplicates,
       errors: [],
     });
     expect(await publishedJobRepository.getAll()).toHaveLength(0);
     expect(await rejectedJobRepository.getAll()).toHaveLength(0);
+    expect(logInfo).not.toHaveBeenCalledWith(
+      "Ingestion duplicates",
+      expect.anything(),
+    );
   });
 
   it("approves and rejects jobs in a mixed batch", async () => {
@@ -70,6 +83,7 @@ describe("JobIngestionService", () => {
       normalizedCount: 2,
       approvedCount: 1,
       rejectedCount: 1,
+      ...emptyDuplicates,
       errors: [],
     });
 
@@ -90,6 +104,42 @@ describe("JobIngestionService", () => {
         RejectionReason.InvalidCompanyType,
       ]),
     );
+  });
+
+  it("skips duplicates and lists them on the result", async () => {
+    const rawJob = exampleJobs[0] as RawJobPosting;
+
+    const first = await service.ingest([rawJob], "dedupe-feed");
+    const second = await service.ingest([rawJob], "dedupe-feed");
+
+    expect(first.approvedCount).toBe(1);
+    expect(first.duplicatesCount).toBe(0);
+    expect(first.duplicates).toEqual([]);
+
+    const published = await publishedJobRepository.getAll();
+    expect(published).toHaveLength(1);
+
+    expect(second).toEqual({
+      receivedCount: 1,
+      normalizedCount: 1,
+      approvedCount: 0,
+      rejectedCount: 0,
+      duplicatesCount: 1,
+      duplicates: [
+        {
+          sourceName: "dedupe-feed",
+          id: published[0].job.id,
+          sourceId: "example-001",
+        },
+      ],
+      errors: [],
+    });
+    expect(await publishedJobRepository.getAll()).toHaveLength(1);
+    expect(logInfo).toHaveBeenCalledWith("Ingestion duplicates", {
+      sourceName: "dedupe-feed",
+      duplicatesCount: 1,
+      duplicates: second.duplicates,
+    });
   });
 
   it("continues the batch when one record throws", async () => {
@@ -123,6 +173,8 @@ describe("JobIngestionService", () => {
     expect(result.normalizedCount).toBe(2);
     expect(result.approvedCount).toBe(1);
     expect(result.rejectedCount).toBe(1);
+    expect(result.duplicatesCount).toBe(0);
+    expect(result.duplicates).toEqual([]);
     expect(result.errors).toEqual([
       { index: 1, message: GENERIC_INGESTION_ERROR },
     ]);
@@ -162,6 +214,7 @@ describe("JobIngestionService", () => {
       normalizedCount: 1,
       approvedCount: 0,
       rejectedCount: 0,
+      ...emptyDuplicates,
       errors: [{ index: 0, message: GENERIC_INGESTION_ERROR }],
     });
     expect(await publishedJobRepository.getAll()).toHaveLength(0);
@@ -192,6 +245,7 @@ describe("JobIngestionService", () => {
       normalizedCount: 1,
       approvedCount: 0,
       rejectedCount: 0,
+      ...emptyDuplicates,
       errors: [{ index: 0, message: GENERIC_INGESTION_ERROR }],
     });
     expect(await publishedJobRepository.getAll()).toHaveLength(0);
@@ -222,6 +276,7 @@ describe("JobIngestionService", () => {
       normalizedCount: 1,
       approvedCount: 0,
       rejectedCount: 0,
+      ...emptyDuplicates,
       errors: [{ index: 0, message: GENERIC_INGESTION_ERROR }],
     });
   });

@@ -94,13 +94,13 @@ Interactive docs (Swagger UI): [http://localhost:3000/api/docs](http://localhost
 }
 ```
 
-Successful responses return summary counts (`receivedCount`, `normalizedCount`, `approvedCount`, `rejectedCount`, `errors`). Invalid bodies return `400` with `INVALID_REQUEST_BODY`. Unknown `/api/*` routes return `404` with `NOT_FOUND`. Unexpected failures return `500` with `INTERNAL_SERVER_ERROR`.
+Successful responses return summary counts (`receivedCount`, `normalizedCount`, `approvedCount`, `rejectedCount`, `duplicatesCount`, `duplicates`, `errors`). Invalid bodies return `400` with `INVALID_REQUEST_BODY`. Unknown `/api/*` routes return `404` with `NOT_FOUND`. Unexpected failures return `500` with `INTERNAL_SERVER_ERROR`.
 
 Request validation uses Joi middleware in the API layer; domain/workflow code stays free of Express and schema details.
 
 ### Sample data demo
 
-Ready-to-post ingest payloads live under `server/src/tests/mock/`. Each file is a full `POST /api/ingest` body (~30% approved, rest rejected across all six review rules, with mixed raw field shapes):
+Ready-to-post ingest payloads live under `server/src/tests/mock/`. Each file is a full `POST /api/ingest` body (~30% approved, rest rejected across all seven review rules, with mixed raw field shapes):
 
 | File                                                                       | Jobs | Expected approved / rejected |
 | -------------------------------------------------------------------------- | ---- | ---------------------------- |
@@ -147,6 +147,8 @@ POST /api/ingest
 
 The ingestion service receives raw job postings, normalizes each posting into the internal model, evaluates it with the review engine, then publishes approved jobs or rejects them with reasons.
 
+Approved jobs are deduplicated before publish using `sourceName` + `sourceId` (jobs missing either are rejected by the `missing_source_data` review rule, so they never reach publish). A match against an already published job is skipped (not stored again). The ingest response includes `duplicatesCount` and a `duplicates` list of `{ sourceName, id, sourceId }`. When any duplicates occur, the server also logs that list once for the batch.
+
 Target search flow:
 
 ```txt
@@ -182,6 +184,8 @@ Repository    Repository
 ## Expandability and Scalability
 
 Right now one API call sends a JSON batch into `JobIngester`. If this grew, I'd add more ways _in_ and more capacity _around_ that same core — I wouldn't rewrite normalize → review → store.
+
+Deduping checks for an existing published job, then saves if none is found. That is fine for one request at a time. Two ingest requests running at the same moment can both miss the check and both save, so you can still get a duplicate. A real system would need a unique constraint (or similar) in the database so the store itself rejects the second write.
 
 ### Adapters
 

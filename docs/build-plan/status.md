@@ -2,11 +2,11 @@
 
 ## Current Implementation Status
 
-Task 15 is complete. `GET /api/rejections` returns rejection summaries (id, title, source, rejectedAt, rule fields, reasons). Per-rejection console logging lives in `JobRejectionService`. Sample ingest payloads remain under `server/src/tests/mock/`. Next up is Task 16 (deduplication) if demos re-ingest the same batches, otherwise Task 17.
+Task 16 is complete. Re-ingesting the same approved source job does not create a second published row. Duplicates match on `sourceName` + `sourceId` or our internal `id`, are skipped (not stored), and appear on the ingest response as `duplicatesCount` + `duplicates` (`sourceName`, `id`, `sourceId`). Next up is Task 17 (README architecture notes).
 
-Last completed task: `15-rejection-log-endpoint.md`.
+Last completed task: `16-deduplication.md`.
 
-Next recommended task: `16-deduplication.md`.
+Next recommended task: `17-readme-architecture-notes.md`.
 
 ## Task Checklist
 
@@ -25,7 +25,7 @@ Next recommended task: `16-deduplication.md`.
 - [x] 13. Build frontend job search UI
 - [x] 14. Add sample data demo flow
 - [x] 15. Add rejection log endpoint
-- [ ] 16. Add deduplication
+- [x] 16. Add deduplication
 - [ ] 17. Update README architecture notes
 - [ ] 18. Final deployment smoke test
 - [ ] 19. Add review report export
