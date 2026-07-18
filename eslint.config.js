@@ -7,4 +7,15 @@ export default [
   {
     ignores: ["**/node_modules/**", "**/dist/**", "**/coverage/**"],
   },
+  {
+    rules: {
+      "@typescript-eslint/no-unused-vars": [
+        "error",
+        {
+          argsIgnorePattern: "^_",
+          varsIgnorePattern: "^_",
+        },
+      ],
+    },
+  },
 ];

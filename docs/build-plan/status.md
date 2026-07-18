@@ -2,11 +2,11 @@
 
 ## Current Implementation Status
 
-Task 10 is complete. The backend ingests raw job batches through a service that normalizes, reviews, persists approved and rejected jobs, and returns summary counts without failing the whole batch on one bad record.
+Task 11 is complete. Clients can `POST /api/ingest` with a validated `{ sourceName, jobs }` body; the API calls `JobIngestionService` and returns ingestion summary counts. Invalid bodies return 400. Swagger UI is available at `/api/docs`.
 
-Last completed task: `10-ingestion-service.md`.
+Last completed task: `11-ingestion-api.md`.
 
-Next recommended task: `11-ingestion-api.md`.
+Next recommended task: `12-jobs-search-api.md`.
 
 ## Task Checklist
 
@@ -20,7 +20,7 @@ Next recommended task: `11-ingestion-api.md`.
 - [x] 08. Build job normalizer
 - [x] 09. Implement review rule engine
 - [x] 10. Implement ingestion service
-- [ ] 11. Add ingestion API
+- [x] 11. Add ingestion API
 - [ ] 12. Add jobs search API
 - [ ] 13. Build frontend job search UI
 - [ ] 14. Add sample data demo flow
