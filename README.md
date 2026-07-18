@@ -1,8 +1,9 @@
 # Job Board
 
-Job ingestion, review, and search system.
+Job ingestion, review, and search system: normalize messy job JSON, approve or reject with explicit rules, then search and filter published jobs.
 
-https://job-board-46zj.onrender.com/
+**Live app:** [https://job-board-46zj.onrender.com/](https://job-board-46zj.onrender.com/)  
+**Swagger (live):** [https://job-board-46zj.onrender.com/api/docs](https://job-board-46zj.onrender.com/api/docs)
 
 ## Quickstart
 
@@ -22,6 +23,53 @@ npm run build
 npm test
 npm start
 ```
+
+Production (after `npm run build`):
+
+```bash
+npm start
+```
+
+## Original Assignment Coverage
+
+Maps to [docs/build-plan/original-task.md](docs/build-plan/original-task.md):
+
+| Requirement | How this project delivers it |
+| ----------- | ---------------------------- |
+| Data modeling | Domain `Job`, `Salary`, `Location`, and enums under `server/src/domain/job/` |
+| Ingestion of messy JSON | `POST /api/ingest` → normalizer + parsers; sample payloads in `server/src/tests/mock/` |
+| Review criteria | Pluggable rules: title, location (remote or US/CA), full-time, salary (`> $100k` annual or `> $45/hr` USD), no staffing firm, English or French-in-Canada |
+| Approve / reject with reasons | Review engine → publisher or rejector; rejection reasons stored and exposed via `GET /api/rejections` |
+| Storage | In-memory published store (detail + dedupe), search index (`JobSummary`), rejected log |
+| UX | React UI: list, search by title/company, filter by country, sort by salary or posting date |
+| Code organization | Layered modules: `api` → `workflows` → `domain`; `infrastructure` → `domain` |
+| Flexible future rules | `ReviewRule` interface and a composable `defaultRules` list |
+| Testability | Vitest coverage for rules, workflows, repositories, and API |
+
+Pipeline: **ingest → normalize → review → publish or reject → search UI**.
+
+## Intentional Simplifications
+
+- **Node.js / TypeScript** instead of the prompt’s “ideally Go / Typed Python” — same layered design, one language across API and React.
+- **In-memory storage** (no database); approved/rejected/search data resets on process restart or redeploy.
+- **In-process ingestion** (not a separate worker deploy); interfaces keep a later worker/queue extraction path open.
+- **No authentication** on ingest or rejections (demo-friendly, not production-hardened).
+- **Simple parsing** for location, salary, and language (comma-split locations, threshold salary checks).
+- **Search** matches title or company (superset of “search by title”).
+- Extra review rule `sourceDataRequired` so publish dedupe has a stable `sourceName` + `sourceId`.
+
+## Deployment
+
+Single Render Web Service (Node): build with `npm install && npm run build`, start with `npm start`. The Node process serves `/api/*` and the built React app.
+
+| | |
+| --- | --- |
+| Live URL | [https://job-board-46zj.onrender.com/](https://job-board-46zj.onrender.com/) |
+| Swagger | [https://job-board-46zj.onrender.com/api/docs](https://job-board-46zj.onrender.com/api/docs) |
+| Health | `GET /api/health` |
+| Env | `NODE_ENV=production`; `PORT` from Render |
+
+Because storage is in-memory, the job board is empty after a cold start or redeploy. Re-ingest sample data (local or live) to demo search. Ingest is publicly reachable for the take-home demo.
 
 ## Folder Structure
 
@@ -76,14 +124,18 @@ I borrowed from Clean Code and Clean Architecture without turning them into cere
 
 ## API
 
-Interactive docs (Swagger UI): [http://localhost:3000/api/docs](http://localhost:3000/api/docs) when the server is running. OpenAPI is hand-maintained next to Joi for the MVP. The React client mirrors API types by hand today; for a production-ready setup I'd generate those types (and optionally the fetch client) from the OpenAPI document so server and UI stay in sync.
+Interactive docs (Swagger UI): [http://localhost:3000/api/docs](http://localhost:3000/api/docs) locally, or [https://job-board-46zj.onrender.com/api/docs](https://job-board-46zj.onrender.com/api/docs) on the live deploy. OpenAPI is hand-maintained next to Joi for the MVP. The React client mirrors API types by hand today; for a production-ready setup I'd generate those types (and optionally the fetch client) from the OpenAPI document so server and UI stay in sync.
 
-| Method | Path             | Description                                                                   |
-| ------ | ---------------- | ----------------------------------------------------------------------------- |
-| `GET`  | `/api/health`    | Health check via `HealthChecker` (`ok` / `degraded` → 200, `unhealthy` → 503) |
-| `POST` | `/api/ingest`    | Ingest a batch of raw job postings                                            |
-| `GET`  | `/api/docs`      | Swagger UI                                                                    |
-| `GET`  | `/api/docs.json` | Raw OpenAPI document                                                          |
+| Method | Path                | Description                                                                   |
+| ------ | ------------------- | ----------------------------------------------------------------------------- |
+| `GET`  | `/api/health`       | Health check via `HealthChecker` (`ok` / `degraded` → 200, `unhealthy` → 503) |
+| `POST` | `/api/ingest`       | Ingest a batch of raw job postings                                            |
+| `GET`  | `/api/jobs`         | List all published jobs (full store)                                          |
+| `GET`  | `/api/jobs/search`  | Search summaries: `search`, `country`, `sort` (`salary_*`, `postedAt_*`)      |
+| `GET`  | `/api/jobs/:id`     | Published job detail                                                          |
+| `GET`  | `/api/rejections`   | Rejected jobs with reasons                                                    |
+| `GET`  | `/api/docs`         | Swagger UI                                                                    |
+| `GET`  | `/api/docs.json`    | Raw OpenAPI document                                                          |
 
 `POST /api/ingest` body:
 
@@ -108,7 +160,7 @@ Ready-to-post ingest payloads live under `server/src/tests/mock/`. Each file is 
 | [`server/src/tests/mock/jobs-20.json`](server/src/tests/mock/jobs-20.json) | 20   | 6 / 14                       |
 | [`server/src/tests/mock/jobs-50.json`](server/src/tests/mock/jobs-50.json) | 50   | 15 / 35                      |
 
-Ingest via curl (or paste the same JSON into Swagger UI at `/api/docs`):
+**Local** ingest via curl (or paste the same JSON into Swagger UI at `/api/docs`):
 
 ```bash
 curl -X POST http://localhost:3000/api/ingest \
@@ -129,6 +181,16 @@ Then search approved jobs:
 ```bash
 curl "http://localhost:3000/api/jobs/search?search=engineer&sort=salary_desc"
 curl "http://localhost:3000/api/jobs/search?country=CA&sort=postedAt_desc"
+```
+
+**Live** (same payloads; re-ingest after a cold start or redeploy):
+
+```bash
+curl -X POST https://job-board-46zj.onrender.com/api/ingest \
+  -H "Content-Type: application/json" \
+  --data @server/src/tests/mock/jobs-10.json
+
+curl "https://job-board-46zj.onrender.com/api/jobs/search?search=engineer&sort=salary_desc"
 ```
 
 ## Backend Flows

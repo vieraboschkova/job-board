@@ -2,13 +2,15 @@
 
 ## Current Status
 
-Task 20 is complete. Published full store and search-only store are split: `PublishedJobRepository` holds full jobs (detail + dedupe); `JobSearchRepository` indexes `JobSummary` docs for search. Publish dual-writes on create only; search-index failures are logged and rethrown (no sync worker).
+MVP is complete. README maps the delivery to the original assignment; live Render smoke test passed (health, ingest, search, UI).
 
-Current phase: Task 20 complete; next is Task 17 (README architecture notes — partially refreshed by Task 20).
+Current phase: MVP complete; optional polish remaining.
 
-Last completed task: `docs/build-plan/tasks/20-search-only-job-store.md`.
+Last completed task: `docs/build-plan/tasks/18-final-deployment-smoke-test.md`.
 
-Next recommended task: `docs/build-plan/tasks/17-readme-architecture-notes.md`.
+Next recommended task: `docs/build-plan/tasks/19-approval-report-export.md` (optional).
+
+Live URL: https://job-board-46zj.onrender.com/
 
 ## Project Intent
 
@@ -27,7 +29,7 @@ The system should ingest messy job posting JSON from multiple formats, normalize
 
 ## Optional Polish Follow-ups
 
-Optional polish tasks after Task 20: 19 (review report export). See `docs/build-plan/status.md`.
+Optional polish remaining: Task 19 (review report export). See `docs/build-plan/status.md`.
 
 ## Folder Structure
 
