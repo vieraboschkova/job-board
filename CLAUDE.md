@@ -27,7 +27,7 @@ The backend is built with a lightweight layered structure:
 server/src/
   api/              Express routes, controllers, Joi validation middleware, Swagger
   domain/           types, enums, and repository interfaces
-  workflows/        normalization, review engine, and related implementations, ingest and search
+  workflows/        normalization, review engine, and related implementations, ingest and job-reader
   infrastructure/   parsing helpers and concrete storage implementations
   config/           environment/configuration helpers
 ```

@@ -119,11 +119,11 @@ Target search flow:
 ```txt
 GET /api/jobs?search=engineer&country=US&sort=salary_desc
   -> api controller
-  -> JobSearchService
+  -> JobReaderService
   -> PublishedJobRepository
 ```
 
-The search service receives a normalized search query, applies defaults or validation, retrieves approved jobs through the repository interface, and returns jobs filtered by title, filtered by country, and sorted by salary or posting date.
+The job reader receives a normalized search query, applies defaults or validation, retrieves approved jobs through the repository interface, and returns jobs filtered by title, filtered by country, and sorted by salary or posting date.
 
 ## Flow
 

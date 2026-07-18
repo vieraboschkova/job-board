@@ -20,6 +20,7 @@ import { DefaultJobNormalizer } from "../../workflows/normalization/default-job-
 import { JobPublishingService } from "../../workflows/publishing/job-publishing-service";
 import { JobRejectionService } from "../../workflows/rejection/job-rejection-service";
 import { DefaultReviewEngine } from "../../workflows/review/default-review-engine";
+import { JobReaderService } from "../../workflows/job-reader/job-reader-service";
 import { MAX_JOBS_PER_INGEST_BATCH } from "../schemas/ingest-request.schema";
 
 const INGEST_URL = `${ApiMountPath.Api}${ApiRoutePath.Ingest}`;
@@ -43,6 +44,7 @@ describe("POST /api/ingest", () => {
         new JobPublishingService(publishedJobRepository),
         new JobRejectionService(rejectedJobRepository),
       ),
+      jobReader: new JobReaderService(publishedJobRepository),
     };
   });
 

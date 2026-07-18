@@ -20,7 +20,7 @@ React UI
 Keep the backend organized around four major layers:
 
 - Domain: job models, review concepts, repository interfaces.
-- Workflows: use cases and engines such as ingesting jobs, normalizing, reviewing, and searching jobs.
+- Workflows: use cases and engines such as ingesting jobs, normalizing, reviewing, and job reading (search, get by id).
 - Infrastructure: in-memory repositories, parsing helpers, language detection.
 - API: Express routes and controllers.
 

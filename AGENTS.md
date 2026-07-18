@@ -2,13 +2,13 @@
 
 ## Current Status
 
-Task 11 is complete. Clients can ingest messy job JSON through `POST /api/ingest` with Joi validation; the API returns summary counts and exposes Swagger UI at `/api/docs`.
+Task 12 is complete. Clients can search approved jobs through `GET /api/jobs` with optional `search`, `country`, and `sort` query params; invalid sort/country values are ignored safely. Swagger UI at `/api/docs` documents the endpoint.
 
-Current phase: Task 11 complete, ready for jobs search API.
+Current phase: Task 12 complete, ready for frontend job search UI.
 
-Last completed task: `docs/build-plan/tasks/11-ingestion-api.md`.
+Last completed task: `docs/build-plan/tasks/12-jobs-search-api.md`.
 
-Next recommended task: `docs/build-plan/tasks/12-jobs-search-api.md`.
+Next recommended task: `docs/build-plan/tasks/13-frontend-job-search-ui.md`.
 
 ## Project Intent
 

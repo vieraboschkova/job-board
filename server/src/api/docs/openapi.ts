@@ -8,9 +8,19 @@ import {
   IngestRequestField,
 } from "../constants";
 import { MAX_JOBS_PER_INGEST_BATCH } from "../schemas/ingest-request.schema";
+import {
+  CompanyType,
+  CountryCode,
+  EmploymentType,
+  JobSort,
+  Language,
+  SalaryUnit,
+} from "../../domain/job/job.enums";
 
 const HEALTH_PATH = `${ApiMountPath.Api}${ApiRoutePath.Health}`;
 const INGEST_PATH = `${ApiMountPath.Api}${ApiRoutePath.Ingest}`;
+const JOBS_PATH = `${ApiMountPath.Api}${ApiRoutePath.Jobs}`;
+const JOBS_SEARCH_PATH = `${ApiMountPath.Api}${ApiRoutePath.JobsSearch}`;
 
 export const openApiDocument = {
   openapi: "3.0.3",
@@ -18,7 +28,7 @@ export const openApiDocument = {
     title: "Job Board API",
     version: "0.1.0",
     description:
-      "Job board API for the take-home. Ingestion is available now; search will be added next. OpenAPI is hand-maintained alongside Joi validation for the MVP.",
+      "Job board API for the take-home. Supports ingestion and approved-job search. OpenAPI is hand-maintained alongside Joi validation for the MVP.",
   },
   servers: [{ url: "/" }],
   paths: {
@@ -151,6 +161,158 @@ export const openApiDocument = {
         },
       },
     },
+    [JOBS_PATH]: {
+      get: {
+        tags: ["Jobs"],
+        summary: "List all approved jobs",
+        description: "Returns all approved (published) jobs with no filters.",
+        operationId: "getAllJobs",
+        responses: {
+          [String(HttpStatusCode.Ok)]: {
+            description: "All approved jobs",
+            content: {
+              "application/json": {
+                schema: {
+                  type: "array",
+                  items: {
+                    $ref: "#/components/schemas/Job",
+                  },
+                },
+              },
+            },
+          },
+          [String(HttpStatusCode.InternalServerError)]: {
+            description: "Unexpected server error while listing jobs",
+            content: {
+              "application/json": {
+                schema: {
+                  $ref: "#/components/schemas/ApiErrorResponse",
+                },
+              },
+            },
+          },
+        },
+      },
+    },
+    [JOBS_SEARCH_PATH]: {
+      get: {
+        tags: ["Jobs"],
+        summary: "Search approved jobs",
+        description:
+          "Returns approved (published) jobs. Optional search filters by title/company substring. Invalid country or sort values are ignored safely.",
+        operationId: "searchJobs",
+        parameters: [
+          {
+            name: "search",
+            in: "query",
+            required: false,
+            schema: { type: "string" },
+            description: "Case-insensitive substring match on title or company",
+          },
+          {
+            name: "country",
+            in: "query",
+            required: false,
+            schema: {
+              type: "string",
+              enum: Object.values(CountryCode),
+            },
+            description: "Filter by normalized country code",
+          },
+          {
+            name: "sort",
+            in: "query",
+            required: false,
+            schema: {
+              type: "string",
+              enum: Object.values(JobSort),
+            },
+            description:
+              "Sort order. Unsupported values are ignored (no default sort).",
+          },
+        ],
+        responses: {
+          [String(HttpStatusCode.Ok)]: {
+            description: "Approved jobs matching the query",
+            content: {
+              "application/json": {
+                schema: {
+                  type: "array",
+                  items: {
+                    $ref: "#/components/schemas/Job",
+                  },
+                },
+              },
+            },
+          },
+          [String(HttpStatusCode.InternalServerError)]: {
+            description: "Unexpected server error while searching",
+            content: {
+              "application/json": {
+                schema: {
+                  $ref: "#/components/schemas/ApiErrorResponse",
+                },
+              },
+            },
+          },
+        },
+      },
+    },
+    [`${JOBS_PATH}/{id}`]: {
+      get: {
+        tags: ["Jobs"],
+        summary: "Get an approved job by id",
+        operationId: "getJobById",
+        parameters: [
+          {
+            name: "id",
+            in: "path",
+            required: true,
+            schema: { type: "string" },
+            description: "Published job id",
+          },
+        ],
+        responses: {
+          [String(HttpStatusCode.Ok)]: {
+            description: "Approved job",
+            content: {
+              "application/json": {
+                schema: {
+                  $ref: "#/components/schemas/Job",
+                },
+              },
+            },
+          },
+          [String(HttpStatusCode.NotFound)]: {
+            description: "Job not found",
+            content: {
+              "application/json": {
+                schema: {
+                  $ref: "#/components/schemas/ApiErrorResponse",
+                },
+                example: {
+                  error: {
+                    code: ApiErrorCode.NotFound,
+                    message: ApiErrorMessage[ApiErrorCode.NotFound],
+                    details: [],
+                  },
+                },
+              },
+            },
+          },
+          [String(HttpStatusCode.InternalServerError)]: {
+            description: "Unexpected server error while fetching the job",
+            content: {
+              "application/json": {
+                schema: {
+                  $ref: "#/components/schemas/ApiErrorResponse",
+                },
+              },
+            },
+          },
+        },
+      },
+    },
   },
   components: {
     schemas: {
@@ -203,6 +365,85 @@ export const openApiDocument = {
         properties: {
           index: { type: "integer", minimum: 0 },
           message: { type: "string" },
+        },
+      },
+      Job: {
+        type: "object",
+        required: [
+          "id",
+          "title",
+          "company",
+          "description",
+          "language",
+          "location",
+          "employmentType",
+          "companyType",
+          "sourceName",
+          "rawData",
+          "createdAt",
+        ],
+        properties: {
+          id: { type: "string" },
+          title: { type: "string" },
+          company: { type: "string" },
+          description: { type: "string" },
+          language: {
+            type: "string",
+            enum: Object.values(Language),
+          },
+          location: {
+            $ref: "#/components/schemas/Location",
+          },
+          salary: {
+            $ref: "#/components/schemas/Salary",
+          },
+          employmentType: {
+            type: "string",
+            enum: Object.values(EmploymentType),
+          },
+          companyType: {
+            type: "string",
+            enum: Object.values(CompanyType),
+          },
+          sourceName: { type: "string" },
+          sourceId: { type: "string" },
+          rawData: {
+            type: "object",
+            additionalProperties: true,
+          },
+          postedAt: {
+            type: "string",
+            format: "date-time",
+          },
+          createdAt: {
+            type: "string",
+            format: "date-time",
+          },
+        },
+      },
+      Location: {
+        type: "object",
+        required: ["country", "remote"],
+        properties: {
+          country: {
+            type: "string",
+            enum: Object.values(CountryCode),
+          },
+          city: { type: "string" },
+          remote: { type: "boolean" },
+        },
+      },
+      Salary: {
+        type: "object",
+        required: ["currency", "unit"],
+        properties: {
+          min: { type: "number" },
+          max: { type: "number" },
+          currency: { type: "string" },
+          unit: {
+            type: "string",
+            enum: Object.values(SalaryUnit),
+          },
         },
       },
       ApiErrorResponse: {
