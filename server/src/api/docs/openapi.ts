@@ -16,11 +16,13 @@ import {
   Language,
   SalaryUnit,
 } from "../../domain/job/job.enums";
+import { RejectionReason } from "../../domain/review/review.enums";
 
 const HEALTH_PATH = `${ApiMountPath.Api}${ApiRoutePath.Health}`;
 const INGEST_PATH = `${ApiMountPath.Api}${ApiRoutePath.Ingest}`;
 const JOBS_PATH = `${ApiMountPath.Api}${ApiRoutePath.Jobs}`;
 const JOBS_SEARCH_PATH = `${ApiMountPath.Api}${ApiRoutePath.JobsSearch}`;
+const REJECTIONS_PATH = `${ApiMountPath.Api}${ApiRoutePath.Rejections}`;
 
 export const openApiDocument = {
   openapi: "3.0.3",
@@ -28,7 +30,7 @@ export const openApiDocument = {
     title: "Job Board API",
     version: "0.1.0",
     description:
-      "Job board API for the take-home. Supports ingestion and approved-job search. OpenAPI is hand-maintained alongside Joi validation for the MVP.",
+      "Job board API for the take-home. Supports ingestion, approved-job search, and rejection log listing. OpenAPI is hand-maintained alongside Joi validation for the MVP.",
   },
   servers: [{ url: "/" }],
   paths: {
@@ -316,6 +318,40 @@ export const openApiDocument = {
         },
       },
     },
+    [REJECTIONS_PATH]: {
+      get: {
+        tags: ["Rejections"],
+        summary: "List rejected jobs",
+        description:
+          "Returns rejected job summaries for debugging and reviewer visibility. Top-level id, sourceName, rejectedAt, and rejectionReasons; rule-relevant job fields nested under job. Omits raw ingestion payload and description.",
+        operationId: "listRejections",
+        responses: {
+          [String(HttpStatusCode.Ok)]: {
+            description: "Rejected job summaries",
+            content: {
+              "application/json": {
+                schema: {
+                  type: "array",
+                  items: {
+                    $ref: "#/components/schemas/RejectionSummary",
+                  },
+                },
+              },
+            },
+          },
+          [String(HttpStatusCode.InternalServerError)]: {
+            description: "Unexpected server error while listing rejections",
+            content: {
+              "application/json": {
+                schema: {
+                  $ref: "#/components/schemas/ApiErrorResponse",
+                },
+              },
+            },
+          },
+        },
+      },
+    },
   },
   components: {
     schemas: {
@@ -440,6 +476,71 @@ export const openApiDocument = {
             type: "string",
             format: "date-time",
           },
+        },
+      },
+      RejectionSummary: {
+        type: "object",
+        required: ["id", "sourceName", "rejectedAt", "rejectionReasons", "job"],
+        properties: {
+          id: { type: "string" },
+          sourceName: { type: "string" },
+          rejectedAt: {
+            type: "string",
+            format: "date-time",
+          },
+          rejectionReasons: {
+            type: "array",
+            items: {
+              $ref: "#/components/schemas/RejectionDetail",
+            },
+          },
+          job: {
+            $ref: "#/components/schemas/RejectionJobSummary",
+          },
+        },
+      },
+      RejectionJobSummary: {
+        type: "object",
+        required: [
+          "title",
+          "language",
+          "location",
+          "employmentType",
+          "companyType",
+          "company",
+        ],
+        properties: {
+          title: { type: "string" },
+          language: {
+            type: "string",
+            enum: Object.values(Language),
+          },
+          location: {
+            $ref: "#/components/schemas/Location",
+          },
+          employmentType: {
+            type: "string",
+            enum: Object.values(EmploymentType),
+          },
+          salary: {
+            $ref: "#/components/schemas/Salary",
+          },
+          companyType: {
+            type: "string",
+            enum: Object.values(CompanyType),
+          },
+          company: { type: "string" },
+        },
+      },
+      RejectionDetail: {
+        type: "object",
+        required: ["reason"],
+        properties: {
+          reason: {
+            type: "string",
+            enum: Object.values(RejectionReason),
+          },
+          details: { type: "string" },
         },
       },
       Location: {

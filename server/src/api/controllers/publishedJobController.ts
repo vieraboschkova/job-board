@@ -1,16 +1,16 @@
 import { NextFunction, Request, Response } from "express";
 
 import { ApiErrorCode, HttpStatusCode } from "../constants";
-import { JobReader } from "../../domain/job/job.types";
+import { PublishedJobsReader } from "../../domain/job/job.types";
 import { JobsQuery } from "../schemas/jobs-query.schema";
 import { sendApiError } from "../utils/send-api-error";
 
-export interface JobControllerDeps {
-  jobReader: JobReader;
+export interface PublishedJobControllerDeps {
+  publishedJobsReader: PublishedJobsReader;
 }
 
-export function createJobController(deps: JobControllerDeps) {
-  const { jobReader } = deps;
+export function createPublishedJobController(deps: PublishedJobControllerDeps) {
+  const { publishedJobsReader } = deps;
 
   return {
     getAll: async (
@@ -19,7 +19,7 @@ export function createJobController(deps: JobControllerDeps) {
       next: NextFunction,
     ): Promise<void> => {
       try {
-        const jobs = await jobReader.getAll();
+        const jobs = await publishedJobsReader.getAll();
         res.status(HttpStatusCode.Ok).json(jobs);
       } catch (error) {
         next(error);
@@ -33,7 +33,7 @@ export function createJobController(deps: JobControllerDeps) {
     ): Promise<void> => {
       try {
         const query = req.query as JobsQuery;
-        const jobs = await jobReader.search(query);
+        const jobs = await publishedJobsReader.search(query);
         res.status(HttpStatusCode.Ok).json(jobs);
       } catch (error) {
         next(error);
@@ -46,7 +46,7 @@ export function createJobController(deps: JobControllerDeps) {
       next: NextFunction,
     ): Promise<void> => {
       try {
-        const job = await jobReader.getById(req.params.id);
+        const job = await publishedJobsReader.getById(req.params.id);
 
         if (!job) {
           sendApiError(res, HttpStatusCode.NotFound, ApiErrorCode.NotFound);

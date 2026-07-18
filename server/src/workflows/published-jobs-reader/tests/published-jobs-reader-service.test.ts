@@ -7,17 +7,17 @@ import {
 } from "../../../domain/job/job.enums";
 import { InMemoryPublishedJobRepository } from "../../../infrastructure/repositories/in-memory-published-job.repository";
 import { createJob } from "../../review/tests/create-job";
-import { JobReaderService } from "../job-reader-service";
+import { PublishedJobsReaderService } from "../published-jobs-reader-service";
 import { toJobDetail } from "../to-job-detail";
 import { toJobSummary } from "../to-job-summary";
 
-describe("JobReaderService", () => {
+describe("PublishedJobsReaderService", () => {
   let repository: InMemoryPublishedJobRepository;
-  let service: JobReaderService;
+  let service: PublishedJobsReaderService;
 
   beforeEach(() => {
     repository = new InMemoryPublishedJobRepository();
-    service = new JobReaderService(repository);
+    service = new PublishedJobsReaderService(repository);
   });
 
   it("returns all jobs without rawData", async () => {

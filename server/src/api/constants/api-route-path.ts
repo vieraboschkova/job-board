@@ -8,6 +8,7 @@ export enum ApiRoutePath {
   Jobs = "/jobs",
   JobsSearch = "/jobs/search",
   JobById = "/jobs/:id",
+  Rejections = "/rejections",
   Docs = "/docs",
   DocsJson = "/docs.json",
 }

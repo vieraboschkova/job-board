@@ -7,7 +7,8 @@ import { apiNotFound, errorHandler } from "./api/middleware";
 import { createDocsRoutes } from "./api/routes/docsRoutes";
 import { createHealthRoutes } from "./api/routes/healthRoutes";
 import { createIngestionRoutes } from "./api/routes/ingestionRoutes";
-import { createJobRoutes } from "./api/routes/jobRoutes";
+import { createPublishedJobRoutes } from "./api/routes/publishedJobRoutes";
+import { createRejectedJobRoutes } from "./api/routes/rejectedJobRoutes";
 import {
   AppDependencies,
   createDefaultDependencies,
@@ -26,7 +27,8 @@ export function createApp(deps: AppDependencies = createDefaultDependencies()) {
   app.use(express.json());
   app.use(ApiMountPath.Api, createHealthRoutes());
   app.use(ApiMountPath.Api, createIngestionRoutes(deps.ingestionService));
-  app.use(ApiMountPath.Api, createJobRoutes(deps.jobReader));
+  app.use(ApiMountPath.Api, createPublishedJobRoutes(deps.publishedJobsReader));
+  app.use(ApiMountPath.Api, createRejectedJobRoutes(deps.rejectedJobsReader));
   app.use(ApiMountPath.Api, createDocsRoutes());
   app.use(ApiMountPath.Api, apiNotFound);
 

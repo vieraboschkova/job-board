@@ -90,8 +90,32 @@ export interface RejectedJob {
   rejectionReasons: RejectionDetail[];
 }
 
-export interface JobReader {
+/** Rule-relevant job fields nested under a rejection list item. */
+export interface RejectionJobSummary {
+  title: string;
+  language: Language;
+  location: Location;
+  employmentType: EmploymentType;
+  salary?: Salary;
+  companyType: CompanyType;
+  company: string;
+}
+
+/** Debug list item for rejected jobs. */
+export interface RejectionSummary {
+  id: string;
+  sourceName: string;
+  rejectedAt: Date;
+  rejectionReasons: RejectionDetail[];
+  job: RejectionJobSummary;
+}
+
+export interface PublishedJobsReader {
   getAll(): Promise<JobDetail[]>;
   search(query: JobSearchQueryInput): Promise<JobSummary[]>;
   getById(id: string): Promise<JobDetail | null>;
+}
+
+export interface RejectedJobsReader {
+  getAll(): Promise<RejectionSummary[]>;
 }
