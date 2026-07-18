@@ -2,11 +2,11 @@
 
 ## Current Status
 
-Task 16 is complete. Approved-job deduplication skips re-ingested matches (`sourceName` + `sourceId`, or our `id`) without storing a second row. Ingest responses include `duplicatesCount` and a `duplicates` list.
+Task 20 is complete. Published full store and search-only store are split: `PublishedJobRepository` holds full jobs (detail + dedupe); `JobSearchRepository` indexes `JobSummary` docs for search. Publish dual-writes on create only; search-index failures are logged and rethrown (no sync worker).
 
-Current phase: Task 16 complete; next is Task 17 (README architecture notes).
+Current phase: Task 20 complete; next is Task 17 (README architecture notes — partially refreshed by Task 20).
 
-Last completed task: `docs/build-plan/tasks/16-deduplication.md`.
+Last completed task: `docs/build-plan/tasks/20-search-only-job-store.md`.
 
 Next recommended task: `docs/build-plan/tasks/17-readme-architecture-notes.md`.
 
@@ -23,10 +23,11 @@ The system should ingest messy job posting JSON from multiple formats, normalize
 - The ingestion module must use clear interfaces so it can later be extracted into a worker, queue consumer, or standalone service.
 - The simplest deployment target is a single Node service that serves both API routes and the built React frontend.
 - Deploy a thin working shell early, before implementing the full product.
+- Search uses a dedicated `JobSearchRepository` (OpenSearch/ES seam); published store remains source of truth for identity and detail.
 
 ## Optional Polish Follow-ups
 
-Optional polish tasks after Task 16: 19 (review report export) and 20 (split published full store from search-only store). See `docs/build-plan/status.md`.
+Optional polish tasks after Task 20: 19 (review report export). See `docs/build-plan/status.md`.
 
 ## Folder Structure
 

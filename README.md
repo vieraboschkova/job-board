@@ -65,7 +65,7 @@ infrastructure -> domain
 
 - `domain` — business contracts only: job models, review types/enums, repository/service interfaces
 - `workflows` — use cases and engines (normalizer, review rules, ingestion). Parsing and language detection live under normalization. No Express request/response objects here
-- `infrastructure` — concrete adapters; right now in-memory published/rejected repos
+- `infrastructure` — concrete adapters; right now in-memory published, search, and rejected repos
 - `api` — HTTP glue: take the request, call a workflow, return the response
 
 I left `config/` and `shared/` empty for now — reserved for config helpers and shared utilities when I need them.
@@ -149,16 +149,25 @@ The ingestion service receives raw job postings, normalizes each posting into th
 
 Approved jobs are deduplicated before publish using `sourceName` + `sourceId` (jobs missing either are rejected by the `missing_source_data` review rule, so they never reach publish). A match against an already published job is skipped (not stored again). The ingest response includes `duplicatesCount` and a `duplicates` list of `{ sourceName, id, sourceId }`. When any duplicates occur, the server also logs that list once for the batch.
 
+Dedupe runs only against the published store. On a real create, publish dual-writes the full `PublishedJob` and a `JobSummary` into the search store. If the search write fails after published save, the service logs the job ids and rethrows (no sync/repair worker in the take-home). A later re-ingest of that job is treated as a duplicate and will not backfill the search index, so the job can remain searchable only via detail/`GET /api/jobs` until something else reindexes it.
+
 Target search flow:
 
 ```txt
-GET /api/jobs?search=engineer&country=US&sort=salary_desc
+GET /api/jobs/search?search=engineer&country=US&sort=salary_desc
   -> api controller
   -> PublishedJobsReaderService
-  -> PublishedJobRepository
+  -> JobSearchRepository (JobSummary index)
 ```
 
-The job reader receives a normalized search query, applies defaults or validation, retrieves approved jobs through the repository interface, and returns jobs filtered by title, filtered by country, and sorted by salary or posting date.
+Detail and list-all still read the published store:
+
+```txt
+GET /api/jobs/{id}  -> PublishedJobRepository
+GET /api/jobs       -> PublishedJobRepository
+```
+
+The job reader normalizes the search query, then retrieves summaries from the search repository (title/company filter, country filter, salary or posted-date sort).
 
 ## Flow
 
@@ -176,9 +185,11 @@ Raw job / Ingestion
    v         v
 JobPublisher  JobRejector
    |         |
-   v         v
-PublishedJob  RejectedJob
-Repository    Repository
+   +----+    v
+   |    |  RejectedJobRepository
+   v    v
+PublishedJobRepository   JobSearchRepository
+(full document + dedupe) (JobSummary index)
 ```
 
 ## Expandability and Scalability
@@ -186,6 +197,8 @@ Repository    Repository
 Right now one API call sends a JSON batch into `JobIngester`. If this grew, I'd add more ways _in_ and more capacity _around_ that same core — I wouldn't rewrite normalize → review → store.
 
 Deduping checks for an existing published job, then saves if none is found. That is fine for one request at a time. Two ingest requests running at the same moment can both miss the check and both save, so you can still get a duplicate. A real system would need a unique constraint (or similar) in the database so the store itself rejects the second write.
+
+Publish dual-writes the search summary after the published save. For the take-home, a failed search write is logged and the request fails — there is no automatic reindex. In production I'd treat published as source of truth and fix drift with an outbox/event after commit, an async indexer with retries, and/or periodic reindex/backfill into OpenSearch/Elasticsearch (using job `id` as the document id so upserts stay idempotent).
 
 ### Adapters
 
@@ -221,8 +234,8 @@ I'd keep the messy raw blob off the hot search path — store the normalized `Jo
 
 ### Search
 
-1. **Now / soon:** filter and sort in `PublishedJobRepository` (in-memory or SQL `WHERE` / `ORDER BY`).
-2. **Later:** if volume or query complexity grows, sync published jobs into a search index and keep `GET /api/jobs` talking to a search adapter behind the same API.
+1. **Now:** filter and sort in `JobSearchRepository` over slim `JobSummary` documents (in-memory stand-in for a search index).
+2. **Later:** swap the in-memory adapter for OpenSearch/Elasticsearch behind the same `JobSearchRepository` interface; keep `GET /api/jobs/search` unchanged.
 
 ### Separation
 

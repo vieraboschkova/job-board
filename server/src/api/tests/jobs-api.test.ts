@@ -9,6 +9,8 @@ import {
   HttpStatusCode,
 } from "../constants";
 import { CountryCode, JobSort, SalaryUnit } from "../../domain/job/job.enums";
+import { Job } from "../../domain/job/job.types";
+import { InMemoryJobSearchRepository } from "../../infrastructure/repositories/in-memory-job-search.repository";
 import { InMemoryPublishedJobRepository } from "../../infrastructure/repositories/in-memory-published-job.repository";
 import { InMemoryRejectedJobRepository } from "../../infrastructure/repositories/in-memory-rejected-job.repository";
 import { createApp } from "../../app";
@@ -21,6 +23,7 @@ import { RejectedJobsReaderService } from "../../workflows/rejection/rejected-jo
 import { createJob } from "../../workflows/review/tests/create-job";
 import { DefaultReviewEngine } from "../../workflows/review/default-review-engine";
 import { PublishedJobsReaderService } from "../../workflows/published-jobs-reader/published-jobs-reader-service";
+import { toJobSummary } from "../../workflows/published-jobs-reader/to-job-summary";
 
 const JOBS_URL = `${ApiMountPath.Api}${ApiRoutePath.Jobs}`;
 const JOBS_SEARCH_URL = `${ApiMountPath.Api}${ApiRoutePath.JobsSearch}`;
@@ -30,73 +33,88 @@ function jobByIdUrl(id: string): string {
   return `${JOBS_URL}/${id}`;
 }
 
+function createJobsTestDeps(): {
+  publishedJobRepository: InMemoryPublishedJobRepository;
+  jobSearchRepository: InMemoryJobSearchRepository;
+  deps: AppDependencies;
+} {
+  const publishedJobRepository = new InMemoryPublishedJobRepository();
+  const jobSearchRepository = new InMemoryJobSearchRepository();
+  const rejectedJobRepository = new InMemoryRejectedJobRepository();
+  return {
+    publishedJobRepository,
+    jobSearchRepository,
+    deps: {
+      publishedJobRepository,
+      jobSearchRepository,
+      rejectedJobRepository,
+      ingestionService: new JobIngestionService(
+        new DefaultJobNormalizer(),
+        new DefaultReviewEngine(),
+        new JobPublishingService(publishedJobRepository, jobSearchRepository),
+        new JobRejectionService(rejectedJobRepository),
+      ),
+      publishedJobsReader: new PublishedJobsReaderService(
+        publishedJobRepository,
+        jobSearchRepository,
+      ),
+      rejectedJobsReader: new RejectedJobsReaderService(rejectedJobRepository),
+    },
+  };
+}
+
+const sampleJobs = (): Job[] => [
+  createJob({
+    id: "low-salary",
+    title: "Junior Engineer",
+    company: "Acme",
+    location: { country: CountryCode.US, remote: false },
+    salary: {
+      min: 110000,
+      max: 120000,
+      currency: "USD",
+      unit: SalaryUnit.Annual,
+    },
+    postedAt: new Date("2023-10-01"),
+  }),
+  createJob({
+    id: "high-salary",
+    title: "Senior Engineer",
+    company: "Globex",
+    location: { country: CountryCode.US, remote: true },
+    salary: {
+      min: 160000,
+      max: 180000,
+      currency: "USD",
+      unit: SalaryUnit.Annual,
+    },
+    postedAt: new Date("2023-10-15"),
+  }),
+  createJob({
+    id: "canada-job",
+    title: "Product Manager",
+    company: "Maple Soft",
+    location: { country: CountryCode.CA, city: "Toronto", remote: false },
+    salary: {
+      min: 130000,
+      max: 140000,
+      currency: "USD",
+      unit: SalaryUnit.Annual,
+    },
+    postedAt: new Date("2023-10-10"),
+  }),
+];
+
 describe("GET /api/jobs", () => {
   let publishedJobRepository: InMemoryPublishedJobRepository;
   let deps: AppDependencies;
 
   beforeEach(() => {
-    publishedJobRepository = new InMemoryPublishedJobRepository();
-    const rejectedJobRepository = new InMemoryRejectedJobRepository();
-    deps = {
-      publishedJobRepository,
-      rejectedJobRepository,
-      ingestionService: new JobIngestionService(
-        new DefaultJobNormalizer(),
-        new DefaultReviewEngine(),
-        new JobPublishingService(publishedJobRepository),
-        new JobRejectionService(rejectedJobRepository),
-      ),
-      publishedJobsReader: new PublishedJobsReaderService(
-        publishedJobRepository,
-      ),
-      rejectedJobsReader: new RejectedJobsReaderService(rejectedJobRepository),
-    };
+    ({ publishedJobRepository, deps } = createJobsTestDeps());
   });
 
   async function seedPublishedJobs(): Promise<void> {
-    const jobs = [
-      createJob({
-        id: "low-salary",
-        title: "Junior Engineer",
-        company: "Acme",
-        location: { country: CountryCode.US, remote: false },
-        salary: {
-          min: 110000,
-          max: 120000,
-          currency: "USD",
-          unit: SalaryUnit.Annual,
-        },
-        postedAt: new Date("2023-10-01"),
-      }),
-      createJob({
-        id: "high-salary",
-        title: "Senior Engineer",
-        company: "Globex",
-        location: { country: CountryCode.US, remote: true },
-        salary: {
-          min: 160000,
-          max: 180000,
-          currency: "USD",
-          unit: SalaryUnit.Annual,
-        },
-        postedAt: new Date("2023-10-15"),
-      }),
-      createJob({
-        id: "canada-job",
-        title: "Product Manager",
-        company: "Maple Soft",
-        location: { country: CountryCode.CA, city: "Toronto", remote: false },
-        salary: {
-          min: 130000,
-          max: 140000,
-          currency: "USD",
-          unit: SalaryUnit.Annual,
-        },
-        postedAt: new Date("2023-10-10"),
-      }),
-    ];
-
-    for (const job of jobs) {
+    for (const job of sampleJobs()) {
       await publishedJobRepository.save({
         job,
         publishedAt: new Date("2023-10-20"),
@@ -143,75 +161,21 @@ describe("GET /api/jobs", () => {
 
 describe("GET /api/jobs/search", () => {
   let publishedJobRepository: InMemoryPublishedJobRepository;
+  let jobSearchRepository: InMemoryJobSearchRepository;
   let deps: AppDependencies;
 
   beforeEach(() => {
-    publishedJobRepository = new InMemoryPublishedJobRepository();
-    const rejectedJobRepository = new InMemoryRejectedJobRepository();
-    deps = {
-      publishedJobRepository,
-      rejectedJobRepository,
-      ingestionService: new JobIngestionService(
-        new DefaultJobNormalizer(),
-        new DefaultReviewEngine(),
-        new JobPublishingService(publishedJobRepository),
-        new JobRejectionService(rejectedJobRepository),
-      ),
-      publishedJobsReader: new PublishedJobsReaderService(
-        publishedJobRepository,
-      ),
-      rejectedJobsReader: new RejectedJobsReaderService(rejectedJobRepository),
-    };
+    ({ publishedJobRepository, jobSearchRepository, deps } =
+      createJobsTestDeps());
   });
 
   async function seedPublishedJobs(): Promise<void> {
-    const jobs = [
-      createJob({
-        id: "low-salary",
-        title: "Junior Engineer",
-        company: "Acme",
-        location: { country: CountryCode.US, remote: false },
-        salary: {
-          min: 110000,
-          max: 120000,
-          currency: "USD",
-          unit: SalaryUnit.Annual,
-        },
-        postedAt: new Date("2023-10-01"),
-      }),
-      createJob({
-        id: "high-salary",
-        title: "Senior Engineer",
-        company: "Globex",
-        location: { country: CountryCode.US, remote: true },
-        salary: {
-          min: 160000,
-          max: 180000,
-          currency: "USD",
-          unit: SalaryUnit.Annual,
-        },
-        postedAt: new Date("2023-10-15"),
-      }),
-      createJob({
-        id: "canada-job",
-        title: "Product Manager",
-        company: "Maple Soft",
-        location: { country: CountryCode.CA, city: "Toronto", remote: false },
-        salary: {
-          min: 130000,
-          max: 140000,
-          currency: "USD",
-          unit: SalaryUnit.Annual,
-        },
-        postedAt: new Date("2023-10-10"),
-      }),
-    ];
-
-    for (const job of jobs) {
+    for (const job of sampleJobs()) {
       await publishedJobRepository.save({
         job,
         publishedAt: new Date("2023-10-20"),
       });
+      await jobSearchRepository.save(toJobSummary(job));
     }
   }
 
@@ -362,22 +326,7 @@ describe("GET /api/jobs/:id", () => {
   let deps: AppDependencies;
 
   beforeEach(() => {
-    publishedJobRepository = new InMemoryPublishedJobRepository();
-    const rejectedJobRepository = new InMemoryRejectedJobRepository();
-    deps = {
-      publishedJobRepository,
-      rejectedJobRepository,
-      ingestionService: new JobIngestionService(
-        new DefaultJobNormalizer(),
-        new DefaultReviewEngine(),
-        new JobPublishingService(publishedJobRepository),
-        new JobRejectionService(rejectedJobRepository),
-      ),
-      publishedJobsReader: new PublishedJobsReaderService(
-        publishedJobRepository,
-      ),
-      rejectedJobsReader: new RejectedJobsReaderService(rejectedJobRepository),
-    };
+    ({ publishedJobRepository, deps } = createJobsTestDeps());
   });
 
   it("returns a published job by id without rawData", async () => {

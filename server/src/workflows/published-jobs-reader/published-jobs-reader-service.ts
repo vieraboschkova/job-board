@@ -1,5 +1,8 @@
 import { CountryCode, JobSort } from "../../domain/job/job.enums";
-import { PublishedJobRepository } from "../../domain/job/job.repository";
+import {
+  JobSearchRepository,
+  PublishedJobRepository,
+} from "../../domain/job/job.repository";
 import {
   JobDetail,
   JobSearchQuery,
@@ -8,11 +11,11 @@ import {
   JobSummary,
 } from "../../domain/job/job.types";
 import { toJobDetail } from "./to-job-detail";
-import { toJobSummary } from "./to-job-summary";
 
 export class PublishedJobsReaderService implements PublishedJobsReader {
   constructor(
     private readonly publishedJobRepository: PublishedJobRepository,
+    private readonly jobSearchRepository: JobSearchRepository,
   ) {}
 
   async getAll(): Promise<JobDetail[]> {
@@ -22,8 +25,7 @@ export class PublishedJobsReaderService implements PublishedJobsReader {
 
   async search(query: JobSearchQueryInput): Promise<JobSummary[]> {
     const normalized = this.normalizeSearchQuery(query);
-    const publishedJobs = await this.publishedJobRepository.search(normalized);
-    return publishedJobs.map((published) => toJobSummary(published.job));
+    return this.jobSearchRepository.search(normalized);
   }
 
   async getById(id: string): Promise<JobDetail | null> {

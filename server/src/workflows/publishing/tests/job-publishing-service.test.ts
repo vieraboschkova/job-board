@@ -1,19 +1,27 @@
-import { beforeEach, describe, expect, it } from "vitest";
+import { beforeEach, describe, expect, it, vi } from "vitest";
 
+import { InMemoryJobSearchRepository } from "../../../infrastructure/repositories/in-memory-job-search.repository";
 import { InMemoryPublishedJobRepository } from "../../../infrastructure/repositories/in-memory-published-job.repository";
+import { logger } from "../../../shared/logger";
 import { createJob } from "../../review/tests/create-job";
+import { toJobSummary } from "../../published-jobs-reader/to-job-summary";
 import { JobPublishingService } from "../job-publishing-service";
 
 describe("JobPublishingService", () => {
-  let repository: InMemoryPublishedJobRepository;
+  let publishedJobRepository: InMemoryPublishedJobRepository;
+  let jobSearchRepository: InMemoryJobSearchRepository;
   let service: JobPublishingService;
 
   beforeEach(() => {
-    repository = new InMemoryPublishedJobRepository();
-    service = new JobPublishingService(repository);
+    publishedJobRepository = new InMemoryPublishedJobRepository();
+    jobSearchRepository = new InMemoryJobSearchRepository();
+    service = new JobPublishingService(
+      publishedJobRepository,
+      jobSearchRepository,
+    );
   });
 
-  it("saves the job with a publishedAt timestamp", async () => {
+  it("saves the job with a publishedAt timestamp and indexes a summary", async () => {
     const job = createJob({ sourceId: "src-1" });
     const before = Date.now();
 
@@ -32,11 +40,13 @@ describe("JobPublishingService", () => {
       after,
     );
 
-    const stored = await repository.getAll();
-    expect(stored).toEqual([outcome.publishedJob]);
+    expect(await publishedJobRepository.getAll()).toEqual([
+      outcome.publishedJob,
+    ]);
+    expect(await jobSearchRepository.search({})).toEqual([toJobSummary(job)]);
   });
 
-  it("returns duplicate when sourceName and sourceId match", async () => {
+  it("returns duplicate when sourceName and sourceId match without writing search", async () => {
     const first = createJob({
       id: "job-1",
       sourceName: "feed-a",
@@ -58,10 +68,11 @@ describe("JobPublishingService", () => {
       publishedJob:
         created.status === "created" ? created.publishedJob : undefined,
     });
-    expect(await repository.getAll()).toHaveLength(1);
+    expect(await publishedJobRepository.getAll()).toHaveLength(1);
+    expect(await jobSearchRepository.search({})).toEqual([toJobSummary(first)]);
   });
 
-  it("returns duplicate when our id matches", async () => {
+  it("returns duplicate when our id matches without writing search", async () => {
     const job = createJob({ id: "same-id", sourceId: undefined });
 
     const created = await service.publish(job);
@@ -69,7 +80,8 @@ describe("JobPublishingService", () => {
 
     expect(created.status).toBe("created");
     expect(duplicate.status).toBe("duplicate");
-    expect(await repository.getAll()).toHaveLength(1);
+    expect(await publishedJobRepository.getAll()).toHaveLength(1);
+    expect(await jobSearchRepository.search({})).toHaveLength(1);
   });
 
   it("publishes both when sourceName differs", async () => {
@@ -88,7 +100,8 @@ describe("JobPublishingService", () => {
     const outcome = await service.publish(second);
 
     expect(outcome.status).toBe("created");
-    expect(await repository.getAll()).toHaveLength(2);
+    expect(await publishedJobRepository.getAll()).toHaveLength(2);
+    expect(await jobSearchRepository.search({})).toHaveLength(2);
   });
 
   it("publishes both when sourceId is missing", async () => {
@@ -99,6 +112,29 @@ describe("JobPublishingService", () => {
     const outcome = await service.publish(second);
 
     expect(outcome.status).toBe("created");
-    expect(await repository.getAll()).toHaveLength(2);
+    expect(await publishedJobRepository.getAll()).toHaveLength(2);
+    expect(await jobSearchRepository.search({})).toHaveLength(2);
+  });
+
+  it("logs and rethrows when search indexing fails after publish", async () => {
+    const job = createJob({ sourceId: "src-1" });
+    const logError = vi.spyOn(logger, "error").mockImplementation(() => {});
+    vi.spyOn(jobSearchRepository, "save").mockRejectedValue(
+      new Error("index down"),
+    );
+
+    await expect(service.publish(job)).rejects.toThrow("index down");
+
+    expect(await publishedJobRepository.getAll()).toHaveLength(1);
+    expect(logError).toHaveBeenCalledWith(
+      "Failed to index published job for search",
+      expect.objectContaining({
+        id: job.id,
+        sourceName: job.sourceName,
+        sourceId: job.sourceId,
+      }),
+    );
+
+    logError.mockRestore();
   });
 });

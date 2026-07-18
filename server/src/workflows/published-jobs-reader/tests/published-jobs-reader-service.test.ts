@@ -5,6 +5,7 @@ import {
   JobSort,
   SalaryUnit,
 } from "../../../domain/job/job.enums";
+import { InMemoryJobSearchRepository } from "../../../infrastructure/repositories/in-memory-job-search.repository";
 import { InMemoryPublishedJobRepository } from "../../../infrastructure/repositories/in-memory-published-job.repository";
 import { createJob } from "../../review/tests/create-job";
 import { PublishedJobsReaderService } from "../published-jobs-reader-service";
@@ -12,19 +13,37 @@ import { toJobDetail } from "../to-job-detail";
 import { toJobSummary } from "../to-job-summary";
 
 describe("PublishedJobsReaderService", () => {
-  let repository: InMemoryPublishedJobRepository;
+  let publishedJobRepository: InMemoryPublishedJobRepository;
+  let jobSearchRepository: InMemoryJobSearchRepository;
   let service: PublishedJobsReaderService;
 
   beforeEach(() => {
-    repository = new InMemoryPublishedJobRepository();
-    service = new PublishedJobsReaderService(repository);
+    publishedJobRepository = new InMemoryPublishedJobRepository();
+    jobSearchRepository = new InMemoryJobSearchRepository();
+    service = new PublishedJobsReaderService(
+      publishedJobRepository,
+      jobSearchRepository,
+    );
   });
+
+  async function publishForSearch(
+    job: ReturnType<typeof createJob>,
+  ): Promise<void> {
+    await publishedJobRepository.save({ job, publishedAt: new Date() });
+    await jobSearchRepository.save(toJobSummary(job));
+  }
 
   it("returns all jobs without rawData", async () => {
     const first = createJob({ id: "job-1", title: "Backend Engineer" });
     const second = createJob({ id: "job-2", title: "Frontend Engineer" });
-    await repository.save({ job: first, publishedAt: new Date() });
-    await repository.save({ job: second, publishedAt: new Date() });
+    await publishedJobRepository.save({
+      job: first,
+      publishedAt: new Date(),
+    });
+    await publishedJobRepository.save({
+      job: second,
+      publishedAt: new Date(),
+    });
 
     const result = await service.getAll();
 
@@ -34,9 +53,9 @@ describe("PublishedJobsReaderService", () => {
     }
   });
 
-  it("returns job summaries from published jobs", async () => {
+  it("returns job summaries from the search store", async () => {
     const job = createJob({ id: "job-1", title: "Backend Engineer" });
-    await repository.save({ job, publishedAt: new Date("2023-10-03") });
+    await publishForSearch(job);
 
     const result = await service.search({ search: "engineer" });
 
@@ -45,7 +64,7 @@ describe("PublishedJobsReaderService", () => {
 
   it("trims search and ignores blank search values", async () => {
     const job = createJob({ id: "job-1", title: "Backend Engineer" });
-    await repository.save({ job, publishedAt: new Date("2023-10-03") });
+    await publishForSearch(job);
 
     await expect(service.search({ search: "  engineer  " })).resolves.toEqual([
       toJobSummary(job),
@@ -57,7 +76,7 @@ describe("PublishedJobsReaderService", () => {
 
   it("ignores invalid sort and still returns matching jobs", async () => {
     const job = createJob({ id: "job-1", title: "Backend Engineer" });
-    await repository.save({ job, publishedAt: new Date("2023-10-03") });
+    await publishForSearch(job);
 
     const result = await service.search({
       search: "engineer",
@@ -78,8 +97,8 @@ describe("PublishedJobsReaderService", () => {
       title: "CA Engineer",
       location: { country: CountryCode.CA, remote: false },
     });
-    await repository.save({ job: usJob, publishedAt: new Date() });
-    await repository.save({ job: caJob, publishedAt: new Date() });
+    await publishForSearch(usJob);
+    await publishForSearch(caJob);
 
     const result = await service.search({ country: CountryCode.US });
 
@@ -97,8 +116,8 @@ describe("PublishedJobsReaderService", () => {
       title: "CA Engineer",
       location: { country: CountryCode.CA, remote: false },
     });
-    await repository.save({ job: usJob, publishedAt: new Date() });
-    await repository.save({ job: caJob, publishedAt: new Date() });
+    await publishForSearch(usJob);
+    await publishForSearch(caJob);
 
     const result = await service.search({ country: "XX" });
 
@@ -116,8 +135,8 @@ describe("PublishedJobsReaderService", () => {
       title: "B",
       salary: { min: 160000, currency: "USD", unit: SalaryUnit.Annual },
     });
-    await repository.save({ job: low, publishedAt: new Date() });
-    await repository.save({ job: high, publishedAt: new Date() });
+    await publishForSearch(low);
+    await publishForSearch(high);
 
     const result = await service.search({
       sort: JobSort.SalaryDescending,
@@ -128,7 +147,7 @@ describe("PublishedJobsReaderService", () => {
 
   it("returns a job by id without rawData", async () => {
     const job = createJob({ id: "job-42", title: "Staff Engineer" });
-    await repository.save({ job, publishedAt: new Date() });
+    await publishedJobRepository.save({ job, publishedAt: new Date() });
 
     const result = await service.getById("job-42");
 
