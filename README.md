@@ -258,7 +258,7 @@ PublishedJobRepository   JobSearchRepository
 
 Right now one API call sends a JSON batch into `JobIngester`. If this grew, I'd add more ways _in_ and more capacity _around_ that same core — I wouldn't rewrite normalize → review → store.
 
-Deduping checks for an existing published job, then saves if none is found. That is fine for one request at a time. Two ingest requests running at the same moment can both miss the check and both save, so you can still get a duplicate. A real system would need a unique constraint (or similar) in the database so the store itself rejects the second write.
+Deduping checks for an existing published job, then saves if none is found. That is fine for one request at a time. Two ingest requests running at the same moment can both miss the check and both save, so you can still get a duplicate. A real system would need a unique compound index on `sourceName` + `sourceId` so the store itself rejects the second write.
 
 Publish dual-writes the search summary after the published save. For the take-home, a failed search write is logged and the request fails — there is no automatic reindex. In production I'd treat published as source of truth and fix drift with an outbox/event after commit, an async indexer with retries, and/or periodic reindex/backfill into OpenSearch/Elasticsearch (using job `id` as the document id so upserts stay idempotent).
 
@@ -283,14 +283,14 @@ I'd make the crawler a **completely separate service** — own deploy, schedule,
 
 ### Storage
 
-In-memory is fine for the take-home. For real volume, I'd move durable data to a database:
+In-memory is fine for the take-home. For real volume, I'd move durable data to MongoDB — job documents are already document-shaped, and a unique compound index on `sourceName` + `sourceId` enforces dedupe under concurrent ingest:
 
-| Data                                         | Where I'd put it                                 | Why                                                    |
-| -------------------------------------------- | ------------------------------------------------ | ------------------------------------------------------ |
-| Published jobs                               | Postgres (or similar)                            | Durable list for the job board                         |
-| Rejected jobs + reasons                      | Postgres                                         | Audit / ops review                                     |
-| Raw source payloads                          | S3 or a raw-events table                         | Debug bad mappings without bloating the main job table |
-| Search fields (title, country, salary, date) | DB indexes first; OpenSearch/Elasticsearch later | Fast filter/sort at scale                              |
+| Data                                         | Where I'd put it                                    | Why                                                   |
+| -------------------------------------------- | --------------------------------------------------- | ----------------------------------------------------- |
+| Published jobs                               | MongoDB (`published_jobs`)                          | Durable full documents + dedupe index                 |
+| Rejected jobs + reasons                      | MongoDB (`rejected_jobs`)                           | Audit / ops review                                    |
+| Raw source payloads                          | S3 or a `raw_events` collection                     | Debug bad mappings without bloating the main job docs |
+| Search fields (title, country, salary, date) | Mongo indexes first; OpenSearch/Elasticsearch later | Fast filter/sort at scale                             |
 
 I'd keep the messy raw blob off the hot search path — store the normalized `Job`, and maybe a pointer back to the raw payload.
 
@@ -336,18 +336,18 @@ How I'd expect this to look if it grew beyond this task:
                                               |                               |
                                               v                               v
                                     +-------------------+           +------------------+
-                                    | Postgres          |           | Postgres         |
-                                    | published jobs    |           | rejected jobs    |
+                                    | MongoDB           |           | MongoDB          |
+                                    | published_jobs    |           | rejected_jobs    |
                                     +---------+---------+           +------------------+
                                               |
                                               | sync
                                               v
                                     +-------------------+     +-------------+
                                     | Search index      | <-- | React UI    |
-                                    | (or SQL indexes)  |     | GET /api/jobs|
+                                    | (or Mongo indexes)|     | GET /api/jobs|
                                     +-------------------+     +-------------+
 
-  Raw payloads (optional): crawler / ATS -> S3 or raw-events table
+  Raw payloads (optional): crawler / ATS -> S3 or raw_events collection
 ```
 
 **`POST /api/ingest` vs a Node worker — same core, different caller:**
