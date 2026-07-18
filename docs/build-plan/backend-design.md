@@ -116,8 +116,17 @@ Use interfaces even though MVP storage is in-memory.
 ```ts
 interface PublishedJobRepository {
   save(job: PublishedJob): Promise<PublishedJob>;
-  search(query: JobSearchQuery): Promise<PublishedJob[]>;
   getAll(): Promise<PublishedJob[]>;
+  getById(id: string): Promise<PublishedJob | null>;
+  findBySource(
+    sourceName: string,
+    sourceId: string,
+  ): Promise<PublishedJob | null>;
+}
+
+interface JobSearchRepository {
+  save(summary: JobSummary): Promise<JobSummary>;
+  search(query: JobSearchQuery): Promise<JobSummary[]>;
 }
 
 interface RejectedJobRepository {
@@ -125,6 +134,8 @@ interface RejectedJobRepository {
   getAll(): Promise<RejectedJob[]>;
 }
 ```
+
+`PublishedJobRepository` is the full-document store (detail + dedupe). `JobSearchRepository` holds slim `JobSummary` index documents for `GET /api/jobs/search` and is the seam for a future OpenSearch/Elasticsearch adapter.
 
 ## API Endpoints
 

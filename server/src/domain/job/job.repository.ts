@@ -1,4 +1,9 @@
-import { PublishedJob, RejectedJob, JobSearchQuery } from "./job.types";
+import {
+  JobSearchQuery,
+  JobSummary,
+  PublishedJob,
+  RejectedJob,
+} from "./job.types";
 
 interface Repository<T> {
   save(entity: T): Promise<T>;
@@ -9,11 +14,16 @@ interface Repository<T> {
 }
 
 export interface PublishedJobRepository extends Repository<PublishedJob> {
-  search(query: JobSearchQuery): Promise<PublishedJob[]>;
   findBySource(
     sourceName: string,
     sourceId: string,
   ): Promise<PublishedJob | null>;
+}
+
+/** Search-index store: summary documents only (OpenSearch/ES seam). */
+export interface JobSearchRepository {
+  save(summary: JobSummary): Promise<JobSummary>;
+  search(query: JobSearchQuery): Promise<JobSummary[]>;
 }
 
 export interface RejectedJobRepository extends Repository<RejectedJob> {

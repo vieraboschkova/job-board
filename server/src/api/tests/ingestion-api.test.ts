@@ -10,6 +10,7 @@ import {
   IngestRequestField,
 } from "../constants";
 import { RawJobPosting } from "../../domain/ingestion/ingestion.types";
+import { InMemoryJobSearchRepository } from "../../infrastructure/repositories/in-memory-job-search.repository";
 import { InMemoryPublishedJobRepository } from "../../infrastructure/repositories/in-memory-published-job.repository";
 import { InMemoryRejectedJobRepository } from "../../infrastructure/repositories/in-memory-rejected-job.repository";
 import exampleJobs from "../../tests/mock/exampleJobs.json";
@@ -35,18 +36,21 @@ describe("POST /api/ingest", () => {
 
   beforeEach(() => {
     publishedJobRepository = new InMemoryPublishedJobRepository();
+    const jobSearchRepository = new InMemoryJobSearchRepository();
     rejectedJobRepository = new InMemoryRejectedJobRepository();
     deps = {
       publishedJobRepository,
+      jobSearchRepository,
       rejectedJobRepository,
       ingestionService: new JobIngestionService(
         new DefaultJobNormalizer(),
         new DefaultReviewEngine(),
-        new JobPublishingService(publishedJobRepository),
+        new JobPublishingService(publishedJobRepository, jobSearchRepository),
         new JobRejectionService(rejectedJobRepository),
       ),
       publishedJobsReader: new PublishedJobsReaderService(
         publishedJobRepository,
+        jobSearchRepository,
       ),
       rejectedJobsReader: new RejectedJobsReaderService(rejectedJobRepository),
     };

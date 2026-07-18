@@ -9,6 +9,7 @@ import { JobRejector } from "../../../domain/job/rejection.types";
 import { Job } from "../../../domain/job/job.types";
 import { RejectionReason } from "../../../domain/review/review.enums";
 import { ReviewEngine } from "../../../domain/review/review.types";
+import { InMemoryJobSearchRepository } from "../../../infrastructure/repositories/in-memory-job-search.repository";
 import { InMemoryPublishedJobRepository } from "../../../infrastructure/repositories/in-memory-published-job.repository";
 import { InMemoryRejectedJobRepository } from "../../../infrastructure/repositories/in-memory-rejected-job.repository";
 import { logger } from "../../../shared/logger";
@@ -28,6 +29,7 @@ const emptyDuplicates = {
 
 describe("JobIngestionService", () => {
   let publishedJobRepository: InMemoryPublishedJobRepository;
+  let jobSearchRepository: InMemoryJobSearchRepository;
   let rejectedJobRepository: InMemoryRejectedJobRepository;
   let service: JobIngestionService;
   let logError: ReturnType<typeof vi.spyOn>;
@@ -37,11 +39,12 @@ describe("JobIngestionService", () => {
     logError = vi.spyOn(logger, "error").mockImplementation(() => {});
     logInfo = vi.spyOn(logger, "info").mockImplementation(() => {});
     publishedJobRepository = new InMemoryPublishedJobRepository();
+    jobSearchRepository = new InMemoryJobSearchRepository();
     rejectedJobRepository = new InMemoryRejectedJobRepository();
     service = new JobIngestionService(
       new DefaultJobNormalizer(),
       new DefaultReviewEngine(),
-      new JobPublishingService(publishedJobRepository),
+      new JobPublishingService(publishedJobRepository, jobSearchRepository),
       new JobRejectionService(rejectedJobRepository),
     );
   });
@@ -156,7 +159,7 @@ describe("JobIngestionService", () => {
     service = new JobIngestionService(
       throwingNormalizer,
       new DefaultReviewEngine(),
-      new JobPublishingService(publishedJobRepository),
+      new JobPublishingService(publishedJobRepository, jobSearchRepository),
       new JobRejectionService(rejectedJobRepository),
     );
 
@@ -231,7 +234,7 @@ describe("JobIngestionService", () => {
     service = new JobIngestionService(
       new DefaultJobNormalizer(),
       new DefaultReviewEngine(),
-      new JobPublishingService(publishedJobRepository),
+      new JobPublishingService(publishedJobRepository, jobSearchRepository),
       failingRejector,
     );
 
@@ -262,7 +265,7 @@ describe("JobIngestionService", () => {
     service = new JobIngestionService(
       new DefaultJobNormalizer(),
       throwingReview,
-      new JobPublishingService(publishedJobRepository),
+      new JobPublishingService(publishedJobRepository, jobSearchRepository),
       new JobRejectionService(rejectedJobRepository),
     );
 

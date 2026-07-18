@@ -6,7 +6,6 @@ import {
   CompanyType,
   CountryCode,
   EmploymentType,
-  JobSort,
   Language,
   SalaryUnit,
 } from "../../../domain/job/job.enums";
@@ -94,95 +93,5 @@ describe("InMemoryPublishedJobRepository", () => {
 
     expect(await repository.findBySource("feed-a", "other")).toBeNull();
     expect(await repository.findBySource("other", "ext-1")).toBeNull();
-  });
-
-  it("searches jobs by title case-insensitively", async () => {
-    await repository.save(
-      createPublishedJob("1", {
-        title: "Senior React Developer",
-      }),
-    );
-
-    const result = await repository.search({
-      search: "react",
-    });
-
-    expect(result).toHaveLength(1);
-  });
-
-  it("filters jobs by country", async () => {
-    await repository.save(
-      createPublishedJob("1", {
-        location: {
-          country: CountryCode.US,
-          remote: true,
-        },
-      }),
-    );
-
-    await repository.save(
-      createPublishedJob("2", {
-        location: {
-          country: CountryCode.CA,
-          remote: true,
-        },
-      }),
-    );
-
-    const result = await repository.search({
-      country: CountryCode.CA,
-    });
-
-    expect(result).toHaveLength(1);
-
-    expect(result[0].job.id).toBe("2");
-  });
-
-  it("sorts jobs by salary descending", async () => {
-    await repository.save(
-      createPublishedJob("1", {
-        salary: {
-          min: 50000,
-          currency: "USD",
-          unit: SalaryUnit.Annual,
-        },
-      }),
-    );
-
-    await repository.save(
-      createPublishedJob("2", {
-        salary: {
-          min: 100000,
-          currency: "USD",
-          unit: SalaryUnit.Annual,
-        },
-      }),
-    );
-
-    const result = await repository.search({
-      sort: JobSort.SalaryDescending,
-    });
-
-    expect(result.map((job) => job.job.id)).toEqual(["2", "1"]);
-  });
-
-  it("sorts jobs by posted date ascending", async () => {
-    await repository.save(
-      createPublishedJob("1", {
-        postedAt: new Date("2026-02-01"),
-      }),
-    );
-
-    await repository.save(
-      createPublishedJob("2", {
-        postedAt: new Date("2026-01-01"),
-      }),
-    );
-
-    const result = await repository.search({
-      sort: JobSort.PostedAtAscending,
-    });
-
-    expect(result.map((job) => job.job.id)).toEqual(["2", "1"]);
   });
 });

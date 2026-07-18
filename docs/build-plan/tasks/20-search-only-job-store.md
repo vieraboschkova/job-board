@@ -1,6 +1,6 @@
 # Task 20: Split Published Full Store from Search-Only Store
 
-Status: Optional polish
+Status: Complete
 
 ## Purpose
 
@@ -66,3 +66,54 @@ Manually ingest sample jobs, then confirm:
 ## Handoff Notes
 
 Do not change API response shapes or the frontend. This is an internal storage boundary cleanup so search scales like a dedicated index while detail retrieval keeps the full document.
+
+## Solution diagram
+
+How publish and reads are wired after this task:
+
+```mermaid
+flowchart TB
+  subgraph writePath [Publish path]
+    approved[Approved Job]
+    publisher[JobPublishingService]
+    dedupe{"findExisting on\nPublishedJobRepository"}
+    dupOut[Return duplicate]
+    fullSave["publishedJobRepository.save\nPublishedJob"]
+    indexSave["jobSearchRepository.save\ntoJobSummary"]
+    created[Return created]
+
+    approved --> publisher --> dedupe
+    dedupe -->|yes| dupOut
+    dedupe -->|no| fullSave --> indexSave --> created
+  end
+
+  subgraph readPath [Read path]
+    searchAPI["GET /api/jobs/search"]
+    detailAPI["GET /api/jobs/:id"]
+    listAPI["GET /api/jobs"]
+    reader[PublishedJobsReaderService]
+    searchRepo[JobSearchRepository]
+    publishedRepo[PublishedJobRepository]
+
+    searchAPI --> reader
+    detailAPI --> reader
+    listAPI --> reader
+    reader -->|"search"| searchRepo
+    reader -->|"getById / getAll"| publishedRepo
+  end
+
+  subgraph wiring [create-app-dependencies]
+    deps[AppDependencies]
+    deps --> publisher
+    deps --> reader
+    deps --> publishedRepo
+    deps --> searchRepo
+  end
+```
+
+Component roles:
+
+- `PublishedJobRepository` — full documents; identity/dedupe (`getById`, `findBySource`); detail and list-all reads
+- `JobSearchRepository` — `JobSummary` index only (`save`, `search`); OpenSearch/ES seam
+- `JobPublishingService` — dedupe against published store first; dual-write summary only on create; log + rethrow if index save fails
+- `PublishedJobsReaderService` — routes search to the index, detail/`getAll` to the published store

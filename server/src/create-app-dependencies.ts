@@ -1,5 +1,6 @@
 import { JobIngester } from "./domain/ingestion/ingestion.types";
 import {
+  JobSearchRepository,
   PublishedJobRepository,
   RejectedJobRepository,
 } from "./domain/job/job.repository";
@@ -7,6 +8,7 @@ import {
   PublishedJobsReader,
   RejectedJobsReader,
 } from "./domain/job/job.types";
+import { InMemoryJobSearchRepository } from "./infrastructure/repositories/in-memory-job-search.repository";
 import { InMemoryPublishedJobRepository } from "./infrastructure/repositories/in-memory-published-job.repository";
 import { InMemoryRejectedJobRepository } from "./infrastructure/repositories/in-memory-rejected-job.repository";
 import { JobIngestionService } from "./workflows/ingestion/job-ingestion-service";
@@ -22,23 +24,29 @@ export interface AppDependencies {
   publishedJobsReader: PublishedJobsReader;
   rejectedJobsReader: RejectedJobsReader;
   publishedJobRepository: PublishedJobRepository;
+  jobSearchRepository: JobSearchRepository;
   rejectedJobRepository: RejectedJobRepository;
 }
 
 export function createDefaultDependencies(): AppDependencies {
   const publishedJobRepository = new InMemoryPublishedJobRepository();
+  const jobSearchRepository = new InMemoryJobSearchRepository();
   const rejectedJobRepository = new InMemoryRejectedJobRepository();
 
   return {
     publishedJobRepository,
+    jobSearchRepository,
     rejectedJobRepository,
     ingestionService: new JobIngestionService(
       new DefaultJobNormalizer(),
       new DefaultReviewEngine(),
-      new JobPublishingService(publishedJobRepository),
+      new JobPublishingService(publishedJobRepository, jobSearchRepository),
       new JobRejectionService(rejectedJobRepository),
     ),
-    publishedJobsReader: new PublishedJobsReaderService(publishedJobRepository),
+    publishedJobsReader: new PublishedJobsReaderService(
+      publishedJobRepository,
+      jobSearchRepository,
+    ),
     rejectedJobsReader: new RejectedJobsReaderService(rejectedJobRepository),
   };
 }

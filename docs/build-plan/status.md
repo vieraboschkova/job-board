@@ -2,9 +2,9 @@
 
 ## Current Implementation Status
 
-Task 16 is complete. Re-ingesting the same approved source job does not create a second published row. Duplicates match on `sourceName` + `sourceId` or our internal `id`, are skipped (not stored), and appear on the ingest response as `duplicatesCount` + `duplicates` (`sourceName`, `id`, `sourceId`). Next up is Task 17 (README architecture notes).
+Task 20 is complete. Published full store and search-only `JobSummary` index are split; publish dual-writes on create. Next up is Task 17 (README architecture notes).
 
-Last completed task: `16-deduplication.md`.
+Last completed task: `20-search-only-job-store.md`.
 
 Next recommended task: `17-readme-architecture-notes.md`.
 
@@ -29,7 +29,7 @@ Next recommended task: `17-readme-architecture-notes.md`.
 - [ ] 17. Update README architecture notes
 - [ ] 18. Final deployment smoke test
 - [ ] 19. Add review report export
-- [ ] 20. Split published full store from search-only store
+- [x] 20. Split published full store from search-only store
 
 ## Status Update Rule
 
