@@ -2,11 +2,11 @@
 
 ## Current Implementation Status
 
-Task 08 is complete. The backend can normalize messy raw job postings into the shared `Job` model via a workflow normalizer that reuses the parsing utilities.
+Task 09 is complete. The backend can evaluate normalized jobs with a composable review rule engine that returns all rejection reasons.
 
-Last completed task: `08-job-normalizer.md`.
+Last completed task: `09-approval-rule-engine.md`.
 
-Next recommended task: `09-approval-rule-engine.md`.
+Next recommended task: `10-ingestion-service.md`.
 
 ## Task Checklist
 
@@ -18,7 +18,7 @@ Next recommended task: `09-approval-rule-engine.md`.
 - [x] 06. Implement in-memory repositories
 - [x] 07. Implement parsing utilities
 - [x] 08. Build job normalizer
-- [ ] 09. Implement review rule engine
+- [x] 09. Implement review rule engine
 - [ ] 10. Implement ingestion service
 - [ ] 11. Add ingestion API
 - [ ] 12. Add jobs search API

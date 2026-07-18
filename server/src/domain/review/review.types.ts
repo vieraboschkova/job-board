@@ -7,14 +7,18 @@ export interface RejectionDetail {
   details?: string;
 }
 
-export interface ReviewResult {
+export interface ReviewRule {
+  name: string;
+
+  evaluate(job: Job): RejectionDetail[];
+}
+
+export interface ReviewDecision {
   approved: boolean;
 
   rejectionReasons: RejectionDetail[];
 }
 
-export interface ReviewRule {
-  name: string;
-
-  evaluate(job: Job): ReviewResult;
+export interface ReviewEngine {
+  review(job: Job): ReviewDecision;
 }
