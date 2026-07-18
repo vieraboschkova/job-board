@@ -76,7 +76,7 @@ I borrowed from Clean Code and Clean Architecture without turning them into cere
 
 ## API
 
-Interactive docs (Swagger UI): [http://localhost:3000/api/docs](http://localhost:3000/api/docs) when the server is running. OpenAPI is hand-maintained next to Joi for the MVP.
+Interactive docs (Swagger UI): [http://localhost:3000/api/docs](http://localhost:3000/api/docs) when the server is running. OpenAPI is hand-maintained next to Joi for the MVP. The React client mirrors API types by hand today; for a production-ready setup I'd generate those types (and optionally the fetch client) from the OpenAPI document so server and UI stay in sync.
 
 | Method | Path             | Description                                                                   |
 | ------ | ---------------- | ----------------------------------------------------------------------------- |

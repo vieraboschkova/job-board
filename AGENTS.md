@@ -2,13 +2,13 @@
 
 ## Current Status
 
-Task 12 is complete. Clients can search approved jobs through `GET /api/jobs` with optional `search`, `country`, and `sort` query params; invalid sort/country values are ignored safely. Swagger UI at `/api/docs` documents the endpoint.
+Task 13 is complete. The React client searches approved jobs via `GET /api/jobs/search` with optional `search`, `country`, and `sort`; loading, empty, error, and ErrorBoundary states are in place. Swagger UI at `/api/docs` documents the API.
 
-Current phase: Task 12 complete, ready for frontend job search UI.
+Current phase: Task 13 complete, ready for sample data demo flow.
 
-Last completed task: `docs/build-plan/tasks/12-jobs-search-api.md`.
+Last completed task: `docs/build-plan/tasks/13-frontend-job-search-ui.md`.
 
-Next recommended task: `docs/build-plan/tasks/13-frontend-job-search-ui.md`.
+Next recommended task: `docs/build-plan/tasks/14-sample-data-demo-flow.md`.
 
 ## Project Intent
 
@@ -23,6 +23,10 @@ The system should ingest messy job posting JSON from multiple formats, normalize
 - The ingestion module must use clear interfaces so it can later be extracted into a worker, queue consumer, or standalone service.
 - The simplest deployment target is a single Node service that serves both API routes and the built React frontend.
 - Deploy a thin working shell early, before implementing the full product.
+
+## Optional Polish Follow-ups
+
+Optional polish tasks (not next after Task 13): 15 (rejection log), 16 (deduplication), 19 (review report export), and 20 (split published full store from search-only store). See `docs/build-plan/status.md`.
 
 ## Folder Structure
 

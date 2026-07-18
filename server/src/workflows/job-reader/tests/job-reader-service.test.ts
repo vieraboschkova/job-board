@@ -8,6 +8,8 @@ import {
 import { InMemoryPublishedJobRepository } from "../../../infrastructure/repositories/in-memory-published-job.repository";
 import { createJob } from "../../review/tests/create-job";
 import { JobReaderService } from "../job-reader-service";
+import { toJobDetail } from "../to-job-detail";
+import { toJobSummary } from "../to-job-summary";
 
 describe("JobReaderService", () => {
   let repository: InMemoryPublishedJobRepository;
@@ -18,7 +20,7 @@ describe("JobReaderService", () => {
     service = new JobReaderService(repository);
   });
 
-  it("returns all unwrapped jobs", async () => {
+  it("returns all jobs without rawData", async () => {
     const first = createJob({ id: "job-1", title: "Backend Engineer" });
     const second = createJob({ id: "job-2", title: "Frontend Engineer" });
     await repository.save({ job: first, publishedAt: new Date() });
@@ -26,16 +28,19 @@ describe("JobReaderService", () => {
 
     const result = await service.getAll();
 
-    expect(result).toEqual([first, second]);
+    expect(result).toEqual([toJobDetail(first), toJobDetail(second)]);
+    for (const job of result) {
+      expect(job).not.toHaveProperty("rawData");
+    }
   });
 
-  it("returns unwrapped Job objects from published jobs", async () => {
+  it("returns job summaries from published jobs", async () => {
     const job = createJob({ id: "job-1", title: "Backend Engineer" });
     await repository.save({ job, publishedAt: new Date("2023-10-03") });
 
     const result = await service.search({ search: "engineer" });
 
-    expect(result).toEqual([job]);
+    expect(result).toEqual([toJobSummary(job)]);
   });
 
   it("trims search and ignores blank search values", async () => {
@@ -43,9 +48,11 @@ describe("JobReaderService", () => {
     await repository.save({ job, publishedAt: new Date("2023-10-03") });
 
     await expect(service.search({ search: "  engineer  " })).resolves.toEqual([
-      job,
+      toJobSummary(job),
     ]);
-    await expect(service.search({ search: "   " })).resolves.toEqual([job]);
+    await expect(service.search({ search: "   " })).resolves.toEqual([
+      toJobSummary(job),
+    ]);
   });
 
   it("ignores invalid sort and still returns matching jobs", async () => {
@@ -57,7 +64,7 @@ describe("JobReaderService", () => {
       sort: "invalid_sort",
     });
 
-    expect(result).toEqual([job]);
+    expect(result).toEqual([toJobSummary(job)]);
   });
 
   it("filters by country when the value is a valid CountryCode", async () => {
@@ -119,11 +126,14 @@ describe("JobReaderService", () => {
     expect(result.map((job) => job.id)).toEqual(["high", "low"]);
   });
 
-  it("returns a job by id", async () => {
+  it("returns a job by id without rawData", async () => {
     const job = createJob({ id: "job-42", title: "Staff Engineer" });
     await repository.save({ job, publishedAt: new Date() });
 
-    await expect(service.getById("job-42")).resolves.toEqual(job);
+    const result = await service.getById("job-42");
+
+    expect(result).toEqual(toJobDetail(job));
+    expect(result).not.toHaveProperty("rawData");
   });
 
   it("returns null when job id is missing", async () => {

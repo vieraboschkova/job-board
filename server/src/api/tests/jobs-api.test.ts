@@ -107,7 +107,7 @@ describe("GET /api/jobs", () => {
     expect(response.body).toEqual([]);
   });
 
-  it("lists approved jobs", async () => {
+  it("lists approved jobs without rawData", async () => {
     await seedPublishedJobs();
 
     const response = await request(createApp(deps)).get(JOBS_URL);
@@ -119,6 +119,9 @@ describe("GET /api/jobs", () => {
       "high-salary",
       "canada-job",
     ]);
+    for (const job of response.body) {
+      expect(job).not.toHaveProperty("rawData");
+    }
   });
 
   it("documents GET /api/jobs in OpenAPI", async () => {
@@ -320,6 +323,31 @@ describe("GET /api/jobs/search", () => {
       "low-salary",
     ]);
   });
+
+  it("returns only card summary fields", async () => {
+    await seedPublishedJobs();
+
+    const response = await request(createApp(deps)).get(JOBS_SEARCH_URL);
+
+    expect(response.status).toBe(HttpStatusCode.Ok);
+    expect(response.body).toHaveLength(3);
+    for (const job of response.body) {
+      expect(Object.keys(job).sort()).toEqual(
+        [
+          "company",
+          "employmentType",
+          "id",
+          "location",
+          "postedAt",
+          "salary",
+          "title",
+        ].sort(),
+      );
+      expect(job).not.toHaveProperty("description");
+      expect(job).not.toHaveProperty("rawData");
+      expect(job).not.toHaveProperty("sourceName");
+    }
+  });
 });
 
 describe("GET /api/jobs/:id", () => {
@@ -342,7 +370,7 @@ describe("GET /api/jobs/:id", () => {
     };
   });
 
-  it("returns a published job by id", async () => {
+  it("returns a published job by id without rawData", async () => {
     const job = createJob({ id: "job-42", title: "Staff Engineer" });
     await publishedJobRepository.save({
       job,
@@ -354,6 +382,8 @@ describe("GET /api/jobs/:id", () => {
     expect(response.status).toBe(HttpStatusCode.Ok);
     expect(response.body.id).toBe("job-42");
     expect(response.body.title).toBe("Staff Engineer");
+    expect(response.body).not.toHaveProperty("rawData");
+    expect(response.body.description).toBeDefined();
   });
 
   it("returns 404 when the job does not exist", async () => {

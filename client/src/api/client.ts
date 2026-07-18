@@ -8,12 +8,36 @@ export class ApiError extends Error {
   }
 }
 
+interface ApiErrorBody {
+  error?: {
+    message?: string;
+    details?: string[];
+  };
+}
+
+async function messageFromFailedResponse(response: Response): Promise<string> {
+  try {
+    const body = (await response.json()) as ApiErrorBody;
+    const details = body.error?.details?.filter(Boolean).join("; ");
+    if (details) {
+      return details;
+    }
+    if (body.error?.message) {
+      return body.error.message;
+    }
+  } catch {
+    // Response body was not JSON; fall through to status-based message.
+  }
+
+  return `Request failed with status ${response.status}`;
+}
+
 async function request<T>(path: string, init?: RequestInit): Promise<T> {
   const response = await fetch(path, init);
 
   if (!response.ok) {
     throw new ApiError(
-      `Request failed with status ${response.status}`,
+      await messageFromFailedResponse(response),
       response.status,
     );
   }

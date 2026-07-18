@@ -2,11 +2,11 @@
 
 ## Current Implementation Status
 
-Task 12 is complete. Clients can `GET /api/jobs` with optional `search`, `country`, and `sort` query params; the API returns approved jobs only. Invalid sort/country values are ignored safely. Swagger UI at `/api/docs` documents the search endpoint.
+Task 13 is complete. The React client searches approved jobs via `GET /api/jobs/search` with title/company search, country filter, and sort controls; loading, empty, error, and ErrorBoundary fallback states are covered. Swagger remains at `/api/docs`.
 
-Last completed task: `12-jobs-search-api.md`.
+Last completed task: `13-frontend-job-search-ui.md`.
 
-Next recommended task: `13-frontend-job-search-ui.md`.
+Next recommended task: `14-sample-data-demo-flow.md`.
 
 ## Task Checklist
 
@@ -22,13 +22,14 @@ Next recommended task: `13-frontend-job-search-ui.md`.
 - [x] 10. Implement ingestion service
 - [x] 11. Add ingestion API
 - [x] 12. Add jobs search API
-- [ ] 13. Build frontend job search UI
+- [x] 13. Build frontend job search UI
 - [ ] 14. Add sample data demo flow
 - [ ] 15. Add rejection log endpoint
 - [ ] 16. Add deduplication
 - [ ] 17. Update README architecture notes
 - [ ] 18. Final deployment smoke test
 - [ ] 19. Add review report export
+- [ ] 20. Split published full store from search-only store
 
 ## Status Update Rule
 
@@ -45,4 +46,4 @@ Tasks 01-14, 17, and 18 are required for the MVP.
 
 ## Optional Polish Tasks
 
-Tasks 15, 16, and 19 are optional polish.
+Tasks 15, 16, 19, and 20 are optional polish.
