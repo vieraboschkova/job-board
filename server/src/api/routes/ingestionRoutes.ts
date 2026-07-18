@@ -3,11 +3,11 @@ import { Router } from "express";
 import { ApiRoutePath } from "../constants";
 import { createIngestionController } from "../controllers/ingestionController";
 import { validateRequestBody } from "../middleware";
-import { JobIngestionService } from "../../domain/ingestion/ingestion.types";
+import { JobIngester } from "../../domain/ingestion/ingestion.types";
 import { ingestRequestSchema } from "../schemas/ingest-request.schema";
 
 export function createIngestionRoutes(
-  ingestionService: JobIngestionService,
+  ingestionService: JobIngester,
 ): Router {
   const router = Router();
   const controller = createIngestionController(ingestionService);

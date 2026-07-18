@@ -6,7 +6,7 @@ export interface JobNormalizer {
   normalize(rawJob: RawJobPosting, sourceName: string): Job;
 }
 
-export interface JobIngestionService {
+export interface JobIngester {
   ingest(
     rawJobs: RawJobPosting[],
     sourceName: string,

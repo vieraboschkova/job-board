@@ -15,8 +15,10 @@ import { InMemoryRejectedJobRepository } from "../../infrastructure/repositories
 import exampleJobs from "../../tests/mock/exampleJobs.json";
 import { createApp } from "../../app";
 import { AppDependencies } from "../../create-app-dependencies";
-import { DefaultJobIngestionService } from "../../workflows/ingestion/default-job-ingestion-service";
+import { JobIngestionService } from "../../workflows/ingestion/job-ingestion-service";
 import { DefaultJobNormalizer } from "../../workflows/normalization/default-job-normalizer";
+import { JobPublishingService } from "../../workflows/publishing/job-publishing-service";
+import { JobRejectionService } from "../../workflows/rejection/job-rejection-service";
 import { DefaultReviewEngine } from "../../workflows/review/default-review-engine";
 import { MAX_JOBS_PER_INGEST_BATCH } from "../schemas/ingest-request.schema";
 
@@ -35,11 +37,11 @@ describe("POST /api/ingest", () => {
     deps = {
       publishedJobRepository,
       rejectedJobRepository,
-      ingestionService: new DefaultJobIngestionService(
+      ingestionService: new JobIngestionService(
         new DefaultJobNormalizer(),
         new DefaultReviewEngine(),
-        publishedJobRepository,
-        rejectedJobRepository,
+        new JobPublishingService(publishedJobRepository),
+        new JobRejectionService(rejectedJobRepository),
       ),
     };
   });

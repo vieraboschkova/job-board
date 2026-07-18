@@ -49,4 +49,4 @@ npm run typecheck -w server
 
 ## Handoff Notes
 
-After this task, run Task 10 to connect normalization, review, and repositories through the ingestion service.
+After this task, run Task 10 to connect normalization, review, and publisher/rejector through the ingestion service.

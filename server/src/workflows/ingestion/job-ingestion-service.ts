@@ -1,26 +1,21 @@
 import {
   IngestionError,
   IngestionResult,
-  JobIngestionService,
+  JobIngester,
   JobNormalizer,
   RawJobPosting,
 } from "../../domain/ingestion/ingestion.types";
-import {
-  PublishedJobRepository,
-  RejectedJobRepository,
-} from "../../domain/job/job.repository";
-import { Job } from "../../domain/job/job.types";
-import {
-  RejectionDetail,
-  ReviewEngine,
-} from "../../domain/review/review.types";
+import { JobPublisher } from "../../domain/job/publishing.types";
+import { JobRejector } from "../../domain/job/rejection.types";
+import { ReviewEngine } from "../../domain/review/review.types";
+import { logger } from "../../shared/logger";
 
-export class DefaultJobIngestionService implements JobIngestionService {
+export class JobIngestionService implements JobIngester {
   constructor(
     private readonly normalizer: JobNormalizer,
     private readonly reviewEngine: ReviewEngine,
-    private readonly publishedJobRepository: PublishedJobRepository,
-    private readonly rejectedJobRepository: RejectedJobRepository,
+    private readonly publisher: JobPublisher,
+    private readonly rejector: JobRejector,
   ) {}
 
   async ingest(
@@ -38,7 +33,12 @@ export class DefaultJobIngestionService implements JobIngestionService {
     for (const [index, rawJob] of rawJobs.entries()) {
       try {
         await this.ingestOne(rawJob, sourceName, result);
-      } catch {
+      } catch (error) {
+        logger.error("Failed to process ingestion record", {
+          index,
+          sourceName,
+          error,
+        });
         result.errors.push(toIngestionError(index));
       }
     }
@@ -57,31 +57,13 @@ export class DefaultJobIngestionService implements JobIngestionService {
     const { approved, rejectionReasons } = this.reviewEngine.review(job);
 
     if (approved) {
-      await this.publish(job);
+      await this.publisher.publish(job);
       result.approvedCount += 1;
       return;
     }
 
-    await this.reject(job, rejectionReasons);
+    await this.rejector.reject(job, rejectionReasons);
     result.rejectedCount += 1;
-  }
-
-  private async publish(job: Job): Promise<void> {
-    await this.publishedJobRepository.save({
-      job,
-      publishedAt: new Date(),
-    });
-  }
-
-  private async reject(
-    job: Job,
-    rejectionReasons: RejectionDetail[],
-  ): Promise<void> {
-    await this.rejectedJobRepository.save({
-      job,
-      rejectedAt: new Date(),
-      rejectionReasons,
-    });
   }
 }
 

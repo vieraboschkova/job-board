@@ -36,8 +36,8 @@ The module should depend on interfaces:
 
 - `JobNormalizer`
 - `ReviewEngine`
-- `JobRepository`
-- `RejectedJobRepository`
+- `JobPublisher`
+- `JobRejector`
 
 This keeps the extraction path clean. Later, the same ingestion service can be called from a queue consumer, worker process, cron job, or standalone service.
 

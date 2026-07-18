@@ -1,39 +1,46 @@
-import { beforeEach, describe, expect, it } from "vitest";
+import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 
 import {
   JobNormalizer,
   RawJobPosting,
 } from "../../../domain/ingestion/ingestion.types";
-import {
-  PublishedJobRepository,
-  RejectedJobRepository,
-} from "../../../domain/job/job.repository";
+import { JobPublisher } from "../../../domain/job/publishing.types";
+import { JobRejector } from "../../../domain/job/rejection.types";
 import { Job } from "../../../domain/job/job.types";
 import { RejectionReason } from "../../../domain/review/review.enums";
 import { ReviewEngine } from "../../../domain/review/review.types";
 import { InMemoryPublishedJobRepository } from "../../../infrastructure/repositories/in-memory-published-job.repository";
 import { InMemoryRejectedJobRepository } from "../../../infrastructure/repositories/in-memory-rejected-job.repository";
+import { logger } from "../../../shared/logger";
 import exampleJobs from "../../../tests/mock/exampleJobs.json";
 import { DefaultJobNormalizer } from "../../normalization/default-job-normalizer";
+import { JobPublishingService } from "../../publishing/job-publishing-service";
+import { JobRejectionService } from "../../rejection/job-rejection-service";
 import { DefaultReviewEngine } from "../../review/default-review-engine";
-import { DefaultJobIngestionService } from "../default-job-ingestion-service";
+import { JobIngestionService } from "../job-ingestion-service";
 
 const GENERIC_INGESTION_ERROR = "Failed to process record";
 
-describe("DefaultJobIngestionService", () => {
+describe("JobIngestionService", () => {
   let publishedJobRepository: InMemoryPublishedJobRepository;
   let rejectedJobRepository: InMemoryRejectedJobRepository;
-  let service: DefaultJobIngestionService;
+  let service: JobIngestionService;
+  let logError: ReturnType<typeof vi.spyOn>;
 
   beforeEach(() => {
+    logError = vi.spyOn(logger, "error").mockImplementation(() => {});
     publishedJobRepository = new InMemoryPublishedJobRepository();
     rejectedJobRepository = new InMemoryRejectedJobRepository();
-    service = new DefaultJobIngestionService(
+    service = new JobIngestionService(
       new DefaultJobNormalizer(),
       new DefaultReviewEngine(),
-      publishedJobRepository,
-      rejectedJobRepository,
+      new JobPublishingService(publishedJobRepository),
+      new JobRejectionService(rejectedJobRepository),
     );
+  });
+
+  afterEach(() => {
+    logError.mockRestore();
   });
 
   it("returns zero counts for an empty batch", async () => {
@@ -86,20 +93,21 @@ describe("DefaultJobIngestionService", () => {
   });
 
   it("continues the batch when one record throws", async () => {
+    const malformedError = new Error("malformed record");
     const throwingNormalizer: JobNormalizer = {
       normalize(rawJob: RawJobPosting, sourceName: string): Job {
         if (rawJob.fail === true) {
-          throw new Error("malformed record");
+          throw malformedError;
         }
         return new DefaultJobNormalizer().normalize(rawJob, sourceName);
       },
     };
 
-    service = new DefaultJobIngestionService(
+    service = new JobIngestionService(
       throwingNormalizer,
       new DefaultReviewEngine(),
-      publishedJobRepository,
-      rejectedJobRepository,
+      new JobPublishingService(publishedJobRepository),
+      new JobRejectionService(rejectedJobRepository),
     );
 
     const result = await service.ingest(
@@ -118,25 +126,27 @@ describe("DefaultJobIngestionService", () => {
     expect(result.errors).toEqual([
       { index: 1, message: GENERIC_INGESTION_ERROR },
     ]);
+    expect(logError).toHaveBeenCalledWith("Failed to process ingestion record", {
+      index: 1,
+      sourceName: "error-feed",
+      error: malformedError,
+    });
     expect(await publishedJobRepository.getAll()).toHaveLength(1);
     expect(await rejectedJobRepository.getAll()).toHaveLength(1);
   });
 
-  it("counts normalize but not approve when publish save fails", async () => {
-    const failingPublished: PublishedJobRepository = {
-      save: async () => {
+  it("counts normalize but not approve when publish fails", async () => {
+    const failingPublisher: JobPublisher = {
+      publish: async () => {
         throw new Error("publish storage failed");
       },
-      getAll: () => publishedJobRepository.getAll(),
-      getById: (id) => publishedJobRepository.getById(id),
-      search: (query) => publishedJobRepository.search(query),
     };
 
-    service = new DefaultJobIngestionService(
+    service = new JobIngestionService(
       new DefaultJobNormalizer(),
       new DefaultReviewEngine(),
-      failingPublished,
-      rejectedJobRepository,
+      failingPublisher,
+      new JobRejectionService(rejectedJobRepository),
     );
 
     const result = await service.ingest(
@@ -155,21 +165,18 @@ describe("DefaultJobIngestionService", () => {
     expect(await rejectedJobRepository.getAll()).toHaveLength(0);
   });
 
-  it("counts normalize but not reject when reject save fails", async () => {
-    const failingRejected: RejectedJobRepository = {
-      save: async () => {
+  it("counts normalize but not reject when reject fails", async () => {
+    const failingRejector: JobRejector = {
+      reject: async () => {
         throw new Error("reject storage failed");
       },
-      getAll: () => rejectedJobRepository.getAll(),
-      getById: (id) => rejectedJobRepository.getById(id),
-      getCount: () => rejectedJobRepository.getCount(),
     };
 
-    service = new DefaultJobIngestionService(
+    service = new JobIngestionService(
       new DefaultJobNormalizer(),
       new DefaultReviewEngine(),
-      publishedJobRepository,
-      failingRejected,
+      new JobPublishingService(publishedJobRepository),
+      failingRejector,
     );
 
     const result = await service.ingest(
@@ -195,11 +202,11 @@ describe("DefaultJobIngestionService", () => {
       },
     };
 
-    service = new DefaultJobIngestionService(
+    service = new JobIngestionService(
       new DefaultJobNormalizer(),
       throwingReview,
-      publishedJobRepository,
-      rejectedJobRepository,
+      new JobPublishingService(publishedJobRepository),
+      new JobRejectionService(rejectedJobRepository),
     );
 
     const result = await service.ingest(

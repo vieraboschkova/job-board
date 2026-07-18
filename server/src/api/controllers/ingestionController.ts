@@ -1,12 +1,12 @@
 import { NextFunction, Request, Response } from "express";
 
 import { HttpStatusCode, IngestRequestField } from "../constants";
-import { JobIngestionService } from "../../domain/ingestion/ingestion.types";
+import { JobIngester } from "../../domain/ingestion/ingestion.types";
 import { logger } from "../../shared/logger";
 import { IngestRequestBody } from "../schemas/ingest-request.schema";
 
 export function createIngestionController(
-  ingestionService: JobIngestionService,
+  ingestionService: JobIngester,
 ) {
   return async (
     req: Request,

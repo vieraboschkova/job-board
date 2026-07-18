@@ -2,7 +2,7 @@
 
 ## Current Implementation Status
 
-Task 11 is complete. Clients can `POST /api/ingest` with a validated `{ sourceName, jobs }` body; the API calls `JobIngestionService` and returns ingestion summary counts. Invalid bodies return 400. Swagger UI is available at `/api/docs`.
+Task 11 is complete. Clients can `POST /api/ingest` with a validated `{ sourceName, jobs }` body; the API calls `JobIngester` and returns ingestion summary counts. Invalid bodies return 400. Swagger UI is available at `/api/docs`.
 
 Last completed task: `11-ingestion-api.md`.
 
