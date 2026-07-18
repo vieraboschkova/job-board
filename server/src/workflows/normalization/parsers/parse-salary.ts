@@ -1,5 +1,6 @@
 import { SalaryUnit } from "../../../domain/job/job.enums";
 import { Salary } from "../../../domain/job/job.types";
+import { salaryUnitMap } from "../mappers/salary-unit-map";
 import { isRecord } from "./common/is-record";
 import { parseNumber } from "./common/parse-number";
 import { parseString } from "./common/parse-string";
@@ -7,24 +8,11 @@ import { parseString } from "./common/parse-string";
 function parseSalaryUnit(value: unknown): SalaryUnit {
   const unit = parseString(value)?.toLowerCase();
 
-  switch (unit) {
-    case "hour":
-    case "hourly":
-      return SalaryUnit.Hourly;
-
-    case "month":
-    case "monthly":
-      return SalaryUnit.Monthly;
-
-    case "year":
-    case "yearly":
-    case "annual":
-    case "annually":
-      return SalaryUnit.Annual;
-
-    default:
-      return SalaryUnit.Unknown;
+  if (!unit) {
+    return SalaryUnit.Unknown;
   }
+
+  return salaryUnitMap[unit] ?? SalaryUnit.Unknown;
 }
 
 function parseCurrency(value: unknown): string {
