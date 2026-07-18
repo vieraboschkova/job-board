@@ -11,7 +11,7 @@ server/
     server.ts
     config/
     domain/
-    application/
+    workflows/
     infrastructure/
     api/
     tests/
@@ -49,6 +49,8 @@ interface JobIngestionService {
   ): Promise<IngestionResult>;
 }
 ```
+
+<!-- TODO: change for separation -->
 
 `IngestionResult` should include:
 

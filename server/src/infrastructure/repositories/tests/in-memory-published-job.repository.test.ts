@@ -3,6 +3,7 @@ import { beforeEach, describe, expect, it } from "vitest";
 import { InMemoryPublishedJobRepository } from "../in-memory-published-job.repository";
 
 import {
+  CompanyType,
   CountryCode,
   EmploymentType,
   JobSort,
@@ -34,6 +35,7 @@ const createPublishedJob = (
       unit: SalaryUnit.Annual,
     },
     employmentType: EmploymentType.FullTime,
+    companyType: CompanyType.DirectEmployer,
     sourceName: "test",
     rawData: {},
     postedAt: new Date("2026-01-01"),

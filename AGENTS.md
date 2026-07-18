@@ -2,13 +2,13 @@
 
 ## Current Status
 
-This repository has a thin npm workspace with backend health endpoint and frontend placeholder UI. Domain implementation has not started.
+Task 08 is complete. The backend normalizes messy raw job postings into the shared `Job` model using a workflow-based normalizer and field parsers.
 
-Current phase: Task 02 complete, ready for production static serving.
+Current phase: Task 08 complete, ready for review rule engine.
 
-Last completed task: `docs/build-plan/tasks/02-health-endpoint-placeholder-ui.md`.
+Last completed task: `docs/build-plan/tasks/08-job-normalizer.md`.
 
-Next recommended task: `docs/build-plan/tasks/03-production-static-serving.md`.
+Next recommended task: `docs/build-plan/tasks/09-approval-rule-engine.md`.
 
 ## Project Intent
 

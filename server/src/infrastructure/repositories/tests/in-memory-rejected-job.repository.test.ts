@@ -3,6 +3,7 @@ import { beforeEach, describe, expect, it } from "vitest";
 import { InMemoryRejectedJobRepository } from "../in-memory-rejected-job.repository";
 
 import {
+  CompanyType,
   CountryCode,
   EmploymentType,
   Language,
@@ -24,6 +25,7 @@ const createRejectedJob = (id = "1"): RejectedJob => ({
       remote: true,
     },
     employmentType: EmploymentType.FullTime,
+    companyType: CompanyType.DirectEmployer,
     sourceName: "test",
     rawData: {},
     createdAt: new Date(),

@@ -2,11 +2,11 @@
 
 ## Current Implementation Status
 
-Task 02 is complete. The repository has a working health endpoint and placeholder UI that displays backend status.
+Task 08 is complete. The backend can normalize messy raw job postings into the shared `Job` model via a workflow normalizer that reuses the parsing utilities.
 
-Last completed task: `02-health-endpoint-placeholder-ui.md`.
+Last completed task: `08-job-normalizer.md`.
 
-Next recommended task: `03-production-static-serving.md`.
+Next recommended task: `09-approval-rule-engine.md`.
 
 ## Task Checklist
 
@@ -17,7 +17,7 @@ Next recommended task: `03-production-static-serving.md`.
 - [x] 05. Define domain types and repository interfaces
 - [x] 06. Implement in-memory repositories
 - [x] 07. Implement parsing utilities
-- [ ] 08. Build job normalizer
+- [x] 08. Build job normalizer
 - [ ] 09. Implement review rule engine
 - [ ] 10. Implement ingestion service
 - [ ] 11. Add ingestion API

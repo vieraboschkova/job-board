@@ -6,6 +6,13 @@ export enum EmploymentType {
   Unknown = "unknown",
 }
 
+export enum CompanyType {
+  DirectEmployer = "direct_employer",
+  StaffingFirm = "staffing_firm",
+  ConsultingAgency = "consulting_agency",
+  Unknown = "unknown",
+}
+
 export enum CountryCode {
   US = "US",
   CA = "CA",

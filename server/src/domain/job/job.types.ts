@@ -1,5 +1,6 @@
 import { RejectionDetail } from "../review/review.types";
 import {
+  CompanyType,
   CountryCode,
   EmploymentType,
   SalaryUnit,
@@ -36,7 +37,9 @@ export interface Job {
   salary?: Salary;
 
   employmentType: EmploymentType;
+  companyType: CompanyType;
   sourceName: string;
+  sourceId?: string;
   rawData: Record<string, unknown>;
 
   postedAt?: Date;
