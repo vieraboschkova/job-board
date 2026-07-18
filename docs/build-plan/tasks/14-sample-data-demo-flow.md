@@ -8,7 +8,7 @@ Make the app easy for a reviewer to populate and evaluate.
 
 ## Implementation Details
 
-- Add sample JSON files with messy job postings under `sample-data/`.
+- Add sample JSON files with messy job postings under `server/src/tests/mock/`.
 - Include approved and rejected examples (~30% approved).
 - Cover multiple source formats / raw field shapes.
 - Document curl (and Swagger) commands for ingesting the sample data.
@@ -20,7 +20,7 @@ Make the app easy for a reviewer to populate and evaluate.
 
 ## Files And Modules Touched
 
-- `sample-data/`
+- `server/src/tests/mock/`
 - `README.md`
 - `docs/build-plan/status.md`
 - `AGENTS.md`
@@ -39,7 +39,7 @@ Make the app easy for a reviewer to populate and evaluate.
 ```bash
 curl -X POST http://localhost:3000/api/ingest \
   -H "Content-Type: application/json" \
-  --data @sample-data/jobs-10.json
+  --data @server/src/tests/mock/jobs-10.json
 curl "http://localhost:3000/api/jobs/search"
 ```
 

@@ -44,7 +44,7 @@ The page should include:
 
 ## Demo Ingestion
 
-No dedicated `/demo-ingestion` UI page. Reviewers ingest sample payloads via curl or Swagger UI at `/api/docs` using files under `sample-data/`. The approved jobs search page remains the only product UI surface.
+No dedicated `/demo-ingestion` UI page. Reviewers ingest sample payloads via curl or Swagger UI at `/api/docs` using files under `server/src/tests/mock/`. The approved jobs search page remains the only product UI surface.
 
 ## Components
 
@@ -69,7 +69,7 @@ The UI should call:
 GET /api/jobs/search?search=<text>&country=<country>&sort=<sort>
 ```
 
-Ingestion is exercised via Swagger (`POST /api/ingest`) or curl against `sample-data/`, not a frontend form.
+Ingestion is exercised via Swagger (`POST /api/ingest`) or curl against `server/src/tests/mock/`, not a frontend form.
 
 The API client should hide route construction from components.
 

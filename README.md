@@ -29,7 +29,6 @@ npm start
 job-board/
   client/                 React frontend (Vite, TypeScript, Material UI)
   server/                 Node.js Express backend (TypeScript)
-  sample-data/            Demo ingest payloads (10 / 20 / 50 jobs)
   docs/build-plan/        Design docs and task breakdown
   AGENTS.md               Project status and agent working notes
   CLAUDE.md               Local development guide
@@ -101,28 +100,28 @@ Request validation uses Joi middleware in the API layer; domain/workflow code st
 
 ### Sample data demo
 
-Ready-to-post ingest payloads live under `sample-data/`. Each file is a full `POST /api/ingest` body (~30% approved, rest rejected across all six review rules, with mixed raw field shapes):
+Ready-to-post ingest payloads live under `server/src/tests/mock/`. Each file is a full `POST /api/ingest` body (~30% approved, rest rejected across all six review rules, with mixed raw field shapes):
 
-| File                                                   | Jobs | Expected approved / rejected |
-| ------------------------------------------------------ | ---- | ---------------------------- |
-| [`sample-data/jobs-10.json`](sample-data/jobs-10.json) | 10   | 3 / 7                        |
-| [`sample-data/jobs-20.json`](sample-data/jobs-20.json) | 20   | 6 / 14                       |
-| [`sample-data/jobs-50.json`](sample-data/jobs-50.json) | 50   | 15 / 35                      |
+| File                                                                       | Jobs | Expected approved / rejected |
+| -------------------------------------------------------------------------- | ---- | ---------------------------- |
+| [`server/src/tests/mock/jobs-10.json`](server/src/tests/mock/jobs-10.json) | 10   | 3 / 7                        |
+| [`server/src/tests/mock/jobs-20.json`](server/src/tests/mock/jobs-20.json) | 20   | 6 / 14                       |
+| [`server/src/tests/mock/jobs-50.json`](server/src/tests/mock/jobs-50.json) | 50   | 15 / 35                      |
 
 Ingest via curl (or paste the same JSON into Swagger UI at `/api/docs`):
 
 ```bash
 curl -X POST http://localhost:3000/api/ingest \
   -H "Content-Type: application/json" \
-  --data @sample-data/jobs-10.json
+  --data @server/src/tests/mock/jobs-10.json
 
 curl -X POST http://localhost:3000/api/ingest \
   -H "Content-Type: application/json" \
-  --data @sample-data/jobs-20.json
+  --data @server/src/tests/mock/jobs-20.json
 
 curl -X POST http://localhost:3000/api/ingest \
   -H "Content-Type: application/json" \
-  --data @sample-data/jobs-50.json
+  --data @server/src/tests/mock/jobs-50.json
 ```
 
 Then search approved jobs:

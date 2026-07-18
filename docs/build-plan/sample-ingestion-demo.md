@@ -11,9 +11,9 @@ The reviewer should be able to start the app, ingest sample messy jobs via curl 
 Created during Task 14:
 
 ```txt
-sample-data/jobs-10.json
-sample-data/jobs-20.json
-sample-data/jobs-50.json
+server/src/tests/mock/jobs-10.json
+server/src/tests/mock/jobs-20.json
+server/src/tests/mock/jobs-50.json
 ```
 
 Each payload matches the public ingestion API:
@@ -61,10 +61,10 @@ Ingest sample jobs:
 ```bash
 curl -X POST http://localhost:3000/api/ingest \
   -H "Content-Type: application/json" \
-  --data @sample-data/jobs-10.json
+  --data @server/src/tests/mock/jobs-10.json
 ```
 
-Or open Swagger UI at `/api/docs` and paste any `sample-data/jobs-*.json` body into `POST /api/ingest`.
+Or open Swagger UI at `/api/docs` and paste any `server/src/tests/mock/jobs-*.json` body into `POST /api/ingest`.
 
 Search approved jobs:
 

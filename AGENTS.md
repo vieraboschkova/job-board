@@ -2,7 +2,7 @@
 
 ## Current Status
 
-Task 14 is complete. Sample ingest payloads are in `sample-data/` (jobs-10 / jobs-20 / jobs-50); ingest via curl or Swagger at `/api/docs` — no `/demo-ingestion` UI page. Approved jobs search UI remains the primary product page.
+Task 14 is complete. Sample ingest payloads are in `server/src/tests/mock/` (jobs-10 / jobs-20 / jobs-50); ingest via curl or Swagger at `/api/docs` — no `/demo-ingestion` UI page. Approved jobs search UI remains the primary product page.
 
 Current phase: Task 14 complete; next is Task 15 (rejection log endpoint) so reviewers can inspect rejection reasons via API/Swagger.
 
@@ -33,7 +33,7 @@ Optional polish tasks after Task 15: 16 (deduplication), 19 (review report expor
 - `docs/build-plan/`: Design docs and detailed task breakdown.
 - `client/`: React frontend (Vite, TypeScript, Material UI).
 - `server/`: Node.js Express backend (TypeScript).
-- `sample-data/`: Demo ingest payloads for curl / Swagger.
+- `server/src/tests/mock/`: Demo ingest payloads (`jobs-10/20/50.json`) for curl / Swagger, plus other test fixtures.
 - `AGENTS.md`: Current project status, intent, and rules (this file).
 - `CLAUDE.md`: Local development guide and common commands.
 
