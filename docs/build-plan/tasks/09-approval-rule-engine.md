@@ -23,8 +23,8 @@ Create a testable, extensible review system for deciding which jobs can be publi
 
 ## Files And Modules Touched
 
-- `server/src/domain/review/`
-- `server/src/domain/review/rules/`
+- `server/src/domain/review/` (types and enums)
+- `server/src/workflows/review/` (engine, rules, and tests)
 - backend tests
 
 ## Acceptance Criteria

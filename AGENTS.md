@@ -2,13 +2,13 @@
 
 ## Current Status
 
-Task 08 is complete. The backend normalizes messy raw job postings into the shared `Job` model using a workflow-based normalizer and field parsers.
+Task 09 is complete. The backend evaluates normalized jobs with a composable review rule engine that returns all rejection reasons.
 
-Current phase: Task 08 complete, ready for review rule engine.
+Current phase: Task 09 complete, ready for ingestion service.
 
-Last completed task: `docs/build-plan/tasks/08-job-normalizer.md`.
+Last completed task: `docs/build-plan/tasks/09-approval-rule-engine.md`.
 
-Next recommended task: `docs/build-plan/tasks/09-approval-rule-engine.md`.
+Next recommended task: `docs/build-plan/tasks/10-ingestion-service.md`.
 
 ## Project Intent
 
