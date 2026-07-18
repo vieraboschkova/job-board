@@ -1,10 +1,7 @@
+import { COMPANY_FIELDS } from "../utils/field-keys";
 import { isRecord } from "./common/is-record";
 import { parseString } from "./common/parse-string";
 import { pickFirstValueFromKeys } from "./common/pick-first-value-from-keys";
-
-const COMPANY_FIELDS = ["company", "companyName"] as const;
-
-const EMPLOYER_FIELDS = ["name", "company", "companyName"] as const;
 
 export const parseCompany = (
   raw: Record<string, unknown>,
@@ -19,5 +16,5 @@ export const parseCompany = (
     return undefined;
   }
 
-  return parseString(pickFirstValueFromKeys(raw.employer, EMPLOYER_FIELDS));
+  return parseString(pickFirstValueFromKeys(raw.employer, COMPANY_FIELDS));
 };

@@ -6,6 +6,12 @@ export const SOURCE_ID_FIELDS = [
   "externalId",
 ] as const;
 
+export const TITLE_FIELDS = ["title", "jobTitle", "position", "role"] as const;
+
+export const COMPANY_FIELDS = ["company", "companyName", "name"] as const;
+
+export const DESCRIPTION_FIELDS = ["description", "body", "summary"] as const;
+
 export const EMPLOYMENT_TYPE_FIELDS = [
   "employment_type",
   "employmentType",

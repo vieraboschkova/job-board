@@ -1,13 +1,16 @@
 import { describe, expect, it } from "vitest";
 
 import {
+  COMPANY_FIELDS,
   COMPANY_TYPE_FIELDS,
+  DESCRIPTION_FIELDS,
   EMPLOYMENT_TYPE_FIELDS,
   LANGUAGE_FIELDS,
   LOCATION_FIELDS,
   POSTING_DATE_FIELDS,
   SALARY_FIELDS,
   SOURCE_ID_FIELDS,
+  TITLE_FIELDS,
 } from "../field-keys";
 
 describe("field-keys", () => {
@@ -19,6 +22,18 @@ describe("field-keys", () => {
       "job_id",
       "externalId",
     ]);
+  });
+
+  it("includes title aliases", () => {
+    expect(TITLE_FIELDS).toEqual(["title", "jobTitle", "position", "role"]);
+  });
+
+  it("includes company aliases", () => {
+    expect(COMPANY_FIELDS).toEqual(["company", "companyName", "name"]);
+  });
+
+  it("includes description aliases", () => {
+    expect(DESCRIPTION_FIELDS).toEqual(["description", "body", "summary"]);
   });
 
   it("includes employment type aliases", () => {

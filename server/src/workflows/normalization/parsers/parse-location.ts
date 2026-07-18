@@ -1,28 +1,17 @@
 import { CountryCode } from "../../../domain/job/job.enums";
 import { Location } from "../../../domain/job/job.types";
+import { countryCodeMap } from "../mappers/country-code-map";
 import { isRecord } from "./common/is-record";
 import { parseString } from "./common/parse-string";
 
 function parseCountry(value: unknown): CountryCode {
   const country = parseString(value)?.toLowerCase();
 
-  switch (country) {
-    case "usa":
-    case "us":
-    case "united states":
-      return CountryCode.US;
-
-    case "canada":
-    case "ca":
-      return CountryCode.CA;
-
-    case "uk":
-    case "united kingdom":
-      return CountryCode.UK;
-
-    default:
-      return CountryCode.Other;
+  if (!country) {
+    return CountryCode.Other;
   }
+
+  return countryCodeMap[country] ?? CountryCode.Other;
 }
 
 export function parseLocation(value: unknown): Location | undefined {
