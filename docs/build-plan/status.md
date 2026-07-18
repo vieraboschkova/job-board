@@ -2,11 +2,11 @@
 
 ## Current Implementation Status
 
-Task 14 is complete. Sample ingest payloads live under `sample-data/` (10 / 20 / 50 jobs, ~30% approved, all six review rules covered). Reviewers ingest via curl or Swagger at `/api/docs`; no `/demo-ingestion` UI page. README documents the demo commands.
+Task 14 is complete. Sample ingest payloads live under `sample-data/` (10 / 20 / 50 jobs, ~30% approved, all six review rules covered). Reviewers ingest via curl or Swagger at `/api/docs`; no `/demo-ingestion` UI page. README documents the demo commands. Next up is Task 15 so rejected jobs and reasons are listable via `GET /api/rejections`.
 
 Last completed task: `14-sample-data-demo-flow.md`.
 
-Next recommended task: `17-update-readme-architecture-notes.md`.
+Next recommended task: `15-rejection-log-endpoint.md`.
 
 ## Task Checklist
 
