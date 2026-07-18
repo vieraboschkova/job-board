@@ -42,23 +42,9 @@ The page should include:
 - error state
 - empty state
 
-## Demo Ingestion Page
+## Demo Ingestion
 
-Add a secondary page at `/demo-ingestion` for interview/demo use.
-
-This page should let the reviewer exercise ingestion without using curl.
-
-It should include:
-
-- source name input
-- sample scenario selector
-- editable JSON payload field
-- submit button
-- reset-to-sample button
-- ingestion summary result
-- link back to the approved jobs page
-
-Keep this page clearly secondary. The approved jobs search page remains the primary product experience.
+No dedicated `/demo-ingestion` UI page. Reviewers ingest sample payloads via curl or Swagger UI at `/api/docs` using files under `server/src/tests/mock/`. The approved jobs search page remains the only product UI surface.
 
 ## Components
 
@@ -70,8 +56,6 @@ Recommended components:
 - `JobList`
 - `JobCard`
 - `EmptyState`
-- `DemoIngestionForm`
-- `IngestionSummary`
 
 Use Material UI components such as `Container`, `Stack`, `TextField`, `Select`, `MenuItem`, `Card`, `Chip`, `Typography`, `Alert`, and `CircularProgress`.
 
@@ -82,14 +66,10 @@ Create a small API wrapper for job search.
 The UI should call:
 
 ```txt
-GET /api/jobs?search=<text>&country=<country>&sort=<sort>
+GET /api/jobs/search?search=<text>&country=<country>&sort=<sort>
 ```
 
-The demo ingestion page should call:
-
-```txt
-POST /api/ingest
-```
+Ingestion is exercised via Swagger (`POST /api/ingest`) or curl against `server/src/tests/mock/`, not a frontend form.
 
 The API client should hide route construction from components.
 
@@ -119,7 +99,5 @@ The UI should feel like a polished internal recruiting/search tool:
 - sort selection updates the list
 - empty and error states are clear
 - layout remains usable on narrow screens
-- demo ingestion page can submit sample or custom payloads
-- demo ingestion page displays review/rejection counts after submit
 
 Use mui attributes for styling, if custom styles needed, create separate component.styles.ts file to use as styling wrapper.

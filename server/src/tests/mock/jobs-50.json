@@ -1,0 +1,880 @@
+{
+  "sourceName": "interview-demo-50",
+  "jobs": [
+    {
+      "id": "interview-demo-50_001",
+      "title": "Go API Engineer",
+      "description": "Build scalable APIs with Go and TypeScript.",
+      "company": "NextGen Systems",
+      "location": {
+        "city": "Austin",
+        "state": "TX",
+        "country": "USA"
+      },
+      "salary": {
+        "value": 145000,
+        "currency": "USD"
+      },
+      "employment_type": "Full-Time",
+      "company_type": "Direct Employer",
+      "language": "English",
+      "remote": false,
+      "posting_date": "2024-03-01"
+    },
+    {
+      "id": "interview-demo-50_002",
+      "title": "Payments Domain Lead",
+      "description": "Lead feature delivery for our payments platform.",
+      "company": "Tech Innovators Inc.",
+      "location": "New York, NY, USA",
+      "salary": 150000,
+      "employment_type": "Full-Time",
+      "company_type": "Direct Employer",
+      "language": "English",
+      "remote": false,
+      "posting_date": "2024-03-02"
+    },
+    {
+      "id": "interview-demo-50_003",
+      "jobTitle": "WebDriver Test Automation Engineer",
+      "body": "Build automated test suites for web and mobile apps.",
+      "companyName": "QualityLoop",
+      "location": {
+        "city": "Chicago",
+        "state": "IL",
+        "country": "USA"
+      },
+      "salary": {
+        "value": 110000,
+        "currency": "USD"
+      },
+      "employmentType": "Full-Time",
+      "companyType": "Direct Employer",
+      "language": "English",
+      "remote": true,
+      "posting_date": "2024-03-03"
+    },
+    {
+      "id": "interview-demo-50_004",
+      "jobTitle": "Enterprise Onboarding Manager",
+      "body": "Help enterprise customers onboard and expand.",
+      "companyName": "ClientBridge",
+      "location": {
+        "city": "Toronto",
+        "state": "ON",
+        "country": "Canada"
+      },
+      "salary": {
+        "value": 110000,
+        "currency": "USD"
+      },
+      "employmentType": "Full-Time",
+      "companyType": "Direct Employer",
+      "language": "English",
+      "remote": false,
+      "posting_date": "2024-03-04"
+    },
+    {
+      "id": "interview-demo-50_005",
+      "role": "Scientifique des données senior",
+      "summary": "Nous recherchons un Data Scientist expérimenté à Montréal.",
+      "employer": {
+        "name": "Analytics Nord"
+      },
+      "location": "Montreal, QC, Canada",
+      "compensation": 125000,
+      "employment_type": "Full-Time",
+      "company_type": "Direct Employer",
+      "language": "French",
+      "remote": false,
+      "posting_date": "2024-03-05"
+    },
+    {
+      "id": "interview-demo-50_006",
+      "role": "Kubernetes Platform Lead",
+      "summary": "Own CI/CD and cloud infrastructure for a remote-first team.",
+      "employer": {
+        "name": "Orbit Cloud"
+      },
+      "location": "Remote",
+      "pay": {
+        "value": 155000,
+        "currency": "USD"
+      },
+      "employment_type": "Full-Time",
+      "company_type": "Direct Employer",
+      "language": "English",
+      "remote": true,
+      "posting_date": "2024-03-06"
+    },
+    {
+      "id": "interview-demo-50_007",
+      "title": "Product Funnel Insights Analyst",
+      "description": "Analyze product usage data and funnel metrics.",
+      "company": "MetricMind",
+      "location": "Boston, MA, USA",
+      "salary": 120000,
+      "employment_type": "Full-Time",
+      "company_type": "Direct Employer",
+      "language": "English",
+      "remote": false,
+      "posting_date": "2024-03-07"
+    },
+    {
+      "id": "interview-demo-50_008",
+      "title": "Threat Detection Specialist",
+      "description": "Monitor security events and harden infrastructure.",
+      "company": "SecurePath",
+      "location": {
+        "city": "Washington",
+        "state": "DC",
+        "country": "USA"
+      },
+      "salary": {
+        "value": 135000,
+        "currency": "USD"
+      },
+      "employment_type": "Full-Time",
+      "company_type": "Direct Employer",
+      "language": "English",
+      "remote": false,
+      "posting_date": "2024-03-08"
+    },
+    {
+      "id": "interview-demo-50_009",
+      "jobTitle": "B2B Interaction Designer",
+      "body": "Design intuitive user experiences for B2B tools.",
+      "companyName": "PixelCraft Studio",
+      "location": {
+        "city": "San Jose",
+        "state": "CA",
+        "country": "USA"
+      },
+      "salary": {
+        "value": 118000,
+        "currency": "USD"
+      },
+      "employmentType": "Full-Time",
+      "companyType": "Direct Employer",
+      "language": "English",
+      "remote": false,
+      "posting_date": "2024-03-09"
+    },
+    {
+      "id": "interview-demo-50_010",
+      "title": "Observability Platform Engineer",
+      "description": "Automate deployments and observability pipelines.",
+      "company": "CloudWorks Pro",
+      "location": {
+        "city": "Seattle",
+        "state": "WA",
+        "country": "USA"
+      },
+      "salary": {
+        "value": 50,
+        "currency": "USD",
+        "unit": "hourly"
+      },
+      "employment_type": "Full-Time",
+      "company_type": "Consulting Agency",
+      "language": "English",
+      "remote": true,
+      "posting_date": "2024-03-10"
+    },
+    {
+      "id": "interview-demo-50_011",
+      "title": "React and Node Product Engineer",
+      "description": "Ship end-to-end features across React and Node.",
+      "company": "StackForge",
+      "location": "Denver, CO, USA",
+      "salary": 132000,
+      "employment_type": "Full-Time",
+      "company_type": "Direct Employer",
+      "language": "English",
+      "remote": false,
+      "posting_date": "2024-03-11"
+    },
+    {
+      "id": "interview-demo-50_012",
+      "jobTitle": "Cluster Networking Engineer",
+      "body": "Manage Kubernetes clusters and networking.",
+      "companyName": "KubeHouse",
+      "location": {
+        "city": "Portland",
+        "state": "OR",
+        "country": "USA"
+      },
+      "salary": {
+        "value": 140000,
+        "currency": "USD"
+      },
+      "employmentType": "Full-Time",
+      "companyType": "Direct Employer",
+      "language": "English",
+      "remote": true,
+      "posting_date": "2024-03-12"
+    },
+    {
+      "id": "interview-demo-50_013",
+      "role": "dbt Analytics Modeling Engineer",
+      "summary": "Build trustworthy data models for product analytics.",
+      "employer": {
+        "name": "Signal Lake"
+      },
+      "location": "Vancouver, BC, Canada",
+      "compensation": {
+        "value": 115000,
+        "currency": "USD"
+      },
+      "employment_type": "Full-Time",
+      "company_type": "Direct Employer",
+      "language": "English",
+      "remote": false,
+      "posting_date": "2024-03-13"
+    },
+    {
+      "id": "interview-demo-50_014",
+      "title": "Développeur backend Québec",
+      "description": "Développement de services backend en français au Québec.",
+      "company": "Nordic Soft",
+      "location": {
+        "city": "Quebec City",
+        "state": "QC",
+        "country": "Canada"
+      },
+      "salary": {
+        "value": 122000,
+        "currency": "USD"
+      },
+      "employment_type": "Full-Time",
+      "company_type": "Direct Employer",
+      "language": "French",
+      "remote": false,
+      "posting_date": "2024-03-14"
+    },
+    {
+      "id": "interview-demo-50_015",
+      "title": "Feature Flag Release Manager",
+      "description": "Coordinate release trains and feature flags.",
+      "company": "ShipSteady",
+      "location": "Remote",
+      "salary": "$160000",
+      "employment_type": "Full-Time",
+      "company_type": "Direct Employer",
+      "language": "English",
+      "remote": true,
+      "posting_date": "2024-03-15"
+    },
+    {
+      "id": "interview-demo-50_016",
+      "title": "",
+      "description": "Temporary operations support role with no title.",
+      "company": "OpsFlex",
+      "location": {
+        "city": "Denver",
+        "state": "CO",
+        "country": "USA"
+      },
+      "salary": {
+        "value": 110000,
+        "currency": "USD"
+      },
+      "employment_type": "Full-Time",
+      "company_type": "Direct Employer",
+      "language": "English",
+      "remote": false,
+      "posting_date": "2024-03-17"
+    },
+    {
+      "id": "interview-demo-50_017",
+      "title": "   ",
+      "description": "Whitespace-only title should fail.",
+      "company": "BlankTitle Co",
+      "location": "Seattle, WA, USA",
+      "salary": 120000,
+      "employment_type": "Full-Time",
+      "company_type": "Direct Employer",
+      "language": "English",
+      "remote": false,
+      "posting_date": "2024-03-18"
+    },
+    {
+      "id": "interview-demo-50_018",
+      "description": "Missing title field entirely.",
+      "company": "NoTitle Labs",
+      "location": {
+        "city": "Austin",
+        "state": "TX",
+        "country": "USA"
+      },
+      "salary": {
+        "value": 125000,
+        "currency": "USD"
+      },
+      "employment_type": "Full-Time",
+      "company_type": "Direct Employer",
+      "language": "English",
+      "remote": false,
+      "posting_date": "2024-03-19"
+    },
+    {
+      "id": "interview-demo-50_019",
+      "jobTitle": "",
+      "body": "Empty jobTitle alternate field.",
+      "companyName": "AltBlank",
+      "location": "Boston, MA, USA",
+      "salary": 130000,
+      "employmentType": "Full-Time",
+      "companyType": "Direct Employer",
+      "language": "English",
+      "remote": false,
+      "posting_date": "2024-03-20"
+    },
+    {
+      "id": "interview-demo-50_020",
+      "role": "  ",
+      "summary": "Whitespace role title.",
+      "employer": {
+        "name": "RoleGap"
+      },
+      "location": "Remote",
+      "pay": {
+        "value": 140000,
+        "currency": "USD"
+      },
+      "employment_type": "Full-Time",
+      "company_type": "Direct Employer",
+      "language": "English",
+      "remote": true,
+      "posting_date": "2024-03-21"
+    },
+    {
+      "id": "interview-demo-50_021",
+      "title": "Enterprise Integration Architect",
+      "description": "Lead architecture for European clients.",
+      "company": "EuroStack GmbH",
+      "location": {
+        "city": "Berlin",
+        "state": "",
+        "country": "Germany"
+      },
+      "salary": {
+        "value": 130000,
+        "currency": "USD"
+      },
+      "employment_type": "Full-Time",
+      "company_type": "Direct Employer",
+      "language": "English",
+      "remote": false,
+      "posting_date": "2024-03-22"
+    },
+    {
+      "id": "interview-demo-50_022",
+      "title": "Production Reliability Engineer",
+      "description": "Operate production systems from Dublin.",
+      "company": "Celtic Ops",
+      "location": {
+        "city": "Dublin",
+        "state": "Leinster",
+        "country": "Ireland"
+      },
+      "salary": {
+        "value": 140000,
+        "currency": "USD"
+      },
+      "employment_type": "Full-Time",
+      "company_type": "Direct Employer",
+      "language": "English",
+      "remote": false,
+      "posting_date": "2024-03-23"
+    },
+    {
+      "id": "interview-demo-50_023",
+      "jobTitle": "AWS Landing Zone Consultant",
+      "body": "In-person UK engagement.",
+      "companyName": "Thames Cloud",
+      "location": "London, UK",
+      "salary": 150000,
+      "employmentType": "Full-Time",
+      "companyType": "Direct Employer",
+      "language": "English",
+      "remote": false,
+      "posting_date": "2024-03-24"
+    },
+    {
+      "id": "interview-demo-50_024",
+      "title": "ASIC Bring-Up Engineer",
+      "description": "On-site silicon bring-up in Taiwan.",
+      "company": "ChipWorks",
+      "location": {
+        "city": "Hsinchu",
+        "state": "",
+        "country": "Taiwan"
+      },
+      "salary": {
+        "value": 160000,
+        "currency": "USD"
+      },
+      "employment_type": "Full-Time",
+      "company_type": "Direct Employer",
+      "language": "English",
+      "remote": false,
+      "posting_date": "2024-03-25"
+    },
+    {
+      "id": "interview-demo-50_025",
+      "role": "WMS Integration Lead",
+      "summary": "On-site logistics systems in Mexico.",
+      "employer": {
+        "name": "LogiSur"
+      },
+      "location": "Mexico City, Mexico",
+      "compensation": {
+        "value": 112000,
+        "currency": "USD"
+      },
+      "employment_type": "Full-Time",
+      "company_type": "Direct Employer",
+      "language": "English",
+      "remote": false,
+      "posting_date": "2024-03-26"
+    },
+    {
+      "id": "interview-demo-50_026",
+      "title": "React Design Systems Intern",
+      "description": "Assist the React team.",
+      "company": "BrightStart Talent",
+      "location": {
+        "city": "Vancouver",
+        "state": "BC",
+        "country": "Canada"
+      },
+      "salary": {
+        "value": 120000,
+        "currency": "USD"
+      },
+      "employment_type": "Internship",
+      "company_type": "Direct Employer",
+      "language": "English",
+      "remote": false,
+      "posting_date": "2024-03-27"
+    },
+    {
+      "id": "interview-demo-50_027",
+      "jobTitle": "API Reference Documentation Author",
+      "body": "Create developer documentation part-time.",
+      "companyName": "DocuFlow",
+      "location": "Remote",
+      "salary": 110000,
+      "employmentType": "Part-Time",
+      "companyType": "Consulting Agency",
+      "language": "English",
+      "remote": true,
+      "posting_date": "2024-03-28"
+    },
+    {
+      "id": "interview-demo-50_028",
+      "title": "Terraform Contract Specialist",
+      "description": "Contract DevOps engagement.",
+      "company": "PipeOps",
+      "location": {
+        "city": "Dallas",
+        "state": "TX",
+        "country": "USA"
+      },
+      "salary": {
+        "value": 65,
+        "currency": "USD",
+        "unit": "hourly"
+      },
+      "employment_type": "Contract",
+      "company_type": "Consulting Agency",
+      "language": "English",
+      "remote": true,
+      "posting_date": "2024-03-01"
+    },
+    {
+      "id": "interview-demo-50_029",
+      "title": "Applied ML Research Intern",
+      "description": "ML research internship.",
+      "company": "LabSpark",
+      "location": "San Francisco, CA, USA",
+      "salary": 105000,
+      "employment_type": "Internship",
+      "company_type": "Direct Employer",
+      "language": "English",
+      "remote": false,
+      "posting_date": "2024-03-02"
+    },
+    {
+      "id": "interview-demo-50_030",
+      "jobTitle": "Creator Community Moderator",
+      "body": "Part-time community support.",
+      "companyName": "PeopleCircle",
+      "location": {
+        "city": "Toronto",
+        "state": "ON",
+        "country": "Canada"
+      },
+      "salary": {
+        "value": 108000,
+        "currency": "USD"
+      },
+      "employmentType": "Part-Time",
+      "companyType": "Direct Employer",
+      "language": "English",
+      "remote": false,
+      "posting_date": "2024-03-03"
+    },
+    {
+      "id": "interview-demo-50_031",
+      "role": "Brand Illustration Contractor",
+      "summary": "Contract design sprints.",
+      "employer": {
+        "name": "SketchLane"
+      },
+      "location": "Remote",
+      "pay": {
+        "value": 55,
+        "currency": "USD",
+        "unit": "hourly"
+      },
+      "employment_type": "Contract",
+      "company_type": "Direct Employer",
+      "language": "English",
+      "remote": true,
+      "posting_date": "2024-03-04"
+    },
+    {
+      "id": "interview-demo-50_032",
+      "title": "Revenue Operations Coordinator",
+      "description": "Support day-to-day operations.",
+      "company": "Northstar Group",
+      "location": "Atlanta, GA, USA",
+      "salary": 72000,
+      "employment_type": "Full-Time",
+      "company_type": "Direct Employer",
+      "language": "English",
+      "remote": false,
+      "posting_date": "2024-03-05"
+    },
+    {
+      "id": "interview-demo-50_033",
+      "title": "Performance Marketing Lead",
+      "description": "Own acquisition campaigns paid in CAD.",
+      "company": "ScaleRocket",
+      "location": "Toronto, ON, Canada",
+      "salary": {
+        "value": 130000,
+        "currency": "CAD"
+      },
+      "employment_type": "Full-Time",
+      "company_type": "Direct Employer",
+      "language": "English",
+      "remote": false,
+      "posting_date": "2024-03-06"
+    },
+    {
+      "id": "interview-demo-50_034",
+      "title": "SOC Overnight Triage Analyst",
+      "description": "Hourly monitoring below threshold.",
+      "company": "WatchTower Inc",
+      "location": {
+        "city": "Boston",
+        "state": "MA",
+        "country": "USA"
+      },
+      "salary": {
+        "value": 40,
+        "currency": "USD",
+        "unit": "hourly"
+      },
+      "employment_type": "Full-Time",
+      "company_type": "Direct Employer",
+      "language": "English",
+      "remote": false,
+      "posting_date": "2024-03-07"
+    },
+    {
+      "id": "interview-demo-50_035",
+      "title": "PMO Delivery Coordinator",
+      "description": "Coordinate delivery with GBP salary.",
+      "company": "River Projects",
+      "location": "Remote",
+      "salary": {
+        "value": 90000,
+        "currency": "GBP"
+      },
+      "employment_type": "Full-Time",
+      "company_type": "Direct Employer",
+      "language": "English",
+      "remote": true,
+      "posting_date": "2024-03-08"
+    },
+    {
+      "id": "interview-demo-50_036",
+      "jobTitle": "Facilities Office Manager",
+      "body": "Exactly at annual threshold should fail.",
+      "companyName": "Threshold Co",
+      "location": "Miami, FL, USA",
+      "salary": 100000,
+      "employmentType": "Full-Time",
+      "companyType": "Direct Employer",
+      "language": "English",
+      "remote": false,
+      "posting_date": "2024-03-09"
+    },
+    {
+      "id": "interview-demo-50_037",
+      "title": "Help Desk Team Lead",
+      "description": "Missing salary entirely.",
+      "company": "HelpNest",
+      "location": {
+        "city": "Phoenix",
+        "state": "AZ",
+        "country": "USA"
+      },
+      "employment_type": "Full-Time",
+      "company_type": "Direct Employer",
+      "language": "English",
+      "remote": false,
+      "posting_date": "2024-03-10"
+    },
+    {
+      "id": "interview-demo-50_038",
+      "role": "FP&A Reporting Analyst",
+      "summary": "EUR annual compensation.",
+      "employer": {
+        "name": "EuroBooks"
+      },
+      "location": "Remote",
+      "compensation": {
+        "value": 120000,
+        "currency": "EUR"
+      },
+      "employment_type": "Full-Time",
+      "company_type": "Direct Employer",
+      "language": "English",
+      "remote": true,
+      "posting_date": "2024-03-11"
+    },
+    {
+      "id": "interview-demo-50_039",
+      "jobTitle": "Associate Full-Stack Developer",
+      "body": "Entry-level role via staffing partner.",
+      "companyName": "Staffing Solutions",
+      "location": {
+        "city": "Toronto",
+        "state": "ON",
+        "country": "Canada"
+      },
+      "salary": {
+        "value": 115000,
+        "currency": "USD"
+      },
+      "employmentType": "Full-Time",
+      "companyType": "Staffing Firm",
+      "language": "English",
+      "remote": false,
+      "posting_date": "2024-03-12"
+    },
+    {
+      "id": "interview-demo-50_040",
+      "title": "Technical Recruiting Partner",
+      "description": "Recruiting desk at a staffing firm.",
+      "company": "HireFast Agency",
+      "location": "San Francisco, CA, USA",
+      "salary": 130000,
+      "employment_type": "Full-Time",
+      "company_type": "Staffing Firm",
+      "language": "English",
+      "remote": false,
+      "posting_date": "2024-03-13"
+    },
+    {
+      "id": "interview-demo-50_041",
+      "title": "Desktop Support Placement",
+      "description": "Placed IT specialist role.",
+      "company": "TempTech Staffing",
+      "location": {
+        "city": "Chicago",
+        "state": "IL",
+        "country": "USA"
+      },
+      "salary": {
+        "value": 118000,
+        "currency": "USD"
+      },
+      "employment_type": "Full-Time",
+      "company_type": "Staffing Firm",
+      "language": "English",
+      "remote": false,
+      "posting_date": "2024-03-14"
+    },
+    {
+      "id": "interview-demo-50_042",
+      "jobTitle": "LAN Switching Engineer",
+      "body": "Staffing firm network role.",
+      "companyName": "CableCrew Staffing",
+      "location": "Remote",
+      "salary": 125000,
+      "employmentType": "Full-Time",
+      "companyType": "Staffing Firm",
+      "language": "English",
+      "remote": true,
+      "posting_date": "2024-03-15"
+    },
+    {
+      "id": "interview-demo-50_043",
+      "role": "HRIS Payroll Clerk",
+      "summary": "Staffing firm back-office role.",
+      "employer": {
+        "name": "PeoplePlace Staffing"
+      },
+      "location": "Calgary, AB, Canada",
+      "pay": {
+        "value": 110000,
+        "currency": "USD"
+      },
+      "employment_type": "Full-Time",
+      "company_type": "Staffing Firm",
+      "language": "English",
+      "remote": false,
+      "posting_date": "2024-03-16"
+    },
+    {
+      "id": "interview-demo-50_044",
+      "title": "iOS Swift Application Engineer",
+      "description": "Entwickeln Sie mobile Anwendungen.",
+      "company": "AppForge",
+      "location": {
+        "city": "Seattle",
+        "state": "WA",
+        "country": "USA"
+      },
+      "salary": {
+        "value": 140000,
+        "currency": "USD"
+      },
+      "employment_type": "Full-Time",
+      "company_type": "Direct Employer",
+      "language": "German",
+      "remote": false,
+      "posting_date": "2024-03-17"
+    },
+    {
+      "id": "interview-demo-50_045",
+      "role": "Visual Product Designer",
+      "summary": "Diseño de experiencias digitales.",
+      "employer": {
+        "name": "Pixel Norte"
+      },
+      "location": "Austin, TX, USA",
+      "compensation": {
+        "value": 120000,
+        "currency": "USD"
+      },
+      "employment_type": "Full-Time",
+      "company_type": "Direct Employer",
+      "language": "Spanish",
+      "remote": false,
+      "posting_date": "2024-03-18"
+    },
+    {
+      "id": "interview-demo-50_046",
+      "title": "SaaS Narrative Strategist",
+      "description": "Strategie dei contenuti per prodotti SaaS.",
+      "company": "CopyRoma",
+      "location": "Remote",
+      "salary": 115000,
+      "employment_type": "Full-Time",
+      "company_type": "Direct Employer",
+      "language": "Italian",
+      "remote": true,
+      "posting_date": "2024-03-19"
+    },
+    {
+      "id": "interview-demo-50_047",
+      "title": "Vision Models Research Engineer",
+      "description": "Rejoignez notre équipe en France.",
+      "company": "DeepData Labs",
+      "location": {
+        "city": "Paris",
+        "state": "",
+        "country": "France"
+      },
+      "salary": {
+        "value": 140000,
+        "currency": "USD"
+      },
+      "employment_type": "Full-Time",
+      "company_type": "Direct Employer",
+      "language": "French",
+      "remote": true,
+      "posting_date": "2024-03-20"
+    },
+    {
+      "id": "interview-demo-50_048",
+      "jobTitle": "Corporate Helpdesk Engineer",
+      "body": "Wsparcie techniczne dla klientów korporacyjnych.",
+      "companyName": "LangGap",
+      "location": {
+        "city": "Minneapolis",
+        "state": "MN",
+        "country": "USA"
+      },
+      "salary": {
+        "value": 112000,
+        "currency": "USD"
+      },
+      "employmentType": "Full-Time",
+      "companyType": "Direct Employer",
+      "language": "Polish",
+      "remote": false,
+      "posting_date": "2024-03-21"
+    },
+    {
+      "id": "interview-demo-50_049",
+      "role": "Oracle DBA Contractor",
+      "summary": "Contract DBA via staffing with EUR hourly pay.",
+      "employer": {
+        "name": "DataCore Services"
+      },
+      "location": {
+        "city": "Dublin",
+        "state": "Leinster",
+        "country": "Ireland"
+      },
+      "pay": {
+        "value": 58,
+        "currency": "EUR",
+        "unit": "hourly"
+      },
+      "employment_type": "Contract",
+      "company_type": "Staffing Firm",
+      "language": "English",
+      "remote": true,
+      "posting_date": "2024-03-22"
+    },
+    {
+      "id": "interview-demo-50_050",
+      "title": "",
+      "description": "Empty title plus internship staffing and low CAD pay in Germany.",
+      "company": "Chaos Placement",
+      "location": {
+        "city": "Munich",
+        "state": "",
+        "country": "Germany"
+      },
+      "salary": {
+        "value": 35000,
+        "currency": "CAD"
+      },
+      "employment_type": "Internship",
+      "company_type": "Staffing Firm",
+      "language": "German",
+      "remote": false,
+      "posting_date": "2024-03-23"
+    }
+  ]
+}

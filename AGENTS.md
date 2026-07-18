@@ -2,13 +2,13 @@
 
 ## Current Status
 
-Task 13 is complete. The React client searches approved jobs via `GET /api/jobs/search` with optional `search`, `country`, and `sort`; loading, empty, error, and ErrorBoundary states are in place. Swagger UI at `/api/docs` documents the API.
+Task 14 is complete. Sample ingest payloads are in `server/src/tests/mock/` (jobs-10 / jobs-20 / jobs-50); ingest via curl or Swagger at `/api/docs` — no `/demo-ingestion` UI page. Approved jobs search UI remains the primary product page.
 
-Current phase: Task 13 complete, ready for sample data demo flow.
+Current phase: Task 14 complete; next is Task 15 (rejection log endpoint) so reviewers can inspect rejection reasons via API/Swagger.
 
-Last completed task: `docs/build-plan/tasks/13-frontend-job-search-ui.md`.
+Last completed task: `docs/build-plan/tasks/14-sample-data-demo-flow.md`.
 
-Next recommended task: `docs/build-plan/tasks/14-sample-data-demo-flow.md`.
+Next recommended task: `docs/build-plan/tasks/15-rejection-log-endpoint.md`.
 
 ## Project Intent
 
@@ -26,13 +26,14 @@ The system should ingest messy job posting JSON from multiple formats, normalize
 
 ## Optional Polish Follow-ups
 
-Optional polish tasks (not next after Task 13): 15 (rejection log), 16 (deduplication), 19 (review report export), and 20 (split published full store from search-only store). See `docs/build-plan/status.md`.
+Optional polish tasks after Task 15: 16 (deduplication), 19 (review report export), and 20 (split published full store from search-only store). Task 15 is next despite being labeled optional polish — needed to demo rejection reasons. See `docs/build-plan/status.md`.
 
 ## Folder Structure
 
 - `docs/build-plan/`: Design docs and detailed task breakdown.
 - `client/`: React frontend (Vite, TypeScript, Material UI).
 - `server/`: Node.js Express backend (TypeScript).
+- `server/src/tests/mock/`: Demo ingest payloads (`jobs-10/20/50.json`) for curl / Swagger, plus other test fixtures.
 - `AGENTS.md`: Current project status, intent, and rules (this file).
 - `CLAUDE.md`: Local development guide and common commands.
 

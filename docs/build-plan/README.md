@@ -82,11 +82,10 @@ The intended interview flow is:
 
 1. open the deployed app
 2. show the health endpoint or placeholder shell if early in development
-3. open `/demo-ingestion`
-4. ingest `sample-data/jobs.json` or a custom JSON payload
-5. show the ingestion summary
-6. search, filter, and sort approved jobs in the UI
-7. explain the code path from API route to ingestion service, normalizer, review engine, publisher, and rejector
+3. ingest a sample payload via curl or Swagger UI at `/api/docs`
+4. show the ingestion summary counts from the response
+5. search, filter, and sort approved jobs in the UI
+6. explain the code path from API route to ingestion service, normalizer, review engine, publisher, and rejector
 
 ## Important Tradeoffs
 
