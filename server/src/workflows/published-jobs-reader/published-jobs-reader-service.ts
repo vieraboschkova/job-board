@@ -4,13 +4,13 @@ import {
   JobDetail,
   JobSearchQuery,
   JobSearchQueryInput,
-  JobReader,
+  PublishedJobsReader,
   JobSummary,
 } from "../../domain/job/job.types";
 import { toJobDetail } from "./to-job-detail";
 import { toJobSummary } from "./to-job-summary";
 
-export class JobReaderService implements JobReader {
+export class PublishedJobsReaderService implements PublishedJobsReader {
   constructor(
     private readonly publishedJobRepository: PublishedJobRepository,
   ) {}

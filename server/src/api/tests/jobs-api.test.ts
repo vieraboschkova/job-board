@@ -17,9 +17,10 @@ import { JobIngestionService } from "../../workflows/ingestion/job-ingestion-ser
 import { DefaultJobNormalizer } from "../../workflows/normalization/default-job-normalizer";
 import { JobPublishingService } from "../../workflows/publishing/job-publishing-service";
 import { JobRejectionService } from "../../workflows/rejection/job-rejection-service";
+import { RejectedJobsReaderService } from "../../workflows/rejection/rejected-jobs-reader-service";
 import { createJob } from "../../workflows/review/tests/create-job";
 import { DefaultReviewEngine } from "../../workflows/review/default-review-engine";
-import { JobReaderService } from "../../workflows/job-reader/job-reader-service";
+import { PublishedJobsReaderService } from "../../workflows/published-jobs-reader/published-jobs-reader-service";
 
 const JOBS_URL = `${ApiMountPath.Api}${ApiRoutePath.Jobs}`;
 const JOBS_SEARCH_URL = `${ApiMountPath.Api}${ApiRoutePath.JobsSearch}`;
@@ -45,7 +46,10 @@ describe("GET /api/jobs", () => {
         new JobPublishingService(publishedJobRepository),
         new JobRejectionService(rejectedJobRepository),
       ),
-      jobReader: new JobReaderService(publishedJobRepository),
+      publishedJobsReader: new PublishedJobsReaderService(
+        publishedJobRepository,
+      ),
+      rejectedJobsReader: new RejectedJobsReaderService(rejectedJobRepository),
     };
   });
 
@@ -153,7 +157,10 @@ describe("GET /api/jobs/search", () => {
         new JobPublishingService(publishedJobRepository),
         new JobRejectionService(rejectedJobRepository),
       ),
-      jobReader: new JobReaderService(publishedJobRepository),
+      publishedJobsReader: new PublishedJobsReaderService(
+        publishedJobRepository,
+      ),
+      rejectedJobsReader: new RejectedJobsReaderService(rejectedJobRepository),
     };
   });
 
@@ -366,7 +373,10 @@ describe("GET /api/jobs/:id", () => {
         new JobPublishingService(publishedJobRepository),
         new JobRejectionService(rejectedJobRepository),
       ),
-      jobReader: new JobReaderService(publishedJobRepository),
+      publishedJobsReader: new PublishedJobsReaderService(
+        publishedJobRepository,
+      ),
+      rejectedJobsReader: new RejectedJobsReaderService(rejectedJobRepository),
     };
   });
 

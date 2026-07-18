@@ -2,13 +2,13 @@
 
 ## Current Status
 
-Task 14 is complete. Sample ingest payloads are in `server/src/tests/mock/` (jobs-10 / jobs-20 / jobs-50); ingest via curl or Swagger at `/api/docs` — no `/demo-ingestion` UI page. Approved jobs search UI remains the primary product page.
+Task 15 is complete. `GET /api/rejections` lists rejected job summaries (identity, source, `rejectedAt`, review-rule fields, reasons). Rejections are logged via `JobRejectionService` when saved. Reviewers can inspect rejections via curl or Swagger at `/api/docs`.
 
-Current phase: Task 14 complete; next is Task 15 (rejection log endpoint) so reviewers can inspect rejection reasons via API/Swagger.
+Current phase: Task 15 complete; next is Task 16 (deduplication) if duplicate ingestion is likely during demos, otherwise Task 17 (README architecture notes).
 
-Last completed task: `docs/build-plan/tasks/14-sample-data-demo-flow.md`.
+Last completed task: `docs/build-plan/tasks/15-rejection-log-endpoint.md`.
 
-Next recommended task: `docs/build-plan/tasks/15-rejection-log-endpoint.md`.
+Next recommended task: `docs/build-plan/tasks/16-deduplication.md`.
 
 ## Project Intent
 
@@ -26,7 +26,7 @@ The system should ingest messy job posting JSON from multiple formats, normalize
 
 ## Optional Polish Follow-ups
 
-Optional polish tasks after Task 15: 16 (deduplication), 19 (review report export), and 20 (split published full store from search-only store). Task 15 is next despite being labeled optional polish — needed to demo rejection reasons. See `docs/build-plan/status.md`.
+Optional polish tasks after Task 15: 16 (deduplication), 19 (review report export), and 20 (split published full store from search-only store). See `docs/build-plan/status.md`.
 
 ## Folder Structure
 

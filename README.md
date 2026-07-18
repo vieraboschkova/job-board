@@ -152,7 +152,7 @@ Target search flow:
 ```txt
 GET /api/jobs?search=engineer&country=US&sort=salary_desc
   -> api controller
-  -> JobReaderService
+  -> PublishedJobsReaderService
   -> PublishedJobRepository
 ```
 

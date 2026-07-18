@@ -1,6 +1,6 @@
 # Task 15: Add Rejection Log Endpoint
 
-Status: Optional polish
+Status: Complete
 
 ## Purpose
 

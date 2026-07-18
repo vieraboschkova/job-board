@@ -6,7 +6,7 @@ export interface JobsQuery {
   sort?: string;
 }
 
-/** Permissive query schema — enum validation happens in JobReaderService. */
+/** Permissive query schema — enum validation happens in PublishedJobsReaderService. */
 export const jobsQuerySchema = Joi.object<JobsQuery>({
   search: Joi.string().optional().allow(""),
   country: Joi.string().optional().allow(""),
