@@ -46,6 +46,20 @@ export interface Job {
   createdAt: Date;
 }
 
+/** Fields returned by job search / list cards. Full details via getById. */
+export interface JobSummary {
+  id: string;
+  title: string;
+  company: string;
+  location: Location;
+  employmentType: EmploymentType;
+  salary?: Salary;
+  postedAt?: Date;
+}
+
+/** Public job detail: omits raw ingestion payload. */
+export type JobDetail = Omit<Job, "rawData">;
+
 export interface JobSearchQuery {
   search?: string;
 
@@ -77,7 +91,7 @@ export interface RejectedJob {
 }
 
 export interface JobReader {
-  getAll(): Promise<Job[]>;
-  search(query: JobSearchQueryInput): Promise<Job[]>;
-  getById(id: string): Promise<Job | null>;
+  getAll(): Promise<JobDetail[]>;
+  search(query: JobSearchQueryInput): Promise<JobSummary[]>;
+  getById(id: string): Promise<JobDetail | null>;
 }

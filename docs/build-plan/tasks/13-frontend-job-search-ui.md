@@ -15,7 +15,7 @@ Create the user-facing approved jobs search experience.
 - Add sort select.
 - Render job cards.
 - Add loading, error, and empty states.
-- Add a reusable `useAsync` hook for fetch lifecycle (loading, success, error, cancellation) and use it for jobs search; refactor the health check in `App.tsx` to use it if still present.
+- Use TanStack Query for fetch lifecycle (loading, success, error) for jobs search, job detail, and health check.
 - Add an `ErrorBoundary` around the app shell for unexpected render errors.
 - Normalize expected API failures through `client/src/api/client.ts` and `ApiError` so pages show readable messages.
 - Keep the layout responsive and polished.
@@ -27,7 +27,8 @@ Create the user-facing approved jobs search experience.
 - `client/src/api/client.ts`
 - `client/src/components/`
 - `client/src/components/ErrorBoundary.tsx`
-- `client/src/hooks/useAsync.ts`
+- `client/src/query/query-client.ts`
+- `client/src/hooks/useDebouncedValue.ts`
 - `client/src/types/`
 - `client/src/theme/`
 - frontend tests

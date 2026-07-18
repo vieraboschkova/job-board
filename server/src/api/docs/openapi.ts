@@ -165,7 +165,8 @@ export const openApiDocument = {
       get: {
         tags: ["Jobs"],
         summary: "List all approved jobs",
-        description: "Returns all approved (published) jobs with no filters.",
+        description:
+          "Returns all approved (published) jobs with no filters. Omits raw ingestion payload; use fields on this resource for display.",
         operationId: "getAllJobs",
         responses: {
           [String(HttpStatusCode.Ok)]: {
@@ -199,7 +200,7 @@ export const openApiDocument = {
         tags: ["Jobs"],
         summary: "Search approved jobs",
         description:
-          "Returns approved (published) jobs. Optional search filters by title/company substring. Invalid country or sort values are ignored safely.",
+          "Returns approved job summaries for list cards (id, title, company, location, employment type, salary, posted date). Fetch GET /api/jobs/{id} for full details. Optional search filters by title/company substring. Invalid country or sort values are ignored safely.",
         operationId: "searchJobs",
         parameters: [
           {
@@ -233,13 +234,13 @@ export const openApiDocument = {
         ],
         responses: {
           [String(HttpStatusCode.Ok)]: {
-            description: "Approved jobs matching the query",
+            description: "Approved job summaries matching the query",
             content: {
               "application/json": {
                 schema: {
                   type: "array",
                   items: {
-                    $ref: "#/components/schemas/Job",
+                    $ref: "#/components/schemas/JobSummary",
                   },
                 },
               },
@@ -262,6 +263,8 @@ export const openApiDocument = {
       get: {
         tags: ["Jobs"],
         summary: "Get an approved job by id",
+        description:
+          "Returns an approved job for the detail view. Omits the raw ingestion payload.",
         operationId: "getJobById",
         parameters: [
           {
@@ -379,7 +382,6 @@ export const openApiDocument = {
           "employmentType",
           "companyType",
           "sourceName",
-          "rawData",
           "createdAt",
         ],
         properties: {
@@ -407,15 +409,34 @@ export const openApiDocument = {
           },
           sourceName: { type: "string" },
           sourceId: { type: "string" },
-          rawData: {
-            type: "object",
-            additionalProperties: true,
-          },
           postedAt: {
             type: "string",
             format: "date-time",
           },
           createdAt: {
+            type: "string",
+            format: "date-time",
+          },
+        },
+      },
+      JobSummary: {
+        type: "object",
+        required: ["id", "title", "company", "location", "employmentType"],
+        properties: {
+          id: { type: "string" },
+          title: { type: "string" },
+          company: { type: "string" },
+          location: {
+            $ref: "#/components/schemas/Location",
+          },
+          employmentType: {
+            type: "string",
+            enum: Object.values(EmploymentType),
+          },
+          salary: {
+            $ref: "#/components/schemas/Salary",
+          },
+          postedAt: {
             type: "string",
             format: "date-time",
           },
