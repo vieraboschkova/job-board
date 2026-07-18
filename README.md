@@ -30,7 +30,7 @@ The backend is being built toward a lightweight layered structure:
 ```txt
 server/src/
   api/              Express routes and controllers
-  application/      ingest and search use cases
+  workflows/        ingest, normalize, review, and search use cases
   domain/           job models, review rules, repository interfaces
   infrastructure/   parsing helpers and concrete storage implementations
   config/           environment/configuration helpers
@@ -45,17 +45,17 @@ It is also not the most complex option. There is no separate ingestion service, 
 The main dependency direction is:
 
 ```txt
-api -> application -> domain
+api -> workflows -> domain
 infrastructure -> domain
 ```
 
-The `domain` layer contains the business concepts: job models, review results, review rules, and repository interfaces. The review engine belongs there because it answers the core business question: whether a job should be approved for publication.
+The `domain` layer contains the business concepts: job models, review results, review rules, and repository interfaces.
 
-The `application` layer coordinates use cases, such as ingesting a batch of raw jobs or searching approved jobs. It should not know about Express request/response objects.
+The `workflows` layer coordinates use cases and engines, such as ingesting a batch of raw jobs, normalizing, reviewing, or searching approved jobs. It should not know about Express request/response objects.
 
 The `infrastructure` layer handles messy outside-world details, such as parsing salary/location fields from source JSON and storing jobs in an in-memory repository.
 
-The `api` layer is HTTP glue. It receives requests, calls application services, and returns responses.
+The `api` layer is HTTP glue. It receives requests, calls workflow services, and returns responses.
 
 This keeps the system small enough for the assignment while leaving a clean path to extract ingestion into a worker, queue consumer, or standalone service later.
 

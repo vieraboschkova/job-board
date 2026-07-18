@@ -2,11 +2,11 @@
 
 ## Current Implementation Status
 
-Task 09 is complete. The backend can evaluate normalized jobs with a composable review rule engine that returns all rejection reasons.
+Task 10 is complete. The backend ingests raw job batches through a service that normalizes, reviews, persists approved and rejected jobs, and returns summary counts without failing the whole batch on one bad record.
 
-Last completed task: `09-approval-rule-engine.md`.
+Last completed task: `10-ingestion-service.md`.
 
-Next recommended task: `10-ingestion-service.md`.
+Next recommended task: `11-ingestion-api.md`.
 
 ## Task Checklist
 
@@ -19,7 +19,7 @@ Next recommended task: `10-ingestion-service.md`.
 - [x] 07. Implement parsing utilities
 - [x] 08. Build job normalizer
 - [x] 09. Implement review rule engine
-- [ ] 10. Implement ingestion service
+- [x] 10. Implement ingestion service
 - [ ] 11. Add ingestion API
 - [ ] 12. Add jobs search API
 - [ ] 13. Build frontend job search UI

@@ -35,20 +35,17 @@ server/src/
 The main dependency direction is:
 
 ```
-api -> application -> domain
-workflows -> domain
+api -> workflows -> domain
 infrastructure -> domain
 ```
 
 The `domain` layer contains business contracts only: job models, review types/enums, and repository interfaces.
 
-The `workflows` layer holds implementations such as the job normalizer and review rule engine. The review engine lives under `workflows/review` and uses domain types to decide whether a job should be approved for publication.
-
-The `application` layer coordinates use cases, such as ingesting a batch of raw jobs or searching approved jobs. It should not know about Express request/response objects.
+The `workflows` layer holds use cases and engines such as the job normalizer, review rule engine, and ingestion service. It should not know about Express request/response objects.
 
 The `infrastructure` layer handles messy outside-world details, such as parsing salary/location fields from source JSON and storing jobs in an in-memory repository.
 
-The `api` layer is HTTP glue. It receives requests, calls application services, and returns responses.
+The `api` layer is HTTP glue. It receives requests, calls workflow services, and returns responses.
 
 ```
 
