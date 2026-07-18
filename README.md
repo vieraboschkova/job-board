@@ -103,11 +103,11 @@ Request validation uses Joi middleware in the API layer; domain/workflow code st
 
 Ready-to-post ingest payloads live under `sample-data/`. Each file is a full `POST /api/ingest` body (~30% approved, rest rejected across all six review rules, with mixed raw field shapes):
 
-| File | Jobs | Expected approved / rejected |
-| ---- | ---- | ---------------------------- |
-| [`sample-data/jobs-10.json`](sample-data/jobs-10.json) | 10 | 3 / 7 |
-| [`sample-data/jobs-20.json`](sample-data/jobs-20.json) | 20 | 6 / 14 |
-| [`sample-data/jobs-50.json`](sample-data/jobs-50.json) | 50 | 15 / 35 |
+| File                                                   | Jobs | Expected approved / rejected |
+| ------------------------------------------------------ | ---- | ---------------------------- |
+| [`sample-data/jobs-10.json`](sample-data/jobs-10.json) | 10   | 3 / 7                        |
+| [`sample-data/jobs-20.json`](sample-data/jobs-20.json) | 20   | 6 / 14                       |
+| [`sample-data/jobs-50.json`](sample-data/jobs-50.json) | 50   | 15 / 35                      |
 
 Ingest via curl (or paste the same JSON into Swagger UI at `/api/docs`):
 
