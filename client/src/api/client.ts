@@ -36,7 +36,10 @@ async function request<T>(path: string, init?: RequestInit): Promise<T> {
   const response = await fetch(path, init);
 
   if (!response.ok) {
-    throw new ApiError(await messageFromFailedResponse(response), response.status);
+    throw new ApiError(
+      await messageFromFailedResponse(response),
+      response.status,
+    );
   }
 
   return response.json() as Promise<T>;

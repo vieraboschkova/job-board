@@ -4,9 +4,9 @@ import { formatSalary } from "../format-salary";
 describe("formatSalary", () => {
   it("returns placeholder when salary is missing", () => {
     expect(formatSalary(undefined)).toBe("Salary not listed");
-    expect(
-      formatSalary({ currency: "USD", unit: "annual" }),
-    ).toBe("Salary not listed");
+    expect(formatSalary({ currency: "USD", unit: "annual" })).toBe(
+      "Salary not listed",
+    );
   });
 
   it("formats a single annual amount", () => {

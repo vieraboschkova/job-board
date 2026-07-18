@@ -71,7 +71,9 @@ export function JobDetailModal({ jobId, open, onClose }: JobDetailModalProps) {
 
         {jobQuery.isSuccess && (
           <Stack spacing={2}>
-            <Typography color="text.secondary">{jobQuery.data.company}</Typography>
+            <Typography color="text.secondary">
+              {jobQuery.data.company}
+            </Typography>
 
             <DetailRow
               label="Description"

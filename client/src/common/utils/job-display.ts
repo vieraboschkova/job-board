@@ -57,7 +57,10 @@ export function formatLanguage(language: Language): string {
   return LANGUAGE_LABELS[language];
 }
 
-export function formatOptionalDate(value?: string, fallback = "Unknown"): string {
+export function formatOptionalDate(
+  value?: string,
+  fallback = "Unknown",
+): string {
   if (!value) {
     return fallback;
   }

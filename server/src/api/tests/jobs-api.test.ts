@@ -333,7 +333,15 @@ describe("GET /api/jobs/search", () => {
     expect(response.body).toHaveLength(3);
     for (const job of response.body) {
       expect(Object.keys(job).sort()).toEqual(
-        ["company", "employmentType", "id", "location", "postedAt", "salary", "title"].sort(),
+        [
+          "company",
+          "employmentType",
+          "id",
+          "location",
+          "postedAt",
+          "salary",
+          "title",
+        ].sort(),
       );
       expect(job).not.toHaveProperty("description");
       expect(job).not.toHaveProperty("rawData");

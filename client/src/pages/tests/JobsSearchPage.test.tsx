@@ -226,9 +226,7 @@ describe("JobsSearchPage", () => {
       screen.getByRole("heading", { name: "Backend Engineer" }),
     ).toBeInTheDocument();
 
-    resolveRefetch([
-      makeSummary({ id: "job-2", title: "Platform Engineer" }),
-    ]);
+    resolveRefetch([makeSummary({ id: "job-2", title: "Platform Engineer" })]);
 
     expect(
       await screen.findByRole("heading", { name: "Platform Engineer" }),

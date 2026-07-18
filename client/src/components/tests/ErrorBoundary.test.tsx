@@ -9,7 +9,9 @@ function ThrowingChild(): never {
 
 describe("ErrorBoundary", () => {
   it("renders fallback UI when a child throws", () => {
-    const consoleError = vi.spyOn(console, "error").mockImplementation(() => undefined);
+    const consoleError = vi
+      .spyOn(console, "error")
+      .mockImplementation(() => undefined);
 
     render(
       <ErrorBoundary>
@@ -17,7 +19,9 @@ describe("ErrorBoundary", () => {
       </ErrorBoundary>,
     );
 
-    expect(screen.getByRole("heading", { name: /something went wrong/i })).toBeInTheDocument();
+    expect(
+      screen.getByRole("heading", { name: /something went wrong/i }),
+    ).toBeInTheDocument();
     expect(screen.getByText("Render boom")).toBeInTheDocument();
 
     consoleError.mockRestore();
@@ -25,7 +29,9 @@ describe("ErrorBoundary", () => {
 
   it("remounts children when Try again is clicked after a transient error", async () => {
     const user = userEvent.setup();
-    const consoleError = vi.spyOn(console, "error").mockImplementation(() => undefined);
+    const consoleError = vi
+      .spyOn(console, "error")
+      .mockImplementation(() => undefined);
     // Keep throwing until the test flips this (do not mutate inside render — React 19 may recover).
     let shouldThrow = true;
 

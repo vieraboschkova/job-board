@@ -1,25 +1,15 @@
 export type CountryCode = "US" | "CA" | "UK" | "OTHER";
 
 export type JobSort =
-  | "salary_asc"
-  | "salary_desc"
-  | "postedAt_asc"
-  | "postedAt_desc";
+  "salary_asc" | "salary_desc" | "postedAt_asc" | "postedAt_desc";
 
 export type SalaryUnit = "annual" | "hourly" | "monthly" | "unknown";
 
 export type EmploymentType =
-  | "full_time"
-  | "part_time"
-  | "contract"
-  | "internship"
-  | "unknown";
+  "full_time" | "part_time" | "contract" | "internship" | "unknown";
 
 export type CompanyType =
-  | "direct_employer"
-  | "staffing_firm"
-  | "consulting_agency"
-  | "unknown";
+  "direct_employer" | "staffing_firm" | "consulting_agency" | "unknown";
 
 export type Language =
   | "english"
