@@ -50,7 +50,7 @@ Recommended report columns:
 
 - `server/src/api/routes/`
 - `server/src/api/controllers/`
-- `server/src/application/`
+- `server/src/workflows/`
 - `server/src/infrastructure/reports/`
 - backend tests
 - optionally frontend download button

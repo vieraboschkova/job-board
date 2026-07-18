@@ -25,7 +25,7 @@ Expose approved jobs to the frontend.
 
 - `server/src/api/routes/jobRoutes.ts`
 - `server/src/api/controllers/jobController.ts`
-- `server/src/application/searchJobs.ts`
+- `server/src/workflows/search/`
 - backend API tests
 
 ## Acceptance Criteria

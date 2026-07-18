@@ -18,7 +18,7 @@ Avoid duplicate approved jobs when the same sample or source feed is ingested mu
 
 - `server/src/domain/job/`
 - `server/src/infrastructure/repositories/`
-- `server/src/application/`
+- `server/src/workflows/`
 - backend tests
 
 ## Acceptance Criteria

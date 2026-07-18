@@ -10,7 +10,7 @@ Local development should run the backend and Vite frontend separately. Productio
 React UI
   -> API client
   -> Express routes
-  -> application services
+  -> workflow services
   -> ingestion / review / repository interfaces
   -> in-memory repositories for MVP
 ```
@@ -20,11 +20,11 @@ React UI
 Keep the backend organized around four major layers:
 
 - Domain: job models, review concepts, repository interfaces.
-- Application: use cases such as ingesting jobs and searching jobs.
+- Workflows: use cases and engines such as ingesting jobs, normalizing, reviewing, and searching jobs.
 - Infrastructure: in-memory repositories, parsing helpers, language detection.
 - API: Express routes and controllers.
 
-Domain and application code should not depend on Express.
+Domain and workflow code should not depend on Express.
 
 ## Ingestion Boundary
 

@@ -17,6 +17,7 @@ export function createJob(overrides: Partial<Job> = {}): Job {
 
   return {
     ...job,
+    // ...baseJob, TODO: evaluate if we need to use clone
     location: {
       ...job.location,
       ...location,

@@ -2,13 +2,13 @@
 
 ## Current Status
 
-Task 09 is complete. The backend evaluates normalized jobs with a composable review rule engine that returns all rejection reasons.
+Task 10 is complete. The backend ingests raw job batches through a service that normalizes, reviews, persists approved and rejected jobs, and returns summary counts without failing the whole batch on one bad record.
 
-Current phase: Task 09 complete, ready for ingestion service.
+Current phase: Task 10 complete, ready for ingestion API.
 
-Last completed task: `docs/build-plan/tasks/09-approval-rule-engine.md`.
+Last completed task: `docs/build-plan/tasks/10-ingestion-service.md`.
 
-Next recommended task: `docs/build-plan/tasks/10-ingestion-service.md`.
+Next recommended task: `docs/build-plan/tasks/11-ingestion-api.md`.
 
 ## Project Intent
 

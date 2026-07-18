@@ -18,7 +18,7 @@ Expose rejected jobs for debugging and reviewer visibility.
 
 - `server/src/api/routes/`
 - `server/src/api/controllers/`
-- `server/src/application/`
+- `server/src/workflows/`
 - backend API tests
 
 ## Acceptance Criteria

@@ -4,7 +4,7 @@ Status: MVP
 
 ## Purpose
 
-Wire normalization, review, approved storage, and rejection logging into one application service.
+Wire normalization, review, approved storage, and rejection logging into one workflow service.
 
 ## Implementation Details
 
@@ -20,7 +20,7 @@ Wire normalization, review, approved storage, and rejection logging into one app
 ## Files And Modules Touched
 
 - `server/src/domain/ingestion/`
-- `server/src/application/`
+- `server/src/workflows/ingestion`
 - `server/src/infrastructure/repositories/`
 - backend tests
 
