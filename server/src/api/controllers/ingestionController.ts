@@ -5,9 +5,7 @@ import { JobIngester } from "../../domain/ingestion/ingestion.types";
 import { logger } from "../../shared/logger";
 import { IngestRequestBody } from "../schemas/ingest-request.schema";
 
-export function createIngestionController(
-  ingestionService: JobIngester,
-) {
+export function createIngestionController(ingestionService: JobIngester) {
   return async (
     req: Request,
     res: Response,

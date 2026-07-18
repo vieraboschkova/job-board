@@ -126,11 +126,14 @@ describe("JobIngestionService", () => {
     expect(result.errors).toEqual([
       { index: 1, message: GENERIC_INGESTION_ERROR },
     ]);
-    expect(logError).toHaveBeenCalledWith("Failed to process ingestion record", {
-      index: 1,
-      sourceName: "error-feed",
-      error: malformedError,
-    });
+    expect(logError).toHaveBeenCalledWith(
+      "Failed to process ingestion record",
+      {
+        index: 1,
+        sourceName: "error-feed",
+        error: malformedError,
+      },
+    );
     expect(await publishedJobRepository.getAll()).toHaveLength(1);
     expect(await rejectedJobRepository.getAll()).toHaveLength(1);
   });
