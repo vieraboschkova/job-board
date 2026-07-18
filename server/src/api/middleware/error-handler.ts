@@ -1,6 +1,7 @@
 import { NextFunction, Request, Response } from "express";
 
 import { ApiErrorCode, HttpStatusCode } from "../constants";
+import { logger } from "../../shared/logger";
 import { sendApiError } from "../utils/send-api-error";
 
 interface HttpErrorLike {
@@ -17,7 +18,7 @@ export function errorHandler(
   res: Response,
   _next: NextFunction,
 ): void {
-  console.error(error);
+  logger.error("Unhandled request error", error);
 
   if (res.headersSent) {
     return;
