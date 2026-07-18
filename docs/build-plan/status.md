@@ -2,11 +2,11 @@
 
 ## Current Implementation Status
 
-Task 11 is complete. Clients can `POST /api/ingest` with a validated `{ sourceName, jobs }` body; the API calls `JobIngester` and returns ingestion summary counts. Invalid bodies return 400. Swagger UI is available at `/api/docs`.
+Task 12 is complete. Clients can `GET /api/jobs` with optional `search`, `country`, and `sort` query params; the API returns approved jobs only. Invalid sort/country values are ignored safely. Swagger UI at `/api/docs` documents the search endpoint.
 
-Last completed task: `11-ingestion-api.md`.
+Last completed task: `12-jobs-search-api.md`.
 
-Next recommended task: `12-jobs-search-api.md`.
+Next recommended task: `13-frontend-job-search-ui.md`.
 
 ## Task Checklist
 
@@ -21,7 +21,7 @@ Next recommended task: `12-jobs-search-api.md`.
 - [x] 09. Implement review rule engine
 - [x] 10. Implement ingestion service
 - [x] 11. Add ingestion API
-- [ ] 12. Add jobs search API
+- [x] 12. Add jobs search API
 - [ ] 13. Build frontend job search UI
 - [ ] 14. Add sample data demo flow
 - [ ] 15. Add rejection log endpoint

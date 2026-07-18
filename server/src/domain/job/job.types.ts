@@ -58,6 +58,13 @@ export interface JobSearchQuery {
   offset?: number;
 }
 
+/** Raw query strings from the API layer before enum/normalization. */
+export interface JobSearchQueryInput {
+  search?: string;
+  country?: string;
+  sort?: string;
+}
+
 export interface PublishedJob {
   job: Job;
   publishedAt: Date;
@@ -67,4 +74,10 @@ export interface RejectedJob {
   job: Job;
   rejectedAt: Date;
   rejectionReasons: RejectionDetail[];
+}
+
+export interface JobReader {
+  getAll(): Promise<Job[]>;
+  search(query: JobSearchQueryInput): Promise<Job[]>;
+  getById(id: string): Promise<Job | null>;
 }
