@@ -2,11 +2,11 @@
 
 ## Current Implementation Status
 
-Task 13 is complete. The React client searches approved jobs via `GET /api/jobs/search` with title/company search, country filter, and sort controls; loading, empty, error, and ErrorBoundary fallback states are covered. Swagger remains at `/api/docs`.
+Task 14 is complete. Sample ingest payloads live under `sample-data/` (10 / 20 / 50 jobs, ~30% approved, all six review rules covered). Reviewers ingest via curl or Swagger at `/api/docs`; no `/demo-ingestion` UI page. README documents the demo commands.
 
-Last completed task: `13-frontend-job-search-ui.md`.
+Last completed task: `14-sample-data-demo-flow.md`.
 
-Next recommended task: `14-sample-data-demo-flow.md`.
+Next recommended task: `17-update-readme-architecture-notes.md`.
 
 ## Task Checklist
 
@@ -23,7 +23,7 @@ Next recommended task: `14-sample-data-demo-flow.md`.
 - [x] 11. Add ingestion API
 - [x] 12. Add jobs search API
 - [x] 13. Build frontend job search UI
-- [ ] 14. Add sample data demo flow
+- [x] 14. Add sample data demo flow
 - [ ] 15. Add rejection log endpoint
 - [ ] 16. Add deduplication
 - [ ] 17. Update README architecture notes

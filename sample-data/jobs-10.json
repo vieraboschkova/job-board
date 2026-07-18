@@ -1,0 +1,192 @@
+{
+  "sourceName": "interview-demo-10",
+  "jobs": [
+    {
+      "id": "interview-demo-10_001",
+      "title": "Go API Engineer",
+      "description": "Build scalable APIs with Go and TypeScript.",
+      "company": "NextGen Systems",
+      "location": {
+        "city": "Austin",
+        "state": "TX",
+        "country": "USA"
+      },
+      "salary": {
+        "value": 145000,
+        "currency": "USD"
+      },
+      "employment_type": "Full-Time",
+      "posting_date": "2024-01-08",
+      "company_type": "Direct Employer",
+      "language": "English",
+      "remote": false
+    },
+    {
+      "id": "interview-demo-10_002",
+      "jobTitle": "Scientifique des données senior",
+      "body": "Nous recherchons un Data Scientist expérimenté pour notre équipe à Montréal.",
+      "companyName": "Analytics Nord",
+      "location": "Montreal, QC, Canada",
+      "salary": 125000,
+      "employmentType": "Full-Time",
+      "postedAt": "2024-01-10",
+      "companyType": "Direct Employer",
+      "language": "French",
+      "remote": false
+    },
+    {
+      "id": "interview-demo-10_003",
+      "role": "Kubernetes Platform Lead",
+      "summary": "Own CI/CD and cloud infrastructure for a remote-first product team.",
+      "employer": {
+        "name": "Orbit Cloud"
+      },
+      "location": "Remote",
+      "compensation": {
+        "value": 155000,
+        "currency": "USD"
+      },
+      "employment_type": "Full-Time",
+      "posting_date": "2024-01-12",
+      "company_type": "Direct Employer",
+      "language": "English",
+      "remote": true
+    },
+    {
+      "id": "interview-demo-10_004",
+      "title": "",
+      "description": "Temporary operations support role with no title provided.",
+      "company": "OpsFlex",
+      "location": {
+        "city": "Denver",
+        "state": "CO",
+        "country": "USA"
+      },
+      "salary": {
+        "value": 110000,
+        "currency": "USD"
+      },
+      "employment_type": "Full-Time",
+      "posting_date": "2024-01-14",
+      "company_type": "Direct Employer",
+      "language": "English",
+      "remote": false
+    },
+    {
+      "id": "interview-demo-10_005",
+      "title": "Enterprise Integration Architect",
+      "description": "Lead architecture for European enterprise clients.",
+      "company": "EuroStack GmbH",
+      "location": {
+        "city": "Berlin",
+        "state": "",
+        "country": "Germany"
+      },
+      "salary": {
+        "value": 130000,
+        "currency": "USD"
+      },
+      "employment_type": "Full-Time",
+      "posting_date": "2024-01-15",
+      "company_type": "Direct Employer",
+      "language": "English",
+      "remote": false
+    },
+    {
+      "id": "interview-demo-10_006",
+      "title": "React Design Systems Intern",
+      "description": "Assist the React team on design systems and accessibility.",
+      "company": "BrightStart Talent",
+      "location": {
+        "city": "Vancouver",
+        "state": "BC",
+        "country": "Canada"
+      },
+      "salary": {
+        "value": 120000,
+        "currency": "USD"
+      },
+      "employment_type": "Internship",
+      "posting_date": "2024-01-16",
+      "company_type": "Direct Employer",
+      "language": "English",
+      "remote": false
+    },
+    {
+      "id": "interview-demo-10_007",
+      "title": "Revenue Operations Coordinator",
+      "description": "Support day-to-day operations across sales and customer success.",
+      "company": "Northstar Group",
+      "location": "Atlanta, GA, USA",
+      "salary": 72000,
+      "employment_type": "Full-Time",
+      "posting_date": "2024-01-17",
+      "company_type": "Direct Employer",
+      "language": "English",
+      "remote": false
+    },
+    {
+      "id": "interview-demo-10_008",
+      "jobTitle": "Associate Full-Stack Developer",
+      "body": "Entry-level full-stack role placed through a staffing partner.",
+      "companyName": "Staffing Solutions",
+      "location": {
+        "city": "Toronto",
+        "state": "ON",
+        "country": "Canada"
+      },
+      "salary": {
+        "value": 115000,
+        "currency": "USD"
+      },
+      "employmentType": "Full-Time",
+      "posted_date": "2024-01-18",
+      "companyType": "Staffing Firm",
+      "language": "English",
+      "remote": false
+    },
+    {
+      "id": "interview-demo-10_009",
+      "title": "Vision Models Research Engineer",
+      "description": "Rejoignez notre équipe pour développer des modèles avancés.",
+      "company": "DeepData Labs",
+      "location": {
+        "city": "Paris",
+        "state": "",
+        "country": "France"
+      },
+      "salary": {
+        "value": 140000,
+        "currency": "USD"
+      },
+      "employment_type": "Full-Time",
+      "posting_date": "2024-01-19",
+      "company_type": "Direct Employer",
+      "language": "French",
+      "remote": true
+    },
+    {
+      "id": "interview-demo-10_010",
+      "role": "Tier-2 Customer Support Specialist",
+      "summary": "Contract support desk role with below-threshold hourly pay.",
+      "employer": {
+        "name": "HelpDesk Pro"
+      },
+      "location": {
+        "city": "Chicago",
+        "state": "IL",
+        "country": "USA"
+      },
+      "pay": {
+        "value": 40,
+        "currency": "USD",
+        "unit": "hourly"
+      },
+      "employment_type": "Contract",
+      "posting_date": "2024-01-20",
+      "company_type": "Consulting Agency",
+      "language": "English",
+      "remote": true
+    }
+  ]
+}

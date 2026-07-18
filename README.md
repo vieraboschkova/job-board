@@ -29,6 +29,7 @@ npm start
 job-board/
   client/                 React frontend (Vite, TypeScript, Material UI)
   server/                 Node.js Express backend (TypeScript)
+  sample-data/            Demo ingest payloads (10 / 20 / 50 jobs)
   docs/build-plan/        Design docs and task breakdown
   AGENTS.md               Project status and agent working notes
   CLAUDE.md               Local development guide
@@ -97,6 +98,39 @@ Interactive docs (Swagger UI): [http://localhost:3000/api/docs](http://localhost
 Successful responses return summary counts (`receivedCount`, `normalizedCount`, `approvedCount`, `rejectedCount`, `errors`). Invalid bodies return `400` with `INVALID_REQUEST_BODY`. Unknown `/api/*` routes return `404` with `NOT_FOUND`. Unexpected failures return `500` with `INTERNAL_SERVER_ERROR`.
 
 Request validation uses Joi middleware in the API layer; domain/workflow code stays free of Express and schema details.
+
+### Sample data demo
+
+Ready-to-post ingest payloads live under `sample-data/`. Each file is a full `POST /api/ingest` body (~30% approved, rest rejected across all six review rules, with mixed raw field shapes):
+
+| File | Jobs | Expected approved / rejected |
+| ---- | ---- | ---------------------------- |
+| [`sample-data/jobs-10.json`](sample-data/jobs-10.json) | 10 | 3 / 7 |
+| [`sample-data/jobs-20.json`](sample-data/jobs-20.json) | 20 | 6 / 14 |
+| [`sample-data/jobs-50.json`](sample-data/jobs-50.json) | 50 | 15 / 35 |
+
+Ingest via curl (or paste the same JSON into Swagger UI at `/api/docs`):
+
+```bash
+curl -X POST http://localhost:3000/api/ingest \
+  -H "Content-Type: application/json" \
+  --data @sample-data/jobs-10.json
+
+curl -X POST http://localhost:3000/api/ingest \
+  -H "Content-Type: application/json" \
+  --data @sample-data/jobs-20.json
+
+curl -X POST http://localhost:3000/api/ingest \
+  -H "Content-Type: application/json" \
+  --data @sample-data/jobs-50.json
+```
+
+Then search approved jobs:
+
+```bash
+curl "http://localhost:3000/api/jobs/search?search=engineer&sort=salary_desc"
+curl "http://localhost:3000/api/jobs/search?country=CA&sort=postedAt_desc"
+```
 
 ## Backend Flows
 
