@@ -4,6 +4,7 @@ import { allowedLocationRule } from "./allowed-location.rule";
 import { fullTimeRule } from "./full-time.rule";
 import { noStaffingFirmRule } from "./no-staffing-firm.rule";
 import { salaryThresholdRule } from "./salary-threshold.rule";
+import { sourceDataRequiredRule } from "./source-data-required.rule";
 import { titleRequiredRule } from "./title-required.rule";
 
 export {
@@ -12,11 +13,13 @@ export {
   fullTimeRule,
   noStaffingFirmRule,
   salaryThresholdRule,
+  sourceDataRequiredRule,
   titleRequiredRule,
 };
 
 export const defaultRules: ReviewRule[] = [
   titleRequiredRule,
+  sourceDataRequiredRule,
   allowedLocationRule,
   fullTimeRule,
   salaryThresholdRule,

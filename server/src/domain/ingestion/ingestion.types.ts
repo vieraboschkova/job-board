@@ -13,11 +13,19 @@ export interface JobIngester {
   ): Promise<IngestionResult>;
 }
 
+export interface IngestionDuplicate {
+  sourceName: string;
+  id: string;
+  sourceId?: string;
+}
+
 export interface IngestionResult {
   receivedCount: number;
   normalizedCount: number;
   approvedCount: number;
   rejectedCount: number;
+  duplicatesCount: number;
+  duplicates: IngestionDuplicate[];
   errors: IngestionError[];
 }
 

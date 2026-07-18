@@ -4,10 +4,11 @@ import { JobSort } from "../../domain/job/job.enums";
 
 export class InMemoryPublishedJobRepository implements PublishedJobRepository {
   private publishedJobs: PublishedJob[] = [];
+  private bySourceKey = new Map<string, PublishedJob>();
 
   async save(publishedJob: PublishedJob): Promise<PublishedJob> {
     this.publishedJobs.push(publishedJob);
-    // TODO: maybe return length
+    this.indexBySource(publishedJob);
     return publishedJob;
   }
 
@@ -20,6 +21,13 @@ export class InMemoryPublishedJobRepository implements PublishedJobRepository {
       this.publishedJobs.find((publishedJob) => publishedJob.job.id === id) ??
       null
     );
+  }
+
+  async findBySource(
+    sourceName: string,
+    sourceId: string,
+  ): Promise<PublishedJob | null> {
+    return this.bySourceKey.get(toSourceKey(sourceName, sourceId)) ?? null;
   }
 
   async search(query: JobSearchQuery): Promise<PublishedJob[]> {
@@ -57,6 +65,14 @@ export class InMemoryPublishedJobRepository implements PublishedJobRepository {
     return result;
   }
 
+  private indexBySource(publishedJob: PublishedJob): void {
+    const { sourceName, sourceId } = publishedJob.job;
+    if (!sourceId) {
+      return;
+    }
+    this.bySourceKey.set(toSourceKey(sourceName, sourceId), publishedJob);
+  }
+
   private sort(publishedJobs: PublishedJob[], sort: JobSort): PublishedJob[] {
     return [...publishedJobs].sort((a, b) => {
       switch (sort) {
@@ -88,4 +104,8 @@ export class InMemoryPublishedJobRepository implements PublishedJobRepository {
   private getDate(publishedJob: PublishedJob): number {
     return publishedJob.job.postedAt?.getTime() ?? 0;
   }
+}
+
+function toSourceKey(sourceName: string, sourceId: string): string {
+  return `${sourceName}:${sourceId}`;
 }

@@ -2,13 +2,13 @@
 
 ## Current Status
 
-Task 15 is complete. `GET /api/rejections` lists rejected job summaries (identity, source, `rejectedAt`, review-rule fields, reasons). Rejections are logged via `JobRejectionService` when saved. Reviewers can inspect rejections via curl or Swagger at `/api/docs`.
+Task 16 is complete. Approved-job deduplication skips re-ingested matches (`sourceName` + `sourceId`, or our `id`) without storing a second row. Ingest responses include `duplicatesCount` and a `duplicates` list.
 
-Current phase: Task 15 complete; next is Task 16 (deduplication) if duplicate ingestion is likely during demos, otherwise Task 17 (README architecture notes).
+Current phase: Task 16 complete; next is Task 17 (README architecture notes).
 
-Last completed task: `docs/build-plan/tasks/15-rejection-log-endpoint.md`.
+Last completed task: `docs/build-plan/tasks/16-deduplication.md`.
 
-Next recommended task: `docs/build-plan/tasks/16-deduplication.md`.
+Next recommended task: `docs/build-plan/tasks/17-readme-architecture-notes.md`.
 
 ## Project Intent
 
@@ -26,7 +26,7 @@ The system should ingest messy job posting JSON from multiple formats, normalize
 
 ## Optional Polish Follow-ups
 
-Optional polish tasks after Task 15: 16 (deduplication), 19 (review report export), and 20 (split published full store from search-only store). See `docs/build-plan/status.md`.
+Optional polish tasks after Task 16: 19 (review report export) and 20 (split published full store from search-only store). See `docs/build-plan/status.md`.
 
 ## Folder Structure
 

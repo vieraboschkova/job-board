@@ -1,5 +1,6 @@
 [
   {
+    "id": "example-001",
     "title": "Backend Engineer",
     "description": "Join our backend team to build scalable APIs using Go and microservices architecture.",
     "company": "NextGen Systems",
@@ -19,6 +20,7 @@
     "remote": false
   },
   {
+    "id": "example-002",
     "title": "Frontend Developer Intern",
     "description": "Looking for an enthusiastic intern to assist in frontend development with React.",
     "company": "BrightStart Talent",
@@ -38,8 +40,9 @@
     "remote": false
   },
   {
+    "id": "example-003",
     "title": "Machine Learning Engineer",
-    "description": "Rejoignez notre équipe pour développer des modèles de machine learning avancés.",
+    "description": "Rejoignez notre \u00e9quipe pour d\u00e9velopper des mod\u00e8les de machine learning avanc\u00e9s.",
     "company": "DeepData Labs",
     "location": {
       "city": "Montreal",
@@ -57,6 +60,7 @@
     "remote": false
   },
   {
+    "id": "example-004",
     "title": "Agile Project Lead",
     "description": "Drive cross-functional teams in a remote-first environment with agile principles.",
     "company": "Orbit Global",
@@ -76,6 +80,7 @@
     "remote": true
   },
   {
+    "id": "example-005",
     "title": "DevOps Consultant",
     "description": "We are seeking a highly skilled DevOps Consultant.",
     "company": "CloudWorks Pro",
@@ -96,6 +101,7 @@
     "remote": true
   },
   {
+    "id": "example-006",
     "title": "Senior Software Engineer",
     "description": "We are looking for a Senior Software Engineer.",
     "company": "Tech Innovators Inc.",
@@ -108,6 +114,7 @@
     "remote": false
   },
   {
+    "id": "example-007",
     "title": "Junior Developer",
     "description": "An excellent opportunity for a Junior Developer.",
     "company": "Staffing Solutions",
@@ -120,8 +127,9 @@
     "remote": false
   },
   {
+    "id": "example-008",
     "title": "Data Scientist",
-    "description": "Nous recherchons un Data Scientist expérimenté.",
+    "description": "Nous recherchons un Data Scientist exp\u00e9riment\u00e9.",
     "company": "Analytics Corp.",
     "location": "Montreal, QC, Canada",
     "salary": 62.5,
@@ -132,6 +140,7 @@
     "remote": false
   },
   {
+    "id": "example-009",
     "title": "Project Manager",
     "description": "Lead projects across various domains.",
     "company": "Global Enterprises",
@@ -144,6 +153,7 @@
     "remote": true
   },
   {
+    "id": "example-010",
     "title": "QA Automation Engineer",
     "description": "Build automated test suites.",
     "company": "QualityLoop",
@@ -163,6 +173,7 @@
     "remote": true
   },
   {
+    "id": "example-011",
     "title": "UX Designer",
     "description": "Design intuitive user experiences.",
     "company": "PixelCraft Studio",
@@ -182,6 +193,7 @@
     "remote": false
   },
   {
+    "id": "example-012",
     "title": "Product Analyst",
     "description": "Analyze product usage data.",
     "company": "MetricMind",
@@ -194,6 +206,7 @@
     "remote": false
   },
   {
+    "id": "example-013",
     "title": "Mobile Engineer",
     "description": "Develop mobile applications.",
     "company": "AppForge",
@@ -213,6 +226,7 @@
     "remote": false
   },
   {
+    "id": "example-014",
     "title": "Technical Writer",
     "description": "Create developer documentation.",
     "company": "DocuFlow",
@@ -225,6 +239,7 @@
     "remote": true
   },
   {
+    "id": "example-015",
     "title": "Cybersecurity Specialist",
     "description": "Monitor security events.",
     "company": "SecurePath",
@@ -244,6 +259,7 @@
     "remote": false
   },
   {
+    "id": "example-016",
     "title": "Growth Marketing Manager",
     "description": "Own acquisition campaigns.",
     "company": "ScaleRocket",
@@ -256,6 +272,7 @@
     "remote": true
   },
   {
+    "id": "example-017",
     "title": "Database Administrator",
     "description": "Maintain databases.",
     "company": "DataCore Services",
@@ -276,6 +293,7 @@
     "remote": true
   },
   {
+    "id": "example-018",
     "title": "Business Operations Associate",
     "description": "Support operations.",
     "company": "Northstar Group",
@@ -288,6 +306,7 @@
     "remote": false
   },
   {
+    "id": "example-019",
     "title": "Customer Success Manager",
     "description": "Help customers onboard.",
     "company": "ClientBridge",
@@ -307,6 +326,7 @@
     "remote": false
   },
   {
+    "id": "example-020",
     "title": "",
     "description": "Temporary support role.",
     "company": "OpsFlex",

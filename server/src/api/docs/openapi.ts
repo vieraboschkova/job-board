@@ -383,6 +383,8 @@ export const openApiDocument = {
           "normalizedCount",
           "approvedCount",
           "rejectedCount",
+          "duplicatesCount",
+          "duplicates",
           "errors",
         ],
         properties: {
@@ -390,12 +392,31 @@ export const openApiDocument = {
           normalizedCount: { type: "integer", minimum: 0 },
           approvedCount: { type: "integer", minimum: 0 },
           rejectedCount: { type: "integer", minimum: 0 },
+          duplicatesCount: { type: "integer", minimum: 0 },
+          duplicates: {
+            type: "array",
+            items: {
+              $ref: "#/components/schemas/IngestionDuplicate",
+            },
+          },
           errors: {
             type: "array",
             items: {
               $ref: "#/components/schemas/IngestionError",
             },
           },
+        },
+      },
+      IngestionDuplicate: {
+        type: "object",
+        required: ["sourceName", "id"],
+        properties: {
+          sourceName: { type: "string" },
+          id: {
+            type: "string",
+            description: "Our id of the already-published job",
+          },
+          sourceId: { type: "string" },
         },
       },
       IngestionError: {

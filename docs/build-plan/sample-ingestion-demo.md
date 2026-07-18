@@ -25,7 +25,7 @@ Each payload matches the public ingestion API:
 }
 ```
 
-Rough mix: ~30% approved, rest rejected across all six review rules.
+Rough mix: ~30% approved, rest rejected across all seven review rules.
 
 ## Required Sample Coverage
 

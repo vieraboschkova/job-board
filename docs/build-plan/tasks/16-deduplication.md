@@ -1,6 +1,6 @@
 # Task 16: Add Deduplication
 
-Status: Optional polish
+Status: Complete
 
 ## Purpose
 
@@ -8,11 +8,10 @@ Avoid duplicate approved jobs when the same sample or source feed is ingested mu
 
 ## Implementation Details
 
-- Compute a stable dedupe key.
-- Prefer `sourceName + externalId` when available.
-- Fall back to `title + companyName + postedAt`.
-- Decide whether duplicates are skipped or updated.
-- Include duplicate count in ingestion result if useful.
+- Match duplicates by `sourceName` + `sourceId`, or by our internal `id`.
+- Skip duplicates (do not store a second published row).
+- Report skips on the ingest result as `duplicatesCount` and `duplicates` (`sourceName`, `id`, `sourceId`).
+- Log the duplicates list once per batch when non-empty.
 
 ## Files And Modules Touched
 
@@ -25,7 +24,7 @@ Avoid duplicate approved jobs when the same sample or source feed is ingested mu
 
 - Re-ingesting the same source job does not create duplicate approved jobs.
 - Dedupe behavior is documented.
-- Tests cover external ID and fallback dedupe paths.
+- Tests cover source identity and our-id dedupe paths.
 
 ## Verification Steps
 

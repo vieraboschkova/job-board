@@ -8,6 +8,7 @@ const baseJob: Job = {
     "test",
   ),
   id: "job-1",
+  sourceId: "src-1",
   createdAt: new Date("2023-10-03"),
 };
 

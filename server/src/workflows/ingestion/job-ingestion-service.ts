@@ -27,6 +27,8 @@ export class JobIngestionService implements JobIngester {
       normalizedCount: 0,
       approvedCount: 0,
       rejectedCount: 0,
+      duplicatesCount: 0,
+      duplicates: [],
       errors: [],
     };
 
@@ -43,6 +45,14 @@ export class JobIngestionService implements JobIngester {
       }
     }
 
+    if (result.duplicates.length > 0) {
+      logger.info("Ingestion duplicates", {
+        sourceName,
+        duplicatesCount: result.duplicatesCount,
+        duplicates: result.duplicates,
+      });
+    }
+
     return result;
   }
 
@@ -57,7 +67,17 @@ export class JobIngestionService implements JobIngester {
     const { approved, rejectionReasons } = this.reviewEngine.review(job);
 
     if (approved) {
-      await this.publisher.publish(job);
+      const outcome = await this.publisher.publish(job);
+      if (outcome.status === "duplicate") {
+        result.duplicates.push({
+          sourceName: job.sourceName,
+          id: outcome.publishedJob.job.id,
+          sourceId: job.sourceId,
+        });
+        result.duplicatesCount += 1;
+        return;
+      }
+
       result.approvedCount += 1;
       return;
     }

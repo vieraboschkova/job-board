@@ -26,6 +26,7 @@ describe("DefaultReviewEngine", () => {
     const decision = engine.review(
       createJob({
         title: "",
+        sourceId: undefined,
         employmentType: EmploymentType.Contract,
         companyType: CompanyType.StaffingFirm,
         language: Language.German,
@@ -37,6 +38,7 @@ describe("DefaultReviewEngine", () => {
     expect(decision.approved).toBe(false);
     expect(decision.rejectionReasons.map((r) => r.reason)).toEqual([
       RejectionReason.MissingTitle,
+      RejectionReason.MissingSourceData,
       RejectionReason.InvalidLocation,
       RejectionReason.InvalidEmploymentType,
       RejectionReason.InvalidSalary,
