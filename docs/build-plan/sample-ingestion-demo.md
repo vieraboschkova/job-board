@@ -135,7 +135,7 @@ Do not make this the primary app page. The primary page should remain the approv
 7. Search for a title keyword.
 8. Filter by country.
 9. Sort by salary and posting date.
-10. Briefly show the code path: API route, ingestion service, normalizer, review engine, repositories.
+10. Briefly show the code path: API route, ingestion service, normalizer, review engine, publisher, rejector.
 
 ## Production Note
 

@@ -39,10 +39,10 @@ Recommended enums/unions:
 
 ## Ingestion Interfaces
 
-The ingestion service should expose:
+The ingestion contract:
 
 ```ts
-interface JobIngestionService {
+interface JobIngester {
   ingest(
     rawJobs: RawJobPosting[],
     sourceName: string,
@@ -50,7 +50,17 @@ interface JobIngestionService {
 }
 ```
 
-<!-- TODO: change for separation -->
+`JobIngestionService` implements `JobIngester` and depends on `JobNormalizer`, `ReviewEngine`, `JobPublisher`, and `JobRejector` — not repositories directly.
+
+```ts
+interface JobPublisher {
+  publish(job: Job): Promise<PublishedJob>;
+}
+
+interface JobRejector {
+  reject(job: Job, rejectionReasons: RejectionDetail[]): Promise<RejectedJob>;
+}
+```
 
 `IngestionResult` should include:
 
@@ -104,15 +114,15 @@ The engine should return all rejection reasons, not only the first failure.
 Use interfaces even though MVP storage is in-memory.
 
 ```ts
-interface JobRepository {
-  save(job: Job): Promise<Job>;
-  search(query: JobSearchQuery): Promise<Job[]>;
-  findAll(): Promise<Job[]>;
+interface PublishedJobRepository {
+  save(job: PublishedJob): Promise<PublishedJob>;
+  search(query: JobSearchQuery): Promise<PublishedJob[]>;
+  getAll(): Promise<PublishedJob[]>;
 }
 
 interface RejectedJobRepository {
   save(job: RejectedJob): Promise<RejectedJob>;
-  findAll(): Promise<RejectedJob[]>;
+  getAll(): Promise<RejectedJob[]>;
 }
 ```
 

@@ -12,7 +12,7 @@ Allow clients and demo scripts to ingest messy job JSON through HTTP.
 - Accept body shape `{ "sourceName": string, "jobs": RawJobPosting[] }`.
 - Validate that `sourceName` is a non-empty string.
 - Validate that `jobs` is an array.
-- Call `JobIngestionService`.
+- Call `JobIngester`.
 - Return ingestion summary.
 - Return 400 for invalid request bodies.
 

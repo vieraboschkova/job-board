@@ -86,7 +86,7 @@ The intended interview flow is:
 4. ingest `sample-data/jobs.json` or a custom JSON payload
 5. show the ingestion summary
 6. search, filter, and sort approved jobs in the UI
-7. explain the code path from API route to ingestion service, normalizer, review engine, and repositories
+7. explain the code path from API route to ingestion service, normalizer, review engine, publisher, and rejector
 
 ## Important Tradeoffs
 

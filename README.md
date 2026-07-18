@@ -48,7 +48,7 @@ server/src/
 
 ## Architecture Choice
 
-I went with a modular monolith on purpose. I wanted enough structure that normalization, review, and persistence stay testable and easy to separate later, without paying for a separately deployed ingestion service up front. `JobIngestionService` runs in-process today and depends on interfaces, so I can move the same workflow behind a worker or queue later if I need to.
+I went with a modular monolith on purpose. I wanted enough structure that normalization, review, and persistence stay testable and easy to separate later, without paying for a separately deployed ingestion service up front. `JobIngester` runs in-process today (via `JobIngestionService`) and depends on interfaces, so I can move the same workflow behind a worker or queue later if I need to.
 
 The backend is a lightweight layered setup — middle ground on purpose.
 
@@ -109,10 +109,10 @@ POST /api/ingest
   -> JobIngestionService
   -> JobNormalizer
   -> ReviewEngine
-  -> PublishedJobRepository or RejectedJobRepository
+  -> JobPublisher or JobRejector
 ```
 
-The ingestion service receives raw job postings, normalizes each posting into the internal model, evaluates it with the review engine, stores approved jobs, and logs rejected jobs with reasons.
+The ingestion service receives raw job postings, normalizes each posting into the internal model, evaluates it with the review engine, then publishes approved jobs or rejects them with reasons.
 
 Target search flow:
 
@@ -139,7 +139,7 @@ Raw job / Ingestion
    +----+----+
    |         |
    v         v
-PublishedJob  RejectedJob
+JobPublisher  JobRejector
    |         |
    v         v
 PublishedJob  RejectedJob
@@ -148,7 +148,7 @@ Repository    Repository
 
 ## Expandability and Scalability
 
-Right now one API call sends a JSON batch into `JobIngestionService`. If this grew, I'd add more ways _in_ and more capacity _around_ that same core — I wouldn't rewrite normalize → review → store.
+Right now one API call sends a JSON batch into `JobIngester`. If this grew, I'd add more ways _in_ and more capacity _around_ that same core — I wouldn't rewrite normalize → review → store.
 
 ### Adapters
 
@@ -194,7 +194,7 @@ I'd only split something out when it needs its own scale, schedule, or failure m
 | Piece                     | Keep in the API app?                               | I'd make it independent when…                                                  |
 | ------------------------- | -------------------------------------------------- | ------------------------------------------------------------------------------ |
 | Job search / UI API       | Yes (start here)                                   | Reads dominate and I want to scale them alone                                  |
-| Ingestion worker          | Extract to a Node worker                           | Batches are large or slow (worker runs the same `JobIngestionService`)         |
+| Ingestion worker          | Extract to a Node worker                           | Batches are large or slow (worker runs the same `JobIngester`)                 |
 | Crawler                   | No — separate service from day one of that feature | Own deploy: browsers, proxies, schedules, retries; pushes raw jobs into ingest |
 | ATS webhooks              | Thin route in the API, or a small ingest gateway   | Inbound spikes, or I need isolated auth/rate limits                            |
 | Review rules / normalizer | Shared library or same worker package              | Almost never their own service — they _are_ the core pipeline                  |
@@ -240,5 +240,5 @@ How I'd expect this to look if it grew beyond this task:
 
 **`POST /api/ingest` vs a Node worker — same core, different caller:**
 
-- **`POST /api/ingest` (what I'd start with):** something (crawler, ATS webhook, script) POSTs a batch of raw jobs. The API runs `JobIngestionService` in-process. Simple, and what this take-home already aims at.
-- **Node worker (when ingest gets heavy):** If batches got big or slow, I'd move the heavy work off the request path — e.g. accept the batch quickly, then let a worker run `JobIngestionService` so the API stays responsive.
+- **`POST /api/ingest` (what I'd start with):** something (crawler, ATS webhook, script) POSTs a batch of raw jobs. The API runs `JobIngester` in-process. Simple, and what this take-home already aims at.
+- **Node worker (when ingest gets heavy):** If batches got big or slow, I'd move the heavy work off the request path — e.g. accept the batch quickly, then let a worker run `JobIngester` so the API stays responsive.
