@@ -34,17 +34,17 @@ npm start
 
 Maps to [docs/build-plan/original-task.md](docs/build-plan/original-task.md):
 
-| Requirement | How this project delivers it |
-| ----------- | ---------------------------- |
-| Data modeling | Domain `Job`, `Salary`, `Location`, and enums under `server/src/domain/job/` |
-| Ingestion of messy JSON | `POST /api/ingest` → normalizer + parsers; sample payloads in `server/src/tests/mock/` |
-| Review criteria | Pluggable rules: title, location (remote or US/CA), full-time, salary (`> $100k` annual or `> $45/hr` USD), no staffing firm, English or French-in-Canada |
-| Approve / reject with reasons | Review engine → publisher or rejector; rejection reasons stored and exposed via `GET /api/rejections` |
-| Storage | In-memory published store (detail + dedupe), search index (`JobSummary`), rejected log |
-| UX | React UI: list, search by title/company, filter by country, sort by salary or posting date |
-| Code organization | Layered modules: `api` → `workflows` → `domain`; `infrastructure` → `domain` |
-| Flexible future rules | `ReviewRule` interface and a composable `defaultRules` list |
-| Testability | Vitest coverage for rules, workflows, repositories, and API |
+| Requirement                   | How this project delivers it                                                                                                                              |
+| ----------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Data modeling                 | Domain `Job`, `Salary`, `Location`, and enums under `server/src/domain/job/`                                                                              |
+| Ingestion of messy JSON       | `POST /api/ingest` → normalizer + parsers; sample payloads in `server/src/tests/mock/`                                                                    |
+| Review criteria               | Pluggable rules: title, location (remote or US/CA), full-time, salary (`> $100k` annual or `> $45/hr` USD), no staffing firm, English or French-in-Canada |
+| Approve / reject with reasons | Review engine → publisher or rejector; rejection reasons stored and exposed via `GET /api/rejections`                                                     |
+| Storage                       | In-memory published store (detail + dedupe), search index (`JobSummary`), rejected log                                                                    |
+| UX                            | React UI: list, search by title/company, filter by country, sort by salary or posting date                                                                |
+| Code organization             | Layered modules: `api` → `workflows` → `domain`; `infrastructure` → `domain`                                                                              |
+| Flexible future rules         | `ReviewRule` interface and a composable `defaultRules` list                                                                                               |
+| Testability                   | Vitest coverage for rules, workflows, repositories, and API                                                                                               |
 
 Pipeline: **ingest → normalize → review → publish or reject → search UI**.
 
@@ -62,12 +62,12 @@ Pipeline: **ingest → normalize → review → publish or reject → search UI*
 
 Single Render Web Service (Node): build with `npm install && npm run build`, start with `npm start`. The Node process serves `/api/*` and the built React app.
 
-| | |
-| --- | --- |
-| Live URL | [https://job-board-46zj.onrender.com/](https://job-board-46zj.onrender.com/) |
-| Swagger | [https://job-board-46zj.onrender.com/api/docs](https://job-board-46zj.onrender.com/api/docs) |
-| Health | `GET /api/health` |
-| Env | `NODE_ENV=production`; `PORT` from Render |
+|          |                                                                                              |
+| -------- | -------------------------------------------------------------------------------------------- |
+| Live URL | [https://job-board-46zj.onrender.com/](https://job-board-46zj.onrender.com/)                 |
+| Swagger  | [https://job-board-46zj.onrender.com/api/docs](https://job-board-46zj.onrender.com/api/docs) |
+| Health   | `GET /api/health`                                                                            |
+| Env      | `NODE_ENV=production`; `PORT` from Render                                                    |
 
 Because storage is in-memory, the job board is empty after a cold start or redeploy. Re-ingest sample data (local or live) to demo search. Ingest is publicly reachable for the take-home demo.
 
@@ -126,16 +126,16 @@ I borrowed from Clean Code and Clean Architecture without turning them into cere
 
 Interactive docs (Swagger UI): [http://localhost:3000/api/docs](http://localhost:3000/api/docs) locally, or [https://job-board-46zj.onrender.com/api/docs](https://job-board-46zj.onrender.com/api/docs) on the live deploy. OpenAPI is hand-maintained next to Joi for the MVP. The React client mirrors API types by hand today; for a production-ready setup I'd generate those types (and optionally the fetch client) from the OpenAPI document so server and UI stay in sync.
 
-| Method | Path                | Description                                                                   |
-| ------ | ------------------- | ----------------------------------------------------------------------------- |
-| `GET`  | `/api/health`       | Health check via `HealthChecker` (`ok` / `degraded` → 200, `unhealthy` → 503) |
-| `POST` | `/api/ingest`       | Ingest a batch of raw job postings                                            |
-| `GET`  | `/api/jobs`         | List all published jobs (full store)                                          |
-| `GET`  | `/api/jobs/search`  | Search summaries: `search`, `country`, `sort` (`salary_*`, `postedAt_*`)      |
-| `GET`  | `/api/jobs/:id`     | Published job detail                                                          |
-| `GET`  | `/api/rejections`   | Rejected jobs with reasons                                                    |
-| `GET`  | `/api/docs`         | Swagger UI                                                                    |
-| `GET`  | `/api/docs.json`    | Raw OpenAPI document                                                          |
+| Method | Path               | Description                                                                   |
+| ------ | ------------------ | ----------------------------------------------------------------------------- |
+| `GET`  | `/api/health`      | Health check via `HealthChecker` (`ok` / `degraded` → 200, `unhealthy` → 503) |
+| `POST` | `/api/ingest`      | Ingest a batch of raw job postings                                            |
+| `GET`  | `/api/jobs`        | List all published jobs (full store)                                          |
+| `GET`  | `/api/jobs/search` | Search summaries: `search`, `country`, `sort` (`salary_*`, `postedAt_*`)      |
+| `GET`  | `/api/jobs/:id`    | Published job detail                                                          |
+| `GET`  | `/api/rejections`  | Rejected jobs with reasons                                                    |
+| `GET`  | `/api/docs`        | Swagger UI                                                                    |
+| `GET`  | `/api/docs.json`   | Raw OpenAPI document                                                          |
 
 `POST /api/ingest` body:
 
