@@ -1,7 +1,7 @@
 import { describe, expect, it } from "vitest";
 
-import { CountryCode, Language } from "../../../job/job.enums";
-import { RejectionReason } from "../../review.enums";
+import { CountryCode, Language } from "../../../../domain/job/job.enums";
+import { RejectionReason } from "../../../../domain/review/review.enums";
 import { allowedLanguageRule } from "../../rules/allowed-language.rule";
 import { createJob } from "../create-job";
 

@@ -1,7 +1,10 @@
-import { CountryCode } from "../../job/job.enums";
-import { Job } from "../../job/job.types";
-import { RejectionReason } from "../review.enums";
-import { RejectionDetail, ReviewRule } from "../review.types";
+import { CountryCode } from "../../../domain/job/job.enums";
+import { Job } from "../../../domain/job/job.types";
+import { RejectionReason } from "../../../domain/review/review.enums";
+import {
+  RejectionDetail,
+  ReviewRule,
+} from "../../../domain/review/review.types";
 
 const ALLOWED_COUNTRIES = new Set<CountryCode>([
   CountryCode.US,

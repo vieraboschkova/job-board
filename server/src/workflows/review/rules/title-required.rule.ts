@@ -1,6 +1,9 @@
-import { Job } from "../../job/job.types";
-import { RejectionReason } from "../review.enums";
-import { RejectionDetail, ReviewRule } from "../review.types";
+import { Job } from "../../../domain/job/job.types";
+import { RejectionReason } from "../../../domain/review/review.enums";
+import {
+  RejectionDetail,
+  ReviewRule,
+} from "../../../domain/review/review.types";
 
 export const titleRequiredRule: ReviewRule = {
   name: "title_required",

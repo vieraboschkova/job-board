@@ -1,4 +1,4 @@
-import { ReviewRule } from "../review.types";
+import { ReviewRule } from "../../../domain/review/review.types";
 import { allowedLanguageRule } from "./allowed-language.rule";
 import { allowedLocationRule } from "./allowed-location.rule";
 import { fullTimeRule } from "./full-time.rule";

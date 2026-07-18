@@ -26,8 +26,8 @@ The backend is built with a lightweight layered structure:
 ```
 server/src/
   api/              Express routes and controllers
-  application/      ingest and search use cases
-  domain/           job models, review rules, repository interfaces
+  domain/           types, enums, and repository interfaces
+  workflows/        normalization, review engine, and related implementations, ingest and search
   infrastructure/   parsing helpers and concrete storage implementations
   config/           environment/configuration helpers
 ```
@@ -36,10 +36,13 @@ The main dependency direction is:
 
 ```
 api -> application -> domain
+workflows -> domain
 infrastructure -> domain
 ```
 
-The `domain` layer contains the business concepts: job models, review results, review rules, and repository interfaces. The review engine belongs there because it answers the core business question: whether a job should be approved for publication.
+The `domain` layer contains business contracts only: job models, review types/enums, and repository interfaces.
+
+The `workflows` layer holds implementations such as the job normalizer and review rule engine. The review engine lives under `workflows/review` and uses domain types to decide whether a job should be approved for publication.
 
 The `application` layer coordinates use cases, such as ingesting a batch of raw jobs or searching approved jobs. It should not know about Express request/response objects.
 

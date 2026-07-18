@@ -1,5 +1,9 @@
-import { Job } from "../job/job.types";
-import { ReviewDecision, ReviewEngine, ReviewRule } from "./review.types";
+import { Job } from "../../domain/job/job.types";
+import {
+  ReviewDecision,
+  ReviewEngine,
+  ReviewRule,
+} from "../../domain/review/review.types";
 import { defaultRules } from "./rules";
 
 export class DefaultReviewEngine implements ReviewEngine {

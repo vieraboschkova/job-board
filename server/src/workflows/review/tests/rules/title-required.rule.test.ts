@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
 
-import { RejectionReason } from "../../review.enums";
+import { RejectionReason } from "../../../../domain/review/review.enums";
 import { titleRequiredRule } from "../../rules/title-required.rule";
 import { createJob } from "../create-job";
 

@@ -1,7 +1,7 @@
 import { describe, expect, it } from "vitest";
 
-import { SalaryUnit } from "../../../job/job.enums";
-import { RejectionReason } from "../../review.enums";
+import { SalaryUnit } from "../../../../domain/job/job.enums";
+import { RejectionReason } from "../../../../domain/review/review.enums";
 import { salaryThresholdRule } from "../../rules/salary-threshold.rule";
 import { createJob } from "../create-job";
 

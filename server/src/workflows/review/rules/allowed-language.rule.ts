@@ -1,7 +1,10 @@
-import { CountryCode, Language } from "../../job/job.enums";
-import { Job } from "../../job/job.types";
-import { RejectionReason } from "../review.enums";
-import { RejectionDetail, ReviewRule } from "../review.types";
+import { CountryCode, Language } from "../../../domain/job/job.enums";
+import { Job } from "../../../domain/job/job.types";
+import { RejectionReason } from "../../../domain/review/review.enums";
+import {
+  RejectionDetail,
+  ReviewRule,
+} from "../../../domain/review/review.types";
 
 export const allowedLanguageRule: ReviewRule = {
   name: "allowed_language",

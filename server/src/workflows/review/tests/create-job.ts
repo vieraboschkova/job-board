@@ -1,6 +1,6 @@
-import { DefaultJobNormalizer } from "../../../workflows/normalization/default-job-normalizer";
+import { Job } from "../../../domain/job/job.types";
 import exampleJobs from "../../../tests/mock/exampleJobs.json";
-import { Job } from "../../job/job.types";
+import { DefaultJobNormalizer } from "../../normalization/default-job-normalizer";
 
 const baseJob: Job = {
   ...new DefaultJobNormalizer().normalize(

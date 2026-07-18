@@ -6,10 +6,10 @@ import {
   EmploymentType,
   Language,
   SalaryUnit,
-} from "../../job/job.enums";
+} from "../../../domain/job/job.enums";
+import { RejectionReason } from "../../../domain/review/review.enums";
+import { ReviewRule } from "../../../domain/review/review.types";
 import { DefaultReviewEngine } from "../default-review-engine";
-import { RejectionReason } from "../review.enums";
-import { ReviewRule } from "../review.types";
 import { defaultRules } from "../rules";
 import { createJob } from "./create-job";
 
@@ -72,10 +72,7 @@ describe("DefaultReviewEngine", () => {
       },
     };
 
-    const customEngine = new DefaultReviewEngine([
-      ...defaultRules,
-      customRule,
-    ]);
+    const customEngine = new DefaultReviewEngine([...defaultRules, customRule]);
 
     expect(customEngine.review(createJob()).approved).toBe(true);
     expect(

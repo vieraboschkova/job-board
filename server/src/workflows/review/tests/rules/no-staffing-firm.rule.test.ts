@@ -1,7 +1,7 @@
 import { describe, expect, it } from "vitest";
 
-import { CompanyType } from "../../../job/job.enums";
-import { RejectionReason } from "../../review.enums";
+import { CompanyType } from "../../../../domain/job/job.enums";
+import { RejectionReason } from "../../../../domain/review/review.enums";
 import { noStaffingFirmRule } from "../../rules/no-staffing-firm.rule";
 import { createJob } from "../create-job";
 

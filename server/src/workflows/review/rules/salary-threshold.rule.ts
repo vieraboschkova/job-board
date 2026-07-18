@@ -1,7 +1,10 @@
-import { SalaryUnit } from "../../job/job.enums";
-import { Job } from "../../job/job.types";
-import { RejectionReason } from "../review.enums";
-import { RejectionDetail, ReviewRule } from "../review.types";
+import { SalaryUnit } from "../../../domain/job/job.enums";
+import { Job } from "../../../domain/job/job.types";
+import { RejectionReason } from "../../../domain/review/review.enums";
+import {
+  RejectionDetail,
+  ReviewRule,
+} from "../../../domain/review/review.types";
 
 const ANNUAL_THRESHOLD = 100_000;
 const HOURLY_THRESHOLD = 45;
