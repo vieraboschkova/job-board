@@ -2,13 +2,13 @@
 
 ## Current Status
 
-Task 10 is complete. The backend ingests raw job batches through a service that normalizes, reviews, persists approved and rejected jobs, and returns summary counts without failing the whole batch on one bad record.
+Task 11 is complete. Clients can ingest messy job JSON through `POST /api/ingest` with Joi validation; the API returns summary counts and exposes Swagger UI at `/api/docs`.
 
-Current phase: Task 10 complete, ready for ingestion API.
+Current phase: Task 11 complete, ready for jobs search API.
 
-Last completed task: `docs/build-plan/tasks/10-ingestion-service.md`.
+Last completed task: `docs/build-plan/tasks/11-ingestion-api.md`.
 
-Next recommended task: `docs/build-plan/tasks/11-ingestion-api.md`.
+Next recommended task: `docs/build-plan/tasks/12-jobs-search-api.md`.
 
 ## Project Intent
 

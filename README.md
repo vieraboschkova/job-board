@@ -38,7 +38,7 @@ Backend layout:
 
 ```txt
 server/src/
-  api/                    Express routes and controllers
+  api/                    Routes, controllers, Joi middleware, constants, Swagger
   workflows/              Ingest, normalize, review, and search use cases
   domain/                 Job models, review types/enums, repository interfaces
   infrastructure/         Concrete storage implementations (in-memory repos)
@@ -74,12 +74,37 @@ I left `config/` and `shared/` empty for now — reserved for config helpers and
 
 I borrowed from Clean Code and Clean Architecture without turning them into ceremony: small modules, clear names, and a domain that doesn't know about Express or storage. From DDD I kept what helps — shared terms like `Job` and `ReviewRule`, pluggable review rules, repository interfaces — and skipped the heavy stuff (rich aggregates, domain events, multiple contexts). Jobs are simple data shapes; workflow engines own the behavior. That made the review rules easier to test and explain for this one use case.
 
+## API
+
+Interactive docs (Swagger UI): [http://localhost:3000/api/docs](http://localhost:3000/api/docs) when the server is running. OpenAPI is hand-maintained next to Joi for the MVP.
+
+| Method | Path             | Description                                                                   |
+| ------ | ---------------- | ----------------------------------------------------------------------------- |
+| `GET`  | `/api/health`    | Health check via `HealthChecker` (`ok` / `degraded` → 200, `unhealthy` → 503) |
+| `POST` | `/api/ingest`    | Ingest a batch of raw job postings                                            |
+| `GET`  | `/api/docs`      | Swagger UI                                                                    |
+| `GET`  | `/api/docs.json` | Raw OpenAPI document                                                          |
+
+`POST /api/ingest` body:
+
+```json
+{
+  "sourceName": "sample",
+  "jobs": []
+}
+```
+
+Successful responses return summary counts (`receivedCount`, `normalizedCount`, `approvedCount`, `rejectedCount`, `errors`). Invalid bodies return `400` with `INVALID_REQUEST_BODY`. Unknown `/api/*` routes return `404` with `NOT_FOUND`. Unexpected failures return `500` with `INTERNAL_SERVER_ERROR`.
+
+Request validation uses Joi middleware in the API layer; domain/workflow code stays free of Express and schema details.
+
 ## Backend Flows
 
-Target ingestion flow:
+Ingestion flow:
 
 ```txt
 POST /api/ingest
+  -> validateRequestBody (Joi)
   -> api controller
   -> JobIngestionService
   -> JobNormalizer
@@ -123,7 +148,7 @@ Repository    Repository
 
 ## Expandability and Scalability
 
-Right now one API call sends a JSON batch into `JobIngestionService`. If this grew, I'd add more ways *in* and more capacity *around* that same core — I wouldn't rewrite normalize → review → store.
+Right now one API call sends a JSON batch into `JobIngestionService`. If this grew, I'd add more ways _in_ and more capacity _around_ that same core — I wouldn't rewrite normalize → review → store.
 
 ### Adapters
 
@@ -148,12 +173,12 @@ I'd make the crawler a **completely separate service** — own deploy, schedule,
 
 In-memory is fine for the take-home. For real volume, I'd move durable data to a database:
 
-| Data | Where I'd put it | Why |
-|---|---|---|
-| Published jobs | Postgres (or similar) | Durable list for the job board |
-| Rejected jobs + reasons | Postgres | Audit / ops review |
-| Raw source payloads | S3 or a raw-events table | Debug bad mappings without bloating the main job table |
-| Search fields (title, country, salary, date) | DB indexes first; OpenSearch/Elasticsearch later | Fast filter/sort at scale |
+| Data                                         | Where I'd put it                                 | Why                                                    |
+| -------------------------------------------- | ------------------------------------------------ | ------------------------------------------------------ |
+| Published jobs                               | Postgres (or similar)                            | Durable list for the job board                         |
+| Rejected jobs + reasons                      | Postgres                                         | Audit / ops review                                     |
+| Raw source payloads                          | S3 or a raw-events table                         | Debug bad mappings without bloating the main job table |
+| Search fields (title, country, salary, date) | DB indexes first; OpenSearch/Elasticsearch later | Fast filter/sort at scale                              |
 
 I'd keep the messy raw blob off the hot search path — store the normalized `Job`, and maybe a pointer back to the raw payload.
 
@@ -166,13 +191,13 @@ I'd keep the messy raw blob off the hot search path — store the normalized `Jo
 
 I'd only split something out when it needs its own scale, schedule, or failure mode:
 
-| Piece | Keep in the API app? | I'd make it independent when… |
-|---|---|---|
-| Job search / UI API | Yes (start here) | Reads dominate and I want to scale them alone |
-| Ingestion worker | Extract to a Node worker | Batches are large or slow (worker runs the same `JobIngestionService`) |
-| Crawler | No — separate service from day one of that feature | Own deploy: browsers, proxies, schedules, retries; pushes raw jobs into ingest |
-| ATS webhooks | Thin route in the API, or a small ingest gateway | Inbound spikes, or I need isolated auth/rate limits |
-| Review rules / normalizer | Shared library or same worker package | Almost never their own service — they *are* the core pipeline |
+| Piece                     | Keep in the API app?                               | I'd make it independent when…                                                  |
+| ------------------------- | -------------------------------------------------- | ------------------------------------------------------------------------------ |
+| Job search / UI API       | Yes (start here)                                   | Reads dominate and I want to scale them alone                                  |
+| Ingestion worker          | Extract to a Node worker                           | Batches are large or slow (worker runs the same `JobIngestionService`)         |
+| Crawler                   | No — separate service from day one of that feature | Own deploy: browsers, proxies, schedules, retries; pushes raw jobs into ingest |
+| ATS webhooks              | Thin route in the API, or a small ingest gateway   | Inbound spikes, or I need isolated auth/rate limits                            |
+| Review rules / normalizer | Shared library or same worker package              | Almost never their own service — they _are_ the core pipeline                  |
 
 My rule of thumb: **one shared ingest core**; many thin adapters and workers around it.
 

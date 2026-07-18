@@ -25,7 +25,7 @@ The backend is built with a lightweight layered structure:
 
 ```
 server/src/
-  api/              Express routes and controllers
+  api/              Express routes, controllers, Joi validation middleware, Swagger
   domain/           types, enums, and repository interfaces
   workflows/        normalization, review engine, and related implementations, ingest and search
   infrastructure/   parsing helpers and concrete storage implementations
@@ -45,11 +45,10 @@ The `workflows` layer holds use cases and engines such as the job normalizer, re
 
 The `infrastructure` layer handles messy outside-world details, such as parsing salary/location fields from source JSON and storing jobs in an in-memory repository.
 
-The `api` layer is HTTP glue. It receives requests, calls workflow services, and returns responses.
-
-```
+The `api` layer is HTTP glue. It validates requests with Joi middleware, calls workflow services, and returns responses. Swagger UI is available at `/api/docs`.
 
 ## Useful Root Scripts
+
 - `npm run typecheck`: Check TypeScript types.
 - `npm run build`: Build the application.
 - `npm test`: Run tests.
@@ -58,7 +57,8 @@ The `api` layer is HTTP glue. It receives requests, calls workflow services, and
 ## Key Files and Directives
 
 ### Important Parts from README.md:
+
 - Setup instructions: Use Node 22 or newer, install dependencies with `npm install`, and start the server with `npm run dev`.
 - Architecture description: Layered structure with clear boundaries between layers.
 - Additional information: Any other relevant details can be added here.
-```
+- API docs: Swagger UI at `/api/docs`; request validation uses Joi middleware.
