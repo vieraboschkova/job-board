@@ -285,12 +285,12 @@ I'd make the crawler a **completely separate service** — own deploy, schedule,
 
 In-memory is fine for the take-home. For real volume, I'd move durable data to MongoDB — job documents are already document-shaped, and a unique compound index on `sourceName` + `sourceId` enforces dedupe under concurrent ingest:
 
-| Data                                         | Where I'd put it                                       | Why                                                    |
-| -------------------------------------------- | ------------------------------------------------------ | ------------------------------------------------------ |
-| Published jobs                               | MongoDB (`published_jobs`)                             | Durable full documents + dedupe index                  |
-| Rejected jobs + reasons                      | MongoDB (`rejected_jobs`)                              | Audit / ops review                                     |
-| Raw source payloads                          | S3 or a `raw_events` collection                        | Debug bad mappings without bloating the main job docs  |
-| Search fields (title, country, salary, date) | Mongo indexes first; OpenSearch/Elasticsearch later    | Fast filter/sort at scale                              |
+| Data                                         | Where I'd put it                                    | Why                                                   |
+| -------------------------------------------- | --------------------------------------------------- | ----------------------------------------------------- |
+| Published jobs                               | MongoDB (`published_jobs`)                          | Durable full documents + dedupe index                 |
+| Rejected jobs + reasons                      | MongoDB (`rejected_jobs`)                           | Audit / ops review                                    |
+| Raw source payloads                          | S3 or a `raw_events` collection                     | Debug bad mappings without bloating the main job docs |
+| Search fields (title, country, salary, date) | Mongo indexes first; OpenSearch/Elasticsearch later | Fast filter/sort at scale                             |
 
 I'd keep the messy raw blob off the hot search path — store the normalized `Job`, and maybe a pointer back to the raw payload.
 
