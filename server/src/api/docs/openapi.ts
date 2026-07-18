@@ -141,8 +141,7 @@ export const openApiDocument = {
                 example: {
                   error: {
                     code: ApiErrorCode.InternalServerError,
-                    message:
-                      ApiErrorMessage[ApiErrorCode.InternalServerError],
+                    message: ApiErrorMessage[ApiErrorCode.InternalServerError],
                     details: [],
                   },
                 },

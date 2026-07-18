@@ -56,19 +56,24 @@ function toClientHttpError(error: unknown): {
     return null;
   }
 
-  if (status === HttpStatusCode.PayloadTooLarge) {
-    return {
-      statusCode: HttpStatusCode.PayloadTooLarge,
-      code: ApiErrorCode.PayloadTooLarge,
-      details: error.message ? [error.message] : [],
-    };
-  }
+  const details = error.message ? [error.message] : [];
 
-  return {
-    statusCode: HttpStatusCode.BadRequest,
-    code: ApiErrorCode.InvalidRequestBody,
-    details: error.message ? [error.message] : [],
-  };
+  // TODO: expand cases as more client HTTP statuses need distinct ApiErrorCodes
+  switch (status) {
+    case HttpStatusCode.PayloadTooLarge:
+      return {
+        statusCode: HttpStatusCode.PayloadTooLarge,
+        code: ApiErrorCode.PayloadTooLarge,
+        details,
+      };
+    case HttpStatusCode.BadRequest:
+    default:
+      return {
+        statusCode: HttpStatusCode.BadRequest,
+        code: ApiErrorCode.InvalidRequestBody,
+        details,
+      };
+  }
 }
 
 function isHttpErrorLike(error: unknown): error is HttpErrorLike {
